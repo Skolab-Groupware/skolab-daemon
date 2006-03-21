@@ -1,8 +1,8 @@
 #!/bin/sh -e
-## 70-kolab2.schema-removal.of.rfc2739.dpatch by Noèl Köthe <noel@debian.org>
+## 20-kolabquotawarn-issue851.dpatch by Steffen Joeris <steffen.joeris@skolelinux.de>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
-## DP: remove calFBURL from the schema because rfc2739 has to be removed
+## DP: This is the patch from the rpm
 
 if [ $# -lt 1 ]; then
 echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
@@ -23,14 +23,13 @@ esac
 exit 0
 
 @DPATCH@
---- kolabd-1.9.4/kolab2.schema.orig	2006-03-21 22:37:22.000000000 +0100
-+++ kolabd-1.9.4/kolab2.schema	2006-03-21 22:34:55.000000000 +0100
-@@ -534,7 +534,7 @@
-         cyrus-userquota $
-         kolabInvitationPolicy $
-         kolabFreeBusyFuture $
--        calFBURL $
-+#        calFBURL $
- 	kolabVacationBeginDateTime $
- 	kolabVacationEndDateTime $
- 	kolabVacationResendInterval $
+--- kolabd-1.9.4/kolabquotawarn.orig	2005-07-23 00:50:20 +0200
++++ kolabd-1.9.4/kolabquotawarn	2005-09-14 14:31:18 +0200
+@@ -34,6 +34,7 @@
+ use IO::File;
+ use DB_File;
+ use Mail::Message;
++use Mail::Transport::SMTP;
+ use Cyrus::IMAP::Admin;
+ use Kolab;
+ use Kolab::Util;

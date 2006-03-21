@@ -272,7 +272,7 @@ $DO_SYSLOG = 0;                   # (defaults to false)
 #$SYSLOG_LEVEL = 'user.info';     # (facility.priority, default 'mail.info')
 
 # Log file (if not using syslog)
-$LOGFILE = "$MYHOME/amavisd.log"; # (defaults to empty, no log)
+$LOGFILE = "$MYHOME/amavis.log"; # (defaults to empty, no log)
 
 #NOTE: levels are not strictly observed and are somewhat arbitrary
 # 0: startup/exit/failure messages, viruses detected
@@ -331,7 +331,6 @@ $log_templ = '[? %#V |[? %#F |[?%#D|Not-Delivered|Passed]|BANNED name/type (%F)]
 # use read_l10n_templates which calls read_text for each known template.
 #
 read_l10n_templates('@l_prefix@/etc/amavisd/templates/en_US');
-#read_l10n_templates('@l_prefix@/etc/amavisd/templates/de');
 
 
 # Here is an overall picture (sequence of events) of how pieces fit together

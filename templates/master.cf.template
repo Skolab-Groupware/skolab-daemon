@@ -21,7 +21,6 @@ defer     unix  -       -       n       -       0       bounce
 verify    unix  -       -       n       -       1       verify
 flush     unix  n       -       n       1000?   0       flush
 smtp      unix  -       -       n       -       -       smtp
-relay     unix  -       -       n       -       -       smtp -o fallback_relay=
 showq     unix  n       -       n       -       -       showq
 error     unix  -       -       n       -       -       error
 local     unix  -       n       n       -       -       local
@@ -34,7 +33,8 @@ tlsmgr    unix  -       -       n       1000?   1       tlsmgr
 #uucp     unix  -       n       n       -       -       pipe flags=Fqhu user=uucp argv=/kolab/bin/uux -r -n -z -a$sender - $nexthop!rmail ($recipient)
 #ifmail   unix  -       n       n       -       -       pipe flags=F user=ftn argv=/kolab/bin/ifmail -r $nexthop ($recipient)
 #bsmtp    unix  -       n       n       -       -       pipe flags=Fq. user=foo argv=/kolab/bin/bsmtp -f $sender $nexthop $recipient
-465       inet  n       -       n       -       -       smtpd -o smtpd_tls_wrappermode=yes -o smtpd_sasl_auth_enable=yes 
+465       inet  n       -       n       -       -       smtpd -v -o smtpd_tls_wrappermode=yes -o smtpd_sasl_auth_enable=yes 
+#587      inet  n       -       n       -       -       smtpd -v -o smtpd_enforce_tls=yes -o smtpd_sasl_auth_enable=yes
 post-cleanup unix  n    -       n       -       0       cleanup -o virtual_maps=
 smtp-amavis unix -	-	n	-	2       smtp
     -o smtp_data_done_timeout=1200
@@ -76,6 +76,15 @@ smtp-amavis unix -	-	n	-	2       smtp
     -o smtpd_soft_error_limit=1001
     -o smtpd_hard_error_limit=1000
 kolabpolicy    unix  -       n       n       -       -       spawn user=@l_nusr@ argv=@l_prefix@/etc/kolab/kolab_smtpdpolicy 
+    -ldap @@@ldap_uri@@@ 
+    -basedn @@@user_dn_list@@@
+    -binddn @@@php_dn@@@
+    -bindpw @@@php_pw@@@
+    -domain @@@postfix-mydomain@@@
+@@@if postfix-allow-unauthenticated@@@
+    -allow-unauth
+@@@endif@@@
+    -permithosts @@@kolabhost|join,@@@
 
 kolabfilter     unix  -       n       n       -       -       pipe user=@l_nusr@ flags=n argv=@l_prefix@/bin/php
     -c @l_prefix@/etc/apache/php.ini

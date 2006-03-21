@@ -1,55 +1,51 @@
 #!/bin/sh
+#
+# start/stop kolab server.
 
-### BEGIN INIT INFO
-# Provides:          kolabd
-# Required-Start:    $local_fs $remote_fs $network $syslog slapd postfix apache2 saslauthd kolab-cyrus-common
-# Required-Stop:     $local_fs $remote_fs $network $syslog slapd postfix apache2 saslauthd kolab-cyrus-common
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Start Kolab server
-### END INIT INFO
-
-if [ ! -x /usr/sbin/kolabd ]; then
-	exit 5
+if ! [ -x /usr/sbin/kolabd ]; then
+	exit 0
 fi
 
-DAEMON=/usr/sbin/kolabd
-PIDFILE=/var/run/kolab.pid
+KOLABPID=/var/run/kolab.pid
 
 . /lib/lsb/init-functions
 
-case $1 in
+case "$1" in
     start)
-	log_daemon_msg "Starting Kolab server" "kolabd"
-	start-stop-daemon --start --quiet --oknodo --pidfile $PIDFILE --background --startas $DAEMON
-	log_end_msg $?
+	echo "Starting Kolab daemons" "kolabd"
+
+	if ! start-stop-daemon --start --quiet --oknodo --background --exec /usr/sbin/kolabd; then
+		log_end_msg 1
+		exit 1
+	fi
+
+	log_end_msg 0
 	;;
     stop)
-	log_daemon_msg "Stopping Kolab server" "kolabd"
-	start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE
-	rm -f $PIDFILE
-	log_end_msg $?
+	echo "Stopping Kolab daemons" "kolabd"
+
+	start-stop-daemon --stop --quiet --pidfile $KOLABPID
+
+	log_end_msg 0
 	;;
-    reload|force-reload)
-	log_daemon_msg "Reloading Kolab server" "kolabd"
-	start-stop-daemon --stop --quiet --signal HUP --pidfile $PIDFILE
-	log_end_msg $?
+    reload)
+	echo "Reloading /etc/kolab/kolab.conf" "kolabd"
+
+	start-stop-daemon --stop --signal HUP --pidfile $KOLABPID
+
+	log_end_msg 0
 	;;
-    restart)
-	$0 stop && sleep 1 && $0 start
-	;;
-    status)
-	pidofproc -p $PIDFILE $DAEMON >/dev/null
-	status=$?
-	if [ $status -eq 0 ]; then
-		log_success_msg "Kolab server is running."
-	else
-		log_failure_msg "Kolab server is not running."
-	fi
-	exit $status
+    restart|force-reload)
+	$0 stop
+	sleep 1
+	$0 start
+
 	;;
     *)
-	echo "Usage: $0 {start|stop|reload|force-reload|restart|status}"
-	exit 2
+	echo "Usage: /etc/init.d/kolabd {start|stop|reload|force-reload|restart}"
+	exit 1
 	;;
 esac
+
+exit 0
+

@@ -1,13 +1,31 @@
-#!/bin/sh /usr/share/dpatch/dpatch-run
+#!/bin/sh -e
 ## 30-bootstrap.dpatch by Noèl Köthe <noel@debian.org>
 ##
+## All lines beginning with `## DP:' are a description of the patch.
 ## DP: This is the patch from the rpm
 
+if [ $# -lt 1 ]; then
+echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+exit 1
+fi
+
+[ -f debian/patches/00patch-opts ] && . debian/patches/00patch-opts
+patch_opts="${patch_opts:--f --no-backup-if-mismatch}"
+
+case "$1" in
+      -patch) patch $patch_opts -p1 < $0;;
+      -unpatch) patch $patch_opts -p1 -R < $0;;
+      *)
+      echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+      exit 1;;
+esac
+
+exit 0
+
 @DPATCH@
-diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.dfsg/kolab_bootstrap
---- kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap	2006-08-21 20:30:49.000000000 +0200
-+++ kolabd-1.9.4-20060707.dfsg/kolab_bootstrap	2006-08-21 20:32:19.000000000 +0200
-@@ -89,7 +89,7 @@
+--- kolabd-1.9.4/kolab_bootstrap.orig   2006-01-04 16:46:52.000000000 +0100
++++ kolabd-1.9.4/kolab_bootstrap   2006-01-09 20:35:27.000000000 +0100
+@@ -76,7 +76,7 @@
      print ("Error: Found $name running on Port $port\n");
      print ("Check your installation!\n");
      print ("You must stop the service $name before running Kolab\n");
@@ -16,16 +34,16 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
      exit 1;
    }
  }
-@@ -97,7 +97,7 @@
+@@ -84,7 +84,7 @@
  # Hash a password
  sub hashPassword {
    my $pw = shift;
--  my $hashcmd = $kolab_prefix."/sbin/slappasswd -s ".qquote($pw,":shell");
-+  my $hashcmd = $kolab_prefix."/usr/sbin/slappasswd -s ".qquote($pw,":shell");
+-  my $hashcmd = $kolab_prefix."/sbin/slappasswd -s '".$pw."'";
++  my $hashcmd = $kolab_prefix."/usr/sbin/slappasswd -s '".$pw."'";
    (my $hashpw = `$hashcmd`) or die $@;
    chomp($hashpw);
    return $hashpw;
-@@ -203,7 +203,7 @@
+@@ -190,7 +190,7 @@
  
  print ("Excellent all required Ports are available!\n");
  
@@ -34,7 +52,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
  if ($?==0) {
    print ("\nFound existing configuration\n");
    print "\nBootstrapping Kolab will overwrite old configuration\n";
-@@ -217,21 +217,21 @@
+@@ -204,21 +204,21 @@
    my $backupdir=$kolab_prefix."/etc/kolab/backup".$epochseconds;
    mkdir($backupdir,0700) || die "cannot mkdir : $!";
    print "creating backup of LDAP repository\n";
@@ -60,7 +78,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
  
  my $fd = IO::File->new($kolab_config, "r")
     || die "could not open $kolab_config";
-@@ -315,7 +315,7 @@
+@@ -302,7 +302,7 @@
        print " bind_dn : $bind_dn\n";
      }
      if ($bind_pw =~ /\@\@\@/) {
@@ -69,7 +87,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
        chomp $bind_pw;
        $bind_pw = getUserInput("Please choose a manager password", $bind_pw);
        print " bind_pw : $bind_pw\n";
-@@ -327,7 +327,7 @@
+@@ -314,7 +314,7 @@
        $php_dn =~ s/\@\@\@kolab_basedn\@\@\@/$base_dn/g;
      }
      if ($php_pw =~ /\@\@\@/) {
@@ -78,7 +96,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
        chomp $php_pw;
      }
      if ($calendar_dn =~ /\@\@\@/) {
-@@ -335,7 +335,7 @@
+@@ -322,7 +322,7 @@
        chomp $calendar_dn;
      }
      if ($calendar_pw =~ /\@\@\@/) {
@@ -87,7 +105,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
        chomp $calendar_pw;
      }
  
-@@ -355,7 +355,7 @@
+@@ -342,7 +342,7 @@
      undef $fd;
      print "done modifying $kolab_config\n\n";
      chmod 0600, $kolab_config;
@@ -96,7 +114,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
      print "IMPORTANT NOTE:\n";
      print "use login=manager and passwd=$bind_pw when you log into the webinterface!\n\n";
    }
-@@ -374,8 +374,24 @@
+@@ -361,8 +361,24 @@
      }
    };
  
@@ -123,7 +141,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
  
    getopts('b');
  
-@@ -399,9 +415,9 @@
+@@ -386,9 +402,9 @@
        }
  
        # Creating slapd.conf from template
@@ -136,7 +154,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
        foreach (<$tmpl>) {
          s/\@\@\@base_dn\@\@\@/$base_dn/g;
          s/\@\@\@bind_dn\@\@\@/$bind_dn/g;
-@@ -412,13 +428,13 @@
+@@ -399,13 +415,13 @@
        undef $slpd;
        undef $tmpl;
  
@@ -153,7 +171,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
        print ("Waiting for OpenLDAP to start\n");
        sleep 10;
  
-@@ -549,28 +565,28 @@
+@@ -536,28 +552,28 @@
  
     print "Create initial config files for postfix, apache, proftpd, cyrus imap, saslauthd\n";
  
@@ -161,20 +179,22 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
 -   open(FH, "<$kolab_prefix/etc/rc.conf") || die;
 -   $cfg .= $_ while (<FH>);
 -   close(FH);
-+   #my $cfg;
-+   #open(FH, "</etc/kolab/rc.conf") || die;
-+   #$cfg .= $_ while (<FH>);
-+   #close(FH);
- 
+-
 -   $cfg =~ s/\n((openldap_url|sasl_authmech)\S*=[^\n]*)/#$1\n/sg;
 -   $cfg .= "openldap_url=\"ldap:// ldaps://\"\nsasl_authmech=\"ldap\"\n";
-+   #$cfg =~ s/\n((openldap_url|sasl_authmech)\S*=[^\n]*)/#$1\n/sg;
-+   #$cfg .= "openldap_url=\"ldap:// ldaps://\"\nsasl_authmech=\"ldap\"\n";
- 
+-
 -   open(FH, ">$kolab_prefix/etc/rc.conf") || die;
 -   print FH $cfg;
 -   close(FH);
 -   undef $cfg;
++   #my $cfg;
++   #open(FH, "</etc/kolab/rc.conf") || die;
++   #$cfg .= $_ while (<FH>);
++   #close(FH);
++
++   #$cfg =~ s/\n((openldap_url|sasl_authmech)\S*=[^\n]*)/#$1\n/sg;
++   #$cfg .= "openldap_url=\"ldap:// ldaps://\"\nsasl_authmech=\"ldap\"\n";
++
 +   #open(FH, ">/etc/kolab/rc.conf") || die;
 +   #print FH $cfg;
 +   #close(FH);
@@ -195,7 +215,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
        sleep 5;
        system("killall -9 slapd >/dev/null 2>&1");
     }
-@@ -578,8 +594,8 @@
+@@ -565,8 +581,8 @@
  
    # Create key-pair for resource password encryption 
    # if they dont exist already
@@ -206,7 +226,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
    if( ! -e $pubreskey || ! -e $privreskey ) {
      my $oldmask = umask 0077;
      #print "Creating DSA keypair for resource password encryption\n";
-@@ -587,9 +603,9 @@
+@@ -574,9 +590,9 @@
      #system("/kolab/bin/openssl gendsa -out $privreskey dsa-params");
      #system("/kolab/bin/openssl dsa -in $privreskey -pubout -out $pubreskey");
      print "Creating RSA keypair for resource password encryption\n";
@@ -219,7 +239,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
      chmod 0660, $privreskey, $pubreskey;
      #unlink( "dsa-params" );
      umask $oldmask;
-@@ -616,14 +632,14 @@
+@@ -603,14 +619,14 @@
  certificate. You will be prompted for a passphrase for the CA.
  ################################################################################
  EOS
@@ -242,7 +262,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
      print <<'EOS';
  ################################################################################
  CA and certificate creation complete.
-@@ -637,9 +653,9 @@
+@@ -624,9 +640,9 @@
    ##### Slave server setup
  
    print "stop running slapd (if any)\n";
@@ -254,7 +274,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
    sleep 1;
  
    # Make sure that no rogue demons are running
-@@ -670,8 +686,8 @@
+@@ -657,8 +673,8 @@
    $bind_pw = getUserInput("Manager password");
    $bind_pw_hash = hashPassword($bind_pw);
  
@@ -265,7 +285,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
  
    print "Checking server info...\n";
    my $ldap = Net::LDAP->new($ldap_uri, verify => 'none', onerror => 'undef' );
-@@ -722,7 +738,7 @@
+@@ -709,7 +725,7 @@
    my $master_host = $ldapuri->host();
  
    print "Reading nobody and calendar passwords from master, please type in master's root-password when asked\n";
@@ -274,7 +294,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
    my $conf;
    $conf .= $_ while(<CONF>);
    close(CONF);
-@@ -750,20 +766,20 @@
+@@ -737,20 +753,20 @@
    undef $fd;
    print "done modifying $kolab_config\n\n";
    chmod 0600, $kolab_config;
@@ -300,7 +320,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
    $cfg .= $_ while (<FH>);
    close(FH);
    
-@@ -771,7 +787,7 @@
+@@ -758,7 +774,7 @@
    # $cfg .= "openldap_enable=\"no\"\nopenldap_url=\"\"\nsasl_authmech=\"ldap\"\n";
    $cfg .= "\nopenldap_url=\"ldap:// ldaps://\"\nsasl_authmech=\"ldap\"\n";
    
@@ -309,7 +329,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
    print FH $cfg;
    close(FH);
    undef $cfg;
-@@ -801,18 +817,18 @@
+@@ -788,18 +804,18 @@
  EOS
  
      # Create cert req
@@ -339,7 +359,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
      
      print <<'EOS';
  ################################################################################
-@@ -825,14 +841,14 @@
+@@ -812,14 +828,14 @@
  To be able to encrypt and decrypt passwords for group and resource accounts
  we need to copy the RSA keypair used for that purpose from the master server.
  EOS
@@ -359,7 +379,7 @@ diff -urNad kolabd-1.9.4-20060707.dfsg~/kolab_bootstrap kolabd-1.9.4-20060707.df
  
    $fd = IO::File->new($kolab_config, "w+") || die "could not open $kolab_config";
    print $fd "fqdnhostname : $fqdn\n";
-@@ -851,8 +867,9 @@
+@@ -838,8 +854,9 @@
    chmod 0600, $kolab_config;
  }
  

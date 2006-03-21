@@ -1,7 +1,26 @@
-#!/bin/sh /usr/share/dpatch/dpatch-run 
+#!/bin/sh -e
 ## 50-kolabpasswd-slappasswd-path by Noèl Köthe <noel@debian.org>
 ##
+## All lines beginning with `## DP:' are a description of the patch.
 ## DP: This is the patch to correct the slappasswd path
+
+if [ $# -lt 1 ]; then
+echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+exit 1
+fi
+
+[ -f debian/patches/00patch-opts ] && . debian/patches/00patch-opts
+patch_opts="${patch_opts:--f --no-backup-if-mismatch}"
+
+case "$1" in
+      -patch) patch $patch_opts -p1 < $0;;
+      -unpatch) patch $patch_opts -p1 -R < $0;;
+      *)
+      echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+      exit 1;;
+esac
+
+exit 0
 
 @DPATCH@
 --- kolabd-1.9.4/kolabpasswd.orig	2006-01-26 13:18:12.000000000 +0100
@@ -10,8 +29,8 @@
  # Hash a password
  sub hashPassword {
    my $pw = shift;
--  my $hashcmd = $kolab_prefix."/sbin/slappasswd -s ".qquote($pw,":shell");
-+  my $hashcmd = "/usr/sbin/slappasswd -s ".qquote($pw,":shell");
+-  my $hashcmd = $kolab_prefix."/sbin/slappasswd -s '".$pw."'";
++  my $hashcmd = "/usr/sbin/slappasswd -s '".$pw."'";
    (my $hashpw = `$hashcmd`) or die $@;
    chomp($hashpw);
    return $hashpw;

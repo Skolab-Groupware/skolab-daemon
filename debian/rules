@@ -1,13 +1,35 @@
 #!/usr/bin/make -f
 
-include /usr/share/dpatch/dpatch.make
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
 
-build: patch
+CFLAGS = -Wall -g
 
-clean: clean-patched unpatch
-clean-patched:
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	touch configure-stamp
+	dpatch apply-all
+	touch patch-stamp
+
+build: build-stamp
+
+build-stamp: configure-stamp 
+	dh_testdir
+	touch build-stamp
+
+clean:
 	dh_testdir
 	dh_testroot
+	dpatch deapply-all
+	rm -f build-stamp configure-stamp patch-stamp
+	rm -rf debian/patched
 	dh_clean 
 
 install: build
@@ -26,7 +48,7 @@ install: build
 	install -D -m 755 kolabpasswd debian/kolabd/usr/bin/kolabpasswd
 	
 	# Files for /etc/kolab
-	install -D -m 640 kolab.conf debian/kolabd/etc/kolab/kolab.conf
+	install -D -m 644 kolab.conf debian/kolabd/etc/kolab/kolab.conf
 	install -D -m 644 kolab.globals debian/kolabd/etc/kolab/kolab.globals
 	install -D -m 755 kolab_sslcert.sh debian/kolabd/usr/sbin/kolab_sslcert
 	install -D -m 755 kolab_ca.sh debian/kolabd/usr/sbin/kolab_ca.sh
@@ -38,32 +60,21 @@ install: build
 	install -D -m 755 kolab_smtpdpolicy debian/kolabd/usr/sbin/kolab_smtpdpolicy
 	install -D -m 644 quotawarning.txt debian/kolabd/etc/kolab/quotawarning.txt
 	install -D -m 644 rootDSE.ldif debian/kolabd/etc/kolab/rootDSE.ldif
-
-	# Upstream Kolab bootstrapping files, installed for reference
-	install -D -m 755 kolab_bootstrap debian/kolabd/usr/share/doc/kolabd/bootstrap/kolab_bootstrap
-	for i in templates/* ; do install -D -m 644 $$i debian/kolabd/usr/share/doc/kolabd/bootstrap/$$i ; done
-
-	# install horde-sarge-iCal.patch
-	install -D -m 644 debian/horde-sarge-iCal.patch debian/kolabd/usr/share/doc/kolabd/horde-sarge-iCal.patch
-
+	
+	# Install files in /usr/share/kolabd
+	install -D -m 755 kolab_bootstrap debian/kolabd/usr/share/kolabd/kolab_bootstrap
+	
+	# Template files for /etc/kolab/templates
+	for i in templates/* ; do install -D -m 644 $$i debian/kolabd/usr/share/doc/kolabd/$$i ; done
+	
 	# Ldap files
 	install -D -m 644 kolab2.schema debian/kolabd/usr/share/kolabd/schema/kolab2.schema
 
-#	# Commented out because of copyright issues, needs further investigation
+	# Uncommented because of copyright issues, needs further investigation
 #	install -D -m 644 rfc2739.schema debian/kolabd/usr/share/kolabd/schema/rfc2739.schema
 
-	# Postfix files
-	install -d debian/kolabd/etc/postfix
-	install -m 640 debian/kolab-ldap*.cf debian/kolabd/etc/postfix/
-
-	# Man pages
-	mkdir -p debian/kolabd/usr/share/man/man1
-	for x in `find debian/kolabd/usr/bin debian/kolabd/usr/sbin -type f`; do \
-	  sed "s/undocumented/`basename $$x`/g" debian/undocumented.1 >debian/kolabd/usr/share/man/man1/`basename $$x`.1; \
-	done
-
-	# Lintian
-	install -D -m 644 debian/kolabd.lintian-overrides debian/kolabd/usr/share/lintian/overrides/kolabd
+binary-arch: build install
+# We are binary-indep so nothing to do here.
 
 binary-indep: build install
 	dh_testdir
@@ -76,7 +87,7 @@ binary-indep: build install
 	dh_link
 	dh_strip
 	dh_compress --exclude=template
-	dh_fixperms -X /etc/
+	dh_fixperms
 	dh_perl
 	dh_installdeb
 	dh_shlibdeps

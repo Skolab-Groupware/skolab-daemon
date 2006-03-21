@@ -1,4 +1,4 @@
-# $Id: kolab2.schema,v 1.12.2.2 2005/10/12 11:04:16 steffen Exp $
+# $Id: kolab2.schema,v 1.12 2005/06/11 16:40:23 martin Exp $
 # (c) 2003, 2004 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003, 2004 Martin Konold <martin.konold@erfrakon.de>
 # (c) 2003 Achim Frank <achim.frank@erfrakon.de>
@@ -322,12 +322,6 @@ attributetype ( 1.3.6.1.4.1.19414.2.1.508
 
 attributetype ( 1.3.6.1.4.1.19414.2.1.509
   NAME 'postfix-virtual'
-  EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
-
-attributetype ( 1.3.6.1.4.1.19414.2.1.510
-  NAME 'postfix-relayport'
   EQUALITY caseIgnoreIA5Match
   SUBSTR caseIgnoreIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )

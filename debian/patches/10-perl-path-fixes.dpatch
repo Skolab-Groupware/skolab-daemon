@@ -1,7 +1,26 @@
-#!/bin/sh /usr/share/dpatch/dpatch-run 
+#!/bin/sh -e
 ## 10-perl-path-fixes.dpatch by Steffen Joeris <steffen.joeris@skolelinux.de>
 ##
-## DP: Here we correct the paths of kolab.
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Here we correct the pathes of kolab.
+
+if [ $# -lt 1 ]; then
+echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+exit 1
+fi
+
+[ -f debian/patches/00patch-opts ] && . debian/patches/00patch-opts
+patch_opts="${patch_opts:--f --no-backup-if-mismatch}"
+
+case "$1" in
+      -patch) patch $patch_opts -p1 < $0;;
+      -unpatch) patch $patch_opts -p1 -R < $0;;
+      *)
+      echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+      exit 1;;
+esac
+
+exit 0
 
 @DPATCH@
 --- kolabd-1.9.4/dirservnotify.orig	2005-12-16 15:12:14.000000000 +0100
