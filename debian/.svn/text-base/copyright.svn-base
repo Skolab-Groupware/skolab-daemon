@@ -1,0 +1,147 @@
+This package was debianized by Steffen Joeris <steffen.joeris@skolelinux.de> on
+Fri, 16 Dec 2005 14:32:36 +0100.
+
+It was downloaded from http://max.kde.org:8080/mirrors/ftp.kolab.org/server/release/
+
+Copyright Holder(s): 
+			Copyright (c) 2003,2004,2005  Code Fusion cc 
+			List of files:
+kolab
+kolabconf
+kolabd
+namespace/libexec/listusers
+namespace/libexec/adduser
+namespace/libexec/deluser
+namespace/libexec/newconfig
+namespace/libexec/services
+namespace/libexec/showlog
+namespace/libexec/showuser
+namespace/libexec/start
+namespace/libexec/stop
+
+			Copyright (c) 2004,2005  Klaraelvdalens Datakonsult AB
+			List of files:
+kolab_ca.sh
+kolabconf
+kolabd
+kolab_smtpdpolicy
+templates/DB_CONFIG.slapd.template
+templates/ldap.conf.template
+templates/slapd.replicas.template
+
+			Copyright (c) 2003,2004  Tassilo Erlewein  <tassilo.erlewein@erfrakon.de>
+			List of files:
+kolab
+kolab2.schema
+kolab_bootstrap
+kolabconf
+kolabd
+kolabpasswd
+kolab_sslcert.sh
+templates/main.cf.template
+templates/cyrus.conf.template
+templates/httpd.conf.template
+templates/imapd.conf.template
+templates/imapd.group.template
+templates/master.cf.template
+templates/php.ini.template
+templates/proftpd.conf.template
+templates/saslauthd.conf.template
+templates/session_vars.php.template
+templates/slapd.conf.template
+templates/transport.template
+templates/virtual.template
+workaround.sh
+
+			Copyright (c) 2003,2004,2005 Martin Konold <martin.konold@erfrakon.de>
+			List of files:
+kolab
+kolab2.schema
+kolab_bootstrap
+kolabconf
+kolabconf
+kolabd
+kolabd
+kolabpasswd
+kolab_sslcert.sh
+templates/main.cf.template
+templates/cyrus.conf.template
+templates/httpd.conf.template
+templates/httpd.local.template
+templates/imapd.conf.template
+templates/imapd.group.template
+templates/master.cf.template
+templates/php.ini.template;
+templates/proftpd.conf.template
+templates/saslauthd.conf.template
+templates/session_vars.php.template
+templates/slapd.conf.template
+templates/transport.template
+templates/virtual.template
+workaround.sh
+
+			Copyright (c) 2003 Achim Frank <achim.frank@erfrakon.de>
+			List of files:
+kolab
+kolab2.schema
+kolab_bootstrap
+kolabconf
+kolabconf
+kolabd
+kolabd
+templates/main.cf.template
+templates/cyrus.conf.template
+templates/httpd.conf.template
+templates/imapd.conf.template
+templates/master.cf.template
+templates/proftpd.conf.template
+templates/saslauthd.conf.template
+templates/slapd.conf.template
+
+			Copyright (c) 2004  Erfrakon
+			List of files:
+kolabpasswd
+
+License:
+
+   This package is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This package is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+On Debian systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+
+The following file have a special copyright notice:
+
+namespace/kolab
+
+##  Derived with acknowledgement from: openpkg -- OpenPKG Tool Chain
+##
+##  Copyright (c) 2004-2005 Code Fusion cc. <http://www.codefusion.co.za>
+##  Copyright (c) 2000-2004 The OpenPKG Project <http://www.openpkg.org/>
+##  Copyright (c) 2000-2004 Ralf S. Engelschall <rse@engelschall.com>
+##  Copyright (c) 2000-2004 Cable & Wireless <http://www.cw.com/>
+##
+##  Permission to use, copy, modify, and distribute this software for
+##  any purpose with or without fee is hereby granted, provided that
+##  the above copyright notice and this permission notice appear in all
+##  copies.
+##
+##  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+##  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+##  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+##  IN NO EVENT SHALL THE AUTHORS AND COPYRIGHT HOLDERS AND THEIR
+##  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+##  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+##  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+##  USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+##  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+##  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+##  OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+##  SUCH DAMAGE.

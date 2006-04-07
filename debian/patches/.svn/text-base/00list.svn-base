@@ -1,0 +1,7 @@
+10-perl-path-fixes
+20-kolabquotawarn-issue851
+30-bootstrap
+40-kolabd-pid-file
+50-kolabpasswd-slappasswd-path
+60-kolabdcachetool-cachefiles
+70-kolab2.schema-removal.of.rfc2739.dpatch
