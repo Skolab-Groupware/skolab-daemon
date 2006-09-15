@@ -1,0 +1,225 @@
+#!/bin/sh /usr/share/dpatch/dpatch-run 
+## 10-perl-path-fixes.dpatch by Steffen Joeris <steffen.joeris@skolelinux.de>
+##
+## DP: Here we correct the paths of kolab.
+
+@DPATCH@
+--- kolabd-1.9.4/dirservnotify.orig	2005-12-16 15:12:14.000000000 +0100
++++ kolabd-1.9.4/dirservnotify	2005-12-16 15:12:26.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!/kolab/bin/perl -w
++#!/usr/bin/perl -w
+ use strict;
+ use Getopt::Long;
+ use URI;
+--- kolabd-1.9.4/dirservupdate.orig	2005-12-16 15:13:25.000000000 +0100
++++ kolabd-1.9.4/dirservupdate	2005-12-16 15:13:31.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!/kolab/bin/perl -w
++#!/usr/bin/perl -w
+ use strict;
+ 
+ use Getopt::Long;
+--- kolabd-1.9.4/kolab.orig	2005-12-16 15:14:20.000000000 +0100
++++ kolabd-1.9.4/kolab	2005-12-16 15:14:28.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!@l_prefix@/bin/perl
++#!/usr/bin/perl
+ 
+ ##
+ ##  Copyright (c) 2003  Code Fusion cc
+--- kolabd-1.9.4/kolabconf.orig	2005-12-16 15:16:42.000000000 +0100
++++ kolabd-1.9.4/kolabconf	2005-12-16 15:16:48.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!@l_prefix@/bin/perl
++#!/usr/bin/perl
+ 
+ ##
+ ##  Copyright (c) 2003  Code Fusion cc
+--- kolabd-1.9.4/kolabd.orig	2005-12-16 15:17:21.000000000 +0100
++++ kolabd-1.9.4/kolabd	2005-12-16 15:17:27.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!@l_prefix@/bin/perl
++#!/usr/bin/perl
+ 
+ ##
+ ##  Copyright (c) 2004  Klaraelvdalens Datakonsult AB
+--- kolabd-1.9.4/kolabdcachetool.orig	2005-12-16 15:19:56.000000000 +0100
++++ kolabd-1.9.4/kolabdcachetool	2005-12-16 15:20:02.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!/kolab/bin/perl -w
++#!/usr/bin/perl -w
+ 
+ use strict;
+ use Getopt::Long;
+--- kolabd-1.9.4/kolabpasswd.orig	2005-12-16 15:20:38.000000000 +0100
++++ kolabd-1.9.4/kolabpasswd	2005-12-16 15:20:43.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!@l_prefix@/bin/perl -w 
++#!/usr/bin/perl -w 
+ 
+ # The kolabpasswd script is used for changing the manager password on a Kolab Server.
+ # In multi-location Kolab setups the script must be run on each individual host 
+--- kolabd-1.9.4/kolab_smtpdpolicy.orig	2005-12-16 15:21:19.000000000 +0100
++++ kolabd-1.9.4/kolab_smtpdpolicy	2005-12-16 15:21:27.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!@l_prefix@/bin/perl
++#!/usr/bin/perl
+ 
+ ##
+ ##  Copyright (c) 2004  Klaraelvdalens Datakonsult AB
+--- kolabd-1.9.4/kolab_sslcert.sh.orig	2005-12-16 15:22:42.000000000 +0100
++++ kolabd-1.9.4/kolab_sslcert.sh	2005-12-16 15:23:14.000000000 +0100
+@@ -6,7 +6,7 @@
+ ##  Read the file COPYING that comes with this packages for details.
+ 
+ 
+-cd @l_prefix@/etc/kolab
++cd /etc/kolab
+ 
+ if [ $1 ];then
+   HN=$1
+@@ -30,7 +30,7 @@
+ 
+ echo -n "generate self-signed certificate for hostname $HN... "
+ 
+-    /kolab/bin/openssl req -new -x509 -outform PEM -keyform PEM -nodes \
++    /usr/bin/openssl req -new -x509 -outform PEM -keyform PEM -nodes \
+                                    -days 3650 -out cert.pem -keyout key.pem \
+ 		                   -config tmp.req.cnf >/dev/null 2>&1
+ echo "done"
+@@ -44,4 +44,4 @@
+ 
+ cd -
+ 
+-echo "New certificate has been installed under @l_prefix@/etc/kolab/"
++echo "New certificate has been installed under /etc/kolab/"
+--- kolabd-1.9.4/workaround.sh.orig	2005-12-16 15:23:48.000000000 +0100
++++ kolabd-1.9.4/workaround.sh	2005-12-16 15:24:12.000000000 +0100
+@@ -5,7 +5,7 @@
+ # Read the file COPYING that comes with this packages for details.
+ 
+ 
+-/kolab/bin/cyradm --user manager --password $2 localhost <<EOF
++/usr/bin/cyradm --user manager --password $2 localhost <<EOF
+ lam $1
+ quit
+ EOF
+--- kolabd-1.9.4/kolabcheckperm.orig	2005-12-16 16:15:22.000000000 +0100
++++ kolabd-1.9.4/kolabcheckperm	2005-12-16 16:15:36.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!@l_prefix@/bin/perl
++#!/usr/bin/perl
+ 
+ # (c) 2004 Klaralvdalens Datakonsult AB
+ #
+--- kolabd-1.9.4/kolab_ca.sh.orig	2005-12-19 11:18:38.000000000 +0100
++++ kolabd-1.9.4/kolab_ca.sh	2005-12-19 11:21:06.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!@l_prefix@/lib/openpkg/bash
++#!/bin/bash
+ ##
+ ##  Copyright (c) 2004  Klaraelvdalens Datakonsult AB
+ ##   Written by Steffen Hansen <steffen@klaralvdalens-datakonsult.se>
+@@ -6,7 +6,7 @@
+ ## CA management script that is heavily inspired by Tim Hudson's
+ ## CA.sh script from the openssl distribution
+ 
+-PREFIX=/kolab
++PREFIX=/usr
+ 
+ DAYS="-days 3650"
+ REQ="$PREFIX/bin/openssl req"
+@@ -16,23 +16,23 @@
+ RSA="$PREFIX/bin/openssl rsa"
+ GENRSA="$PREFIX/bin/openssl genrsa"
+ 
+-CATOP=$PREFIX/etc/kolab/ca
++CATOP=/etc/kolab/ca
+ CAKEY=cakey.pem
+ CACERT=cacert.pem
+ 
+ # Make sure not to create world readable files
+ umask 0077
+ 
+-cd @l_prefix@/etc/kolab
++cd /etc/kolab
+ 
+ # Config
+ function createconf() {
+ local DNAME=$1
+ echo "Using dn $hostname"
+-#if [ ! -d "$PREFIX/etc/kolab/ca" ]; then
+-#    mkdir $PREFIX/etc/kolab/ca
++#if [ ! -d "/etc/kolab/ca" ]; then
++#    mkdir /etc/kolab/ca
+ #fi
+-export OPENSSL_CONF=$PREFIX/etc/kolab/kolab-ssl.cnf
++export OPENSSL_CONF=/etc/kolab/kolab-ssl.cnf
+ cat > ${OPENSSL_CONF} <<EOF
+ [ req ]
+ distinguished_name = req_distinguished_name
+--- kolabd-1.9.4/kolabquotareport.orig	2005-12-19 11:34:27.000000000 +0100
++++ kolabd-1.9.4/kolabquotareport	2005-12-19 11:34:55.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!@l_prefix@/bin/perl
++#!/usr/bin/perl
+ 
+ ##
+ ##  Copyright (c) 2004 Klarälvdalens Datakonsult AB
+--- kolabd-1.9.4/kolabquotawarn.orig	2005-12-19 11:37:34.000000000 +0100
++++ kolabd-1.9.4/kolabquotawarn	2005-12-19 11:38:04.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!@l_prefix@/bin/perl
++#!/usr/bin/perl
+ 
+ ##
+ ##  Copyright (c) 2004 Klarälvdalens Datakonsult AB
+--- kolabd-1.9.4/kolab_bootstrap.orig	2006-01-04 11:26:17.000000000 +0100
++++ kolabd-1.9.4/kolab_bootstrap	2006-01-04 11:27:12.000000000 +0100
+@@ -1,4 +1,4 @@
+-#!@l_prefix@/bin/perl
++#!/usr/bin/perl
+ 
+ # (c) 2004 Steffen Hansen <steffen@klaralvdalens-datakonsult.se>
+ # (c) 2003,2004 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
+@@ -27,7 +27,7 @@
+ use Time::Local;
+ use Time::localtime;
+ 
+-my $kolab_prefix = "@l_prefix@";
++my $kolab_prefix = "";
+ my $kolab_config = $kolab_prefix."/etc/kolab/kolab.conf";
+ my %kolab_config;
+ 
+@@ -593,8 +593,8 @@
+   if( lc $tmp eq 'n' ) {
+     print <<'EOS';
+ Skipping certificate creation. Please copy your certificate to
+-@l_prefix@/etc/kolab/cert.pem and private key to
+-@l_prefix@/etc/kolab/key.pem when the bootstrap script is finished.
++/etc/kolab/cert.pem and private key to
++/etc/kolab/key.pem when the bootstrap script is finished.
+ 
+ EOS
+   } else {
+@@ -615,7 +615,7 @@
+ ################################################################################
+ CA and certificate creation complete.
+ 
+-You can install @l_prefix@/etc/kolab/ca/cacert.pem on your clients to allow them
++You can install /etc/kolab/ca/cacert.pem on your clients to allow them
+ to verify the validity of your server certificates.
+ 
+ EOS
+@@ -773,8 +773,8 @@
+   if( lc $tmp eq 'n' ) {
+     print <<'EOS';
+ Skipping certificate creation. Please copy your certificate to
+-@l_prefix@/etc/kolab/cert.pem and private key to
+-@l_prefix@/etc/kolab/key.pem when the bootstrap script is finished.
++/etc/kolab/cert.pem and private key to
++/etc/kolab/key.pem when the bootstrap script is finished.
+ 
+ EOS
+   } else {

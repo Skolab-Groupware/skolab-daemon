@@ -1,0 +1,58 @@
+kolabd (1.9.4-20060707.dfsg-1) unstable; urgency=low
+
+  * New upstream release
+
+  [ Steffen Joeris ]
+  * Include patch to allow configuration for syslog (Closes: #368977)
+    Thanks to Marc Brockschmidt
+  * Add minor remind to README.Debian
+  * Include parts of the patch for the README.Debian documentation
+    (Closes: #375431) Thanks to Shri Shrikumar
+  * Correct order of slapd.conf in README.Debian to avoid complainings
+    from slapd (Closes: #370032) Thanks to Johannes Graumann
+  * Add specific dependency against postfix to make sure null_sender
+    patch is available in postfix and update the README.Debian to make
+    sure that we use the option null_sender= (Closes: #347262)
+
+  [ Noèl Köthe ]
+  * add horde-sarge-iCal.patch to package. Only sarge
+    horde needs it so README.Debian becomes shorter.:)
+  * replace unclear command with more understandable command
+    (closes: Bug#370529)
+  * corrected svn.debian.org URL for new structure
+
+  [ Peter Eisentraut ]
+  * Improved package description
+  * Updated standards version
+  * Fixed Build-Depends vs. Build-Depends-Indep
+  * Added watch file
+  * Changed priority to extra for policy conformance
+  * Added placeholder man pages
+
+ -- Peter Eisentraut <petere@debian.org>  Fri, 15 Sep 2006 15:56:22 +0200
+
+kolabd (1.9.4dfsg-3) unstable; urgency=low
+
+  * Fixed init script messages (closes: #360936)
+  * Clean everything on purge (closes: #360932)
+  * Use /usr/share/dpatch/dpatch-run in dpatches
+  * Do not create /var/log in this package (closes: #360934)
+  * Fixed kolab2.schema patch (closes: #360949)
+
+ -- Peter Eisentraut <petere@debian.org>  Fri,  7 Apr 2006 15:08:40 +0200
+
+kolabd (1.9.4dfsg-2) unstable; urgency=low
+
+  * fix problem with removed rfc2739
+
+ -- Noèl Köthe <noel@debian.org>  Tue, 21 Mar 2006 22:51:29 +0100
+
+kolabd (1.9.4dfsg-1) experimental; urgency=low
+
+  * Initial release
+  part of the Kolab Groupware. See ITP #180634 or Kolab on alioth
+  https://alioth.debian.org/projects/pkg-kolab/
+  (closes: Bug#180634)
+
+ -- Steffen Joeris <steffen.joeris@skolelinux.de>  Sat, 04 Mar 2006 19:03:25 +0100
+

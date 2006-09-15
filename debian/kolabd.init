@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# start/stop kolab server.
+
+if ! [ -x /usr/sbin/kolabd ]; then
+	exit 0
+fi
+
+KOLABPID=/var/run/kolab.pid
+
+. /lib/lsb/init-functions
+
+case "$1" in
+    start)
+	log_daemon_msg "Starting Kolab daemons" "kolabd"
+
+	if ! start-stop-daemon --start --quiet --oknodo --background --exec /usr/sbin/kolabd; then
+		log_end_msg 1
+		exit 1
+	fi
+
+	log_end_msg 0
+	;;
+    stop)
+	log_daemon_msg "Stopping Kolab daemons" "kolabd"
+
+	start-stop-daemon --stop --quiet --pidfile $KOLABPID
+
+	log_end_msg 0
+	;;
+    reload)
+	log_daemon_msg "Reloading Kolab daemons" "kolabd"
+
+	start-stop-daemon --stop --signal HUP --pidfile $KOLABPID
+
+	log_end_msg 0
+	;;
+    restart|force-reload)
+	$0 stop
+	sleep 1
+	$0 start
+
+	;;
+    *)
+	echo "Usage: /etc/init.d/kolabd {start|stop|reload|force-reload|restart}"
+	exit 1
+	;;
+esac
+
+exit 0

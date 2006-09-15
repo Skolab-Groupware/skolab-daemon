@@ -1,0 +1,17 @@
+#!/bin/sh /usr/share/dpatch/dpatch-run
+## 70-kolab2.schema-removal.of.rfc2739.dpatch by Noèl Köthe <noel@debian.org>
+##
+## DP: remove calFBURL from the schema because rfc2739 has to be removed
+
+@DPATCH@
+diff -urNad kolabd-1.9.4dfsg~/kolab2.schema kolabd-1.9.4dfsg/kolab2.schema
+--- kolabd-1.9.4dfsg~/kolab2.schema	2006-04-07 14:04:34.000000000 +0200
++++ kolabd-1.9.4dfsg/kolab2.schema	2006-04-07 14:43:26.000000000 +0200
+@@ -534,7 +534,6 @@
+         cyrus-userquota $
+         kolabInvitationPolicy $
+         kolabFreeBusyFuture $
+-        calFBURL $
+ 	kolabVacationBeginDateTime $
+ 	kolabVacationEndDateTime $
+ 	kolabVacationResendInterval $

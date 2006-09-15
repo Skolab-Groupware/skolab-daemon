@@ -1,0 +1,3 @@
+version=3
+opts=dversionmangle=s/\.dfsg$// \
+ftp://ftp.belnet.be/packages/kolab/server/release/kolab-server-(?:[\d.]+)/sources/kolabd-([\d.-]+).src.rpm

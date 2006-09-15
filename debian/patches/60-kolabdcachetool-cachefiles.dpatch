@@ -1,0 +1,25 @@
+#!/bin/sh /usr/share/dpatch/dpatch-run
+## 60-kolabdcachetool-cachefiles.dpatch by Noèl Köthe <noel@debian.org>
+##
+## DP: This is the patch to correct the path of the cachefiles
+
+@DPATCH@
+--- kolabd-1.9.4/kolabdcachetool.orig	2006-01-26 13:06:41.000000000 +0100
++++ kolabd-1.9.4/kolabdcachetool	2006-01-26 13:07:22.000000000 +0100
+@@ -25,13 +25,13 @@
+ usage if ($func !~ /list/i && $func !~ /del/i && $func !~ /flush/i);
+ 
+ if ($cache =~ /mbox/i) {
+-    dbmopen(%db, '/kolab/var/kolab/mailbox-uidcache.db', 0666)
++    dbmopen(%db, '/var/lib/kolab/mailbox-uidcache.db', 0666)
+         || die "Unable to open mail uid cache";
+ } elsif ($cache =~ /gyard/i) {
+-    dbmopen(%db, '/kolab/var/kolab/graveyard-uidcache.db', 0666)
++    dbmopen(%db, '/var/lib/kolab/graveyard-uidcache.db', 0666)
+         || die "Unable to open graveyard uid cache";
+ 
+-    dbmopen(%db2, '/kolab/var/kolab/graveyard-tscache.db', 0666)
++    dbmopen(%db2, '/var/lib/kolab/graveyard-tscache.db', 0666)
+         || die "Unable to open graveyard timestamp cache";
+ } else { usage; }
+ 
