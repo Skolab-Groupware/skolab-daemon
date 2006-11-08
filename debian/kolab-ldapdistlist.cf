@@ -1,0 +1,16 @@
+# LDAP distribution list support
+
+server_host = ldap://127.0.0.1:389
+search_base = dc=example,dc=com
+domain = $mydestination
+query_filter = (&(objectClass=kolabGroupOfNames)(!(kolabDeleteFlag=*))(mail=%s))
+special_result_attribute = member
+exclude_internal = yes
+result_attribute = mail
+result_filter = %s
+search_timeout = 15
+scope = sub
+bind = yes
+bind_dn = cn=nobody,cn=internal,dc=example,dc=com
+bind_pw = PASSWORD
+version = 3

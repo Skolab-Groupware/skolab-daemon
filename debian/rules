@@ -26,7 +26,7 @@ install: build
 	install -D -m 755 kolabpasswd debian/kolabd/usr/bin/kolabpasswd
 	
 	# Files for /etc/kolab
-	install -D -m 644 kolab.conf debian/kolabd/etc/kolab/kolab.conf
+	install -D -m 640 kolab.conf debian/kolabd/etc/kolab/kolab.conf
 	install -D -m 644 kolab.globals debian/kolabd/etc/kolab/kolab.globals
 	install -D -m 755 kolab_sslcert.sh debian/kolabd/usr/sbin/kolab_sslcert
 	install -D -m 755 kolab_ca.sh debian/kolabd/usr/sbin/kolab_ca.sh
@@ -54,11 +54,18 @@ install: build
 #	# Commented out because of copyright issues, needs further investigation
 #	install -D -m 644 rfc2739.schema debian/kolabd/usr/share/kolabd/schema/rfc2739.schema
 
+	# Postfix files
+	install -d debian/kolabd/etc/postfix
+	install -m 640 debian/kolab-ldap*.cf debian/kolabd/etc/postfix/
+
 	# Man pages
 	mkdir -p debian/kolabd/usr/share/man/man1
 	for x in `find debian/kolabd/usr/bin debian/kolabd/usr/sbin -type f`; do \
 	  sed "s/undocumented/`basename $$x`/g" debian/undocumented.1 >debian/kolabd/usr/share/man/man1/`basename $$x`.1; \
 	done
+
+	# Lintian
+	install -D -m 644 debian/kolabd.lintian-overrides debian/kolabd/usr/share/lintian/overrides/kolabd
 
 binary-indep: build install
 	dh_testdir
@@ -71,7 +78,7 @@ binary-indep: build install
 	dh_link
 	dh_strip
 	dh_compress --exclude=template
-	dh_fixperms
+	dh_fixperms -X /etc/
 	dh_perl
 	dh_installdeb
 	dh_shlibdeps

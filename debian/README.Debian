@@ -203,8 +203,8 @@ the nobody user "kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR"
 
 -----------------------------------------------------------------------------------------
 
-3. Configure SASL:
-------------------
+3. Configure SASL
+-----------------
 
 3.1 /etc/default/saslauthd change to
 
@@ -266,12 +266,13 @@ localhost>
 
 -----------------------------------------------------------------------------------------
 
-5. postfix
+5. Postfix
 ----------
 
 5.1 /etc/postfix/master.cf
 
-append
+Append the following:
+
 --8<--
 kolabfilter     unix  -       n       n       -       -       pipe user=nobody null_sender= argv=/usr/bin/php
    -c /etc/php4/cli/php.ini
@@ -292,95 +293,48 @@ kolabmailboxfilter     unix  -       n       n       -       -       pipe user=n
    -c ${client_address}
 --8<--
 
-note: using sarge you have to comment out the two "-c ${client_address}"
-because postfix 2.1 doesn't support this. postfix 2.2 does.
+Note: Using sarge you have to omit the two "-c ${client_address}" lines
+because Postfix 2.1 doesn't support this.   Postfix 2.2 does.
 
 5.2 /etc/postfix/main.cf
 
-add
+Add the following or merge with an existing configuration, as
+appropriate:
+
 --8<--
-#   maps
-canonical_maps = hash:/etc/postfix/canonical
-virtual_maps =  hash:/etc/postfix/virtual, ldap:ldapdistlist, ldap:ldapvirtual
-relocated_maps = hash:/etc/postfix/relocated
-transport_maps = hash:/etc/postfix/transport, ldap:ldaptransport
+virtual_maps = ldap:/etc/postfix/kolab-ldapdistlist.cf, ldap:/etc/postfix/kolab-ldapvirtual.cf
+transport_maps = ldap:/etc/postfix/kolab-ldaptransport.cf
 
 mailbox_transport = kolabmailboxfilter
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_security_options = noanonymous
 # Support broken clients like Microsoft Outlook Express 4.x which expect AUTH=LOGIN instead of AUTH LOGIN
 broken_sasl_auth_clients = yes
-
-# LDAP Alias support
-ldapvirtual_server_host = ldap://127.0.0.1:389
-ldapvirtual_search_base = dc=example,dc=com
-ldapvirtual_query_filter = (&(!(kolabDeleteFlag=*))(|(alias=%s)(mail=%s)))
-ldapvirtual_result_attribute = mail
-ldapvirtual_result_filter = %s
-ldapvirtual_search_timeout = 15
-ldapvirtual_scope = sub
-ldapvirtual_bind = yes
-ldapvirtual_bind_dn = cn=nobody,cn=internal,dc=example,dc=com
-ldapvirtual_bind_pw = PASSWORD
-ldapvirtual_version = 3
-
-# LDAP Distributionlist support
-
-ldapdistlist_server_host = ldap://127.0.0.1:389
-ldapdistlist_search_base = dc=example,dc=com
-ldapdistlist_domain = $mydestination
-ldapdistlist_query_filter = (&(objectClass=kolabGroupOfNames)(!(kolabDeleteFlag=*))(mail=%s))
-ldapdistlist_special_result_attribute = member
-ldapdistlist_exclude_internal = yes
-ldapdistlist_result_attribute = mail
-ldapdistlist_result_filter = %s
-ldapdistlist_search_timeout = 15
-ldapdistlist_scope = sub
-ldapdistlist_bind = yes
-ldapdistlist_bind_dn = cn=nobody,cn=internal,dc=example,dc=com
-ldapdistlist_bind_pw = PASSWORD
-ldapdistlist_version = 3
-
-# LDAP Transport for multilocation support
-
-ldaptransport_server_host = ldap://127.0.0.1:389
-ldaptransport_search_base = dc=example,dc=com
-ldaptransport_query_filter = (&(mail=%s)(objectClass=kolabInetOrgPerson)(!(kolabHomeServer=$myhostname)))
-ldaptransport_result_attribute = kolabHomeServer
-ldaptransport_result_filter = smtp:[%s]
-ldaptransport_search_timeout = 15
-ldaptransport_scope = sub
-ldaptransport_bind = yes
-ldaptransport_bind_dn = cn=nobody,cn=internal,dc=example,dc=com
-ldaptransport_bind_pw = PASSWORD
-ldaptransport_version = 3
 --8<--
 
-note: PASSWORD is the cleartext password of the nobody user in the LDAP
-(with the example .ldif it is "kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR")
+The options inet_interfaces and mydestination also have to be configured
+for your enviroment.  Make sure that the mydestination variable is set
+correctly.  Kolab will look at it, and it is not enough to enter
+localhost, so please use a valid name (e.g., your real hostname).
 
-Please make also sure that the mydestination variable is set right.
-Kolab will look at it and it is not enough to enter localhost, so please
-use a valid name (e.g. your real hostname).
+5.3. /etc/postfix/kolab-ldap*.cf
 
-Also the options inet_interfaces and mydestination have to be configured for your
-enviroment.
+Adjust these files for your local situation, in particular the domains
+and passwords.
 
-If you don't have the files for the options canonical_maps, virtual_maps, relocated_maps
-and/or transport_maps then remove them or create empty one:
+Note: PASSWORD is the cleartext password of the nobody user in the LDAP.
+(With the example .ldif it is "kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR".)
 
-# touch /etc/postfix/{canonical,virtual,relocated,transport}
-# postmap /etc/postfix/{canonical,virtual,relocated,transport}
+5.4 /etc/postfix/sasl/smtpd.conf
 
-5.3 /etc/postfix/sasl/smtpd.conf
+Put the following in that file (create it if necessary):
 
-create the directory /etc/postfix/sasl/
-
-/etc/postfix/sasl/smtpd.conf
 --8<--
 pwcheck_method: saslauthd
 mech_list: plain login
 --8<--
+
+-----------------------------------------------------------------------------------------
 
 6. kolabd
 ---------
@@ -546,4 +500,3 @@ at /usr/share/kolabd/kolab_bootstrap
 Patches to make this bootstrap working 100% are very welcome!:)
 
 -- Steffen Jöris, <steffen.joeris@skolelinux.de>  Thu, 29 Jun 2006 11:32:53 +0200
-

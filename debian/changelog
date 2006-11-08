@@ -1,3 +1,15 @@
+kolabd (1.9.4-20060707.dfsg-2) unstable; urgency=medium
+
+  * Added version number to lsb-base dependency
+  * Restricted permissions on configuration files containing passwords
+  * Enhanced init script
+  * Put Postfix LDAP configuration into separate files
+  * Added XS-X-Vcs-Svn field
+  * Fixed quotawarn.db path
+  * Ensure complete purge
+
+ -- Peter Eisentraut <petere@debian.org>  Wed,  8 Nov 2006 17:56:15 +0100
+
 kolabd (1.9.4-20060707.dfsg-1) unstable; urgency=low
 
   * New upstream release

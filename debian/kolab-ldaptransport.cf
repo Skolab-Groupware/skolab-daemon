@@ -1,0 +1,13 @@
+# LDAP transport for multilocation support
+
+server_host = ldap://127.0.0.1:389
+search_base = dc=example,dc=com
+query_filter = (&(mail=%s)(objectClass=kolabInetOrgPerson)(!(kolabHomeServer=$myhostname)))
+result_attribute = kolabHomeServer
+result_filter = smtp:[%s]
+search_timeout = 15
+scope = sub
+bind = yes
+bind_dn = cn=nobody,cn=internal,dc=example,dc=com
+bind_pw = PASSWORD
+version = 3

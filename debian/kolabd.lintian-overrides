@@ -1,0 +1,4 @@
+kolabd: non-standard-file-perm etc/kolab/kolab.conf 0640 != 0644
+kolabd: non-standard-file-perm etc/postfix/kolab-ldapdistlist.cf 0640 != 0644
+kolabd: non-standard-file-perm etc/postfix/kolab-ldaptransport.cf 0640 != 0644
+kolabd: non-standard-file-perm etc/postfix/kolab-ldapvirtual.cf 0640 != 0644
