@@ -1,26 +1,26 @@
 Documentation to install Kolab on Debian
 ========================================
 
-The latest version of this document can be found at:
-
-http://svn.debian.org/wsvn/pkg-kolab/kolabd/trunk/debian/README.Debian?op=file&rev=0&sc=0
 
 1. Install this kolabd package with all dependencies
 ----------------------------------------------------
 
-# apt-get install kolabd postfix
+# apt-get install kolabd postfix slapd
 
-kolabd should depend on all needed packages, but postfix conflicts with
-exim4, so it may be necessary to mention it explicitly to convince
-apt-get to install it.
+postfix conflicts with exim4, so it may be necessary to mention it
+explicitly to convince apt-get to install it.  slapd must be installed
+unless you already have an LDAP server elsewhere and know how to
+access it.  The kolabd package depends on all remaining necessary
+packages.
 
------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 2. Configure LDAP
 -----------------
-2.1 /etc/ldap/slapd.conf (file mode 0640)
 
-Replace the file with this content:
+2.1 /etc/ldap/slapd.conf
+
+Replace the file with this content (file mode 600):
 
 --8<--
 # Loading of backend modules
@@ -36,7 +36,7 @@ include /usr/share/kolabd/schema/kolab2.schema
 
 pidfile         /var/run/slapd/slapd.pid
 replica-pidfile /var/run/slapd/slurpd.pid
-argsfile        /var/run/slapd.args
+argsfile        /var/run/slapd/slapd.args
 replogfile      /var/lib/ldap/replog
 replicationinterval 5
 
@@ -185,28 +185,34 @@ access to *
 
 2.2
 
-Replace all references in the above file to "dc=example,dc=com" to your own
+Replace all references in the above file to "dc=example,dc=com" with
+your own.
 
-- Stop the LDAP server: "/etc/init.d/slapd stop"
-- Backup your LDAP data in: /var/lib/ldap/
-- Delete old LDAP data: "rm /var/lib/ldap/*"
-- Import LDAP Data: "slapadd < yourkolabldapdata"
-note: we need to make an example ldapfile
-- Start the LDAP server again: "/etc/init.d/slapd start"
+- Stop the LDAP server: /etc/init.d/slapd stop
+- Back up your LDAP data in /var/lib/ldap/
+- Delete old LDAP data: rm /var/lib/ldap/*
+- Copy the DB_CONFIG file from your backup back into /var/lib/ldap/
+- Import LDAP data: slapadd < yourkolabldapdata
+TODO: We need to make an example LDAP data file.
+- Make sure that the files under /var/lib/ldap/ are owned by the
+openldap user (chown -R openldap:openldap /var/lib/ldap/).
+- Start the LDAP server again: /etc/init.d/slapd start
 
 An example for the "yourkolabldapdata" can be found here:
 /usr/share/doc/kolabd/examples/slapcat.example.com.gz
-http://svn.debian.org/wsvn/pkg-kolab/kolabd/trunk/debian/slapcat.example.com?op=file&rev=0&sc=0
+(zcat /usr/share/doc/kolabd/examples/slapcat.example.com.gz | slapadd)
 
-The passwords for the manager and users are "credativ" and for
-the nobody user "kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR"
+The passwords for the manager and users are "credativ" and for the
+nobody user "kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR".
 
------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 3. Configure SASL
 -----------------
 
-3.1 /etc/default/saslauthd change to
+3.1 /etc/default/saslauthd
+
+Change this file to:
 
 --8<--
 # This needs to be uncommented before saslauthd will be run automatically
@@ -220,7 +226,9 @@ START=yes
 MECHANISMS="ldap"
 --8<--
 
-3.2 /etc/saslauthd.conf (file mode 600)
+3.2 /etc/saslauthd.conf
+
+Create this file (file mode 600):
 
 --8<--
 ldap_auth_method: bind
@@ -237,34 +245,39 @@ ldap_timeout: 15
 ldap_version: 3
 --8<--
 
-Please make sure that you change "PASSWORD" to your manager password
-(with the example .ldif it is "credativ").
+Make sure that you change "PASSWORD" to your manager password.  (With
+the example .ldif it is "credativ".)
 
-You will also need to change references to "dc=example,dc=com" to your own
+You will also need to change references to "dc=example,dc=com" to your
+own.
 
+3.3 Start the saslauthd: /etc/init.d/saslauthd start
 
-3.3 Start the saslauthd: "/etc/init.d/saslauthd start"
+You can test if authentication is working as expected by using the
+testsaslauthd command, e.g.: testsaslauthd -u manager -p PASSWORD
 
------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-4. cyrus
---------
+4. Cyrus IMAP Server
+--------------------
 
 4.1 /etc/imapd.conf
 
-configure the option "loginrealms:" with your Kolab Domain. For example:
+Configure the option "loginrealms:" with your Kolab domain, for
+example:
 
 loginrealms: example.com
 
-4.2 create mailboxes
+Reload the kolab-cyrus daemon afterwards: /etc/init.d/kolab-cyrus reload
+
+4.2 Create mailboxes
 
 # cyradm --user manager localhost
 IMAP Password:
               localhost> cm user/userc@example.com
 localhost>
 
-
------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 5. Postfix
 ----------
@@ -274,7 +287,7 @@ localhost>
 Append the following:
 
 --8<--
-kolabfilter     unix  -       n       n       -       -       pipe user=nobody null_sender= argv=/usr/bin/php
+kolabfilter     unix  -       n       n       -       -       pipe user=nobody null_sender= argv=/usr/bin/php4
    -c /etc/php4/cli/php.ini
    -f /usr/share/kolab-resource-handlers/kolabfilter.php
    --
@@ -283,7 +296,7 @@ kolabfilter     unix  -       n       n       -       -       pipe user=nobody n
    -r ${recipient}
    -c ${client_address}
 
-kolabmailboxfilter     unix  -       n       n       -       -       pipe user=nobody null_sender= argv=/usr/bin/php
+kolabmailboxfilter     unix  -       n       n       -       -       pipe user=nobody null_sender= argv=/usr/bin/php4
    -c /etc/php4/cli/php.ini
    -f /usr/share/kolab-resource-handlers/kolabmailboxfilter.php
    --
@@ -293,8 +306,9 @@ kolabmailboxfilter     unix  -       n       n       -       -       pipe user=n
    -c ${client_address}
 --8<--
 
-Note: Using sarge you have to omit the two "-c ${client_address}" lines
-because Postfix 2.1 doesn't support this.   Postfix 2.2 does.
+Note: Using Postfix 2.1 or earlier (e.g., in Debian sarge), you have
+to omit the two "-c ${client_address}" lines because older Postfix
+doesn't support this.  Postfix 2.2 does.
 
 5.2 /etc/postfix/main.cf
 
@@ -312,18 +326,20 @@ smtpd_sasl_security_options = noanonymous
 broken_sasl_auth_clients = yes
 --8<--
 
-The options inet_interfaces and mydestination also have to be configured
-for your enviroment.  Make sure that the mydestination variable is set
-correctly.  Kolab will look at it, and it is not enough to enter
-localhost, so please use a valid name (e.g., your real hostname).
+The options inet_interfaces and mydestination also have to be
+configured for your enviroment.  Make sure that the mydestination
+variable is set correctly.  Kolab will look at it, and it is not
+enough to enter localhost, so use a valid name (e.g., your real host
+name).
 
 5.3. /etc/postfix/kolab-ldap*.cf
 
 Adjust these files for your local situation, in particular the domains
 and passwords.
 
-Note: PASSWORD is the cleartext password of the nobody user in the LDAP.
-(With the example .ldif it is "kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR".)
+Note: PASSWORD is the cleartext password of the nobody user in the
+LDAP.  (With the example .ldif it is
+"kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR".)
 
 5.4 /etc/postfix/sasl/smtpd.conf
 
@@ -334,12 +350,15 @@ pwcheck_method: saslauthd
 mech_list: plain login
 --8<--
 
------------------------------------------------------------------------------------------
+Reload Postfix after finishing the configuration changes:
+/etc/init.d/postfix reload
+
+-------------------------------------------------------------------------------
 
 6. kolabd
 ---------
 
-configure /etc/kolab/kolab.conf
+Configure /etc/kolab/kolab.conf:
 
 --8<--
 fqdnhostname : kolab.example.com
@@ -355,19 +374,20 @@ calendar_dn : cn=calendar,cn=internal,dc=example,dc=com
 calendar_pw : PASSWORD
 --8<--
 
-Remember to change "dc=example,dc=com" to your one and to change
-the manager password and the nobody password.
+Remember to change "dc=example,dc=com" to your one and to change the
+manager password and the nobody password.
+
+(With the example .ldif, the manager password is "credativ" and the
+nobody password is "kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR".)
 
 TODO: What is the password for calendar meant to be?
-(with the example .ldif manager password is "credativ")
-(with the example .ldif nobody password is "kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR")
 
------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 7. Resource Manager
 -------------------
 
-configure in /etc/kolab/resmgr.conf the options:
+Configure in /etc/kolab/resmgr.conf the options:
 
 $params['server'] = 'kolabserver.example.com';
 $params['email_domain'] = 'example.com';
@@ -379,84 +399,73 @@ $params['calendar_user'] = 'calendar@'.$params['email_domain'];
 $params['calendar_pass'] = 'PASSWORD';
 $params['freebusy_url'] = 'https://server.example.com/freebusy/${USER}.xfb';
 
-remember to change PASSWORD to the nobody password
-(with the example .ldif nobody password is "kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR")
+Remember to change PASSWORD to the nobody password.  (With the example
+.ldif the nobody password is
+"kaat3fzKggQoSbURkaQCIDrWvL1MamtMXM309TBR".)
 
------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-8. FreeBusy
------------
+8. Free/Busy
+------------
 
-configure in /etc/kolab/freebusy.conf the options:
+Configure in /etc/kolab/freebusy.conf the options:
 
 $params['server'] = 'kolabserver.example.com';
 $params['ldap_uri'] = 'ldap://127.0.0.1:389';
 $params['base_dn'] = 'dc=example,dc=com';
 $params['bind_dn'] = 'cn=nobody,cn=internal,dc=example,dc=com';
 $params['bind_pw'] = 'PASSWORD';
-$params['log'] = 'file:/var/log/kolab/freebusy.log';
-// What level of output should we log? Higher levels give more verbose output.
-// One of: RM_LOG_SILENT; RM_LOG_ERROR; RM_LOG_WARN; RM_LOG_INFO or RM_LOG_DEBUG.
-$params['log_level'] = RM_LOG_DEBUG;
 
-we need some files from Horde and the easiest way is to create this link:
+We need some files from Horde, and the easiest way is to create this
+link:
 
 # ln -sf /usr/share/horde3/lib/Horde /usr/share/php/
 
-If you are runing horde < 3.1 (e.g. horde 3.0 in sarge) you need to
-patch an iCal file from horde.
-FreeBusy uses functions from Horde to parse the XML parts in the calendar
-emails.
+If you are runing Horde < 3.1 (e.g. Horde 3.0 in sarge) you need to
+patch an iCal file from horde.  Free/busy uses functions from Horde to
+parse the XML parts in the calendar emails.
 
-# patch < /share/doc/kolabd/horde-sarge-iCal.patch
+# patch < /usr/share/doc/kolabd/horde-sarge-iCal.patch
 
-Be sure you have the following extensions enabled in php for freebusy:
+Be sure you have the following extensions enabled in PHP for
+free/busy:
 
 /etc/php4/apache2/php.ini
 ...
 extension=domxml.so
 extension=ldap.so
 
------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-8. Apache and PHP
+9. Apache and PHP
 -----------------
 
-We need https for Freebusy so we need certificates. To create them use
-"/usr/sbin/apache2-ssl-certificate" which is included in Apache2.
+The free/busy functionality needs an SSL-enabled Apache with
+certificates.  The kolab-resource-handlers package sets up Apache and
+PHP mostly automatically, but you need to add
 
-add "Listen 443" to /etc/apache2/ports.conf
+Listen 443
 
-link the Apache2 kolab config to your sites-available:
+to /etc/apache2/ports.conf if it's not already there.
 
-# ln -s /etc/kolab/apache2-kolab.conf /etc/apache2/sites-available/
+Reload Apache afterwards: /etc/init.d/apache2 reload
 
-enable this config
+-------------------------------------------------------------------------------
 
-# a2ensite apache2-kolab.conf
+10. Web Administration Frontend
+-------------------------------
 
-restart Apache2: "/etc/init.d/apache2 restart"
+If you want the Web Administration frontend, install the package
+kolab-webadmin and follow its README.Debian file for setup
+instructions.
 
-9. Admin frontend
---------------
+-------------------------------------------------------------------------------
 
-If you need it install "apt-get install kolab-webadmin" and configure
+11. Enabling TLS for IMAP
+-------------------------
 
-/etc/kolab-webadmin/session_vars.php
-
-$_SESSION['fqdnhostname'] = "kolabserver.example.com";
-$_SESSION['ldap_master_uri'] = "ldap://127.0.0.1:389";
-$_SESSION['base_dn'] = "dc=example,dc=com";
-$_SESSION['php_dn'] = "cn=nobody,cn=internal,dc=example,dc=com";
-$_SESSION['php_pw'] = "PASSWORD";
-
------------------------------------------------------------------------------------------
-
-10. Enabling SSL
---------------
-
-If you are planning to use the Trolltech Outlook connector, you will also need to enable
-TLS with Cyrus.
+If you are planning to use the Toltec Groupware Connector, you will
+also need to enable TLS with Cyrus.
 
 openssl req -new -nodes -out req.pem -keyout key.pem  
 openssl rsa -in key.pem -out new.key.pem
@@ -467,36 +476,29 @@ rm new.key.pem
 cat ca-cert >> /etc/ssl/certs/cyrus.pem
 
 chown cyrus:mail /etc/ssl/certs/cyrus.pem
-chmod 600 /etc/ssl/certs/cyrus.pem # Your key should be protected
+chmod 600 /etc/ssl/certs/cyrus.pem  # Your key should be protected.
 
-edit /etc/imapd.conf and change the following lines
+Edit /etc/imapd.conf and change the following lines:
 
 tls_ca_file: /etc/ssl/certs/cyrus.pem
 tls_cert_file: /etc/ssl/certs/cyrus.pem
 tls_key_file: /etc/ssl/certs/cyrus.pem
 
+-------------------------------------------------------------------------------
+
+12. Troubleshooting
+-------------------
+
+If there are strange DB_ERROR entries in the /var/log/mail.log file
+related to some problems with the ptloader from the kolab-cyrus, it
+helps to create the directory /var/lib/cyrus/ptclient.  But this
+shouldn't be the case, and we will keep an eye on this bug.
+
+-------------------------------------------------------------------------------
+
+There is a partly adjusted bootstrap for Debian at
+/usr/share/kolabd/kolab_bootstrap, but it's not working 100%.  Patches
+to make this bootstrap working 100% are very welcome!
 
 
-11. Updating this document
---------------
-
-To update this document, you need to download it from svn first.
-
-svn co svn://svn.debian.org/pkg-kolab/trunk/kolabd/debian/
-
-This will create a folder called debian which will include this README.Debian file.
-
-Make a backup copy of this file and edit it with any changes.
-
-Do a diff of the two files using 
-
-diff -u README.Debian.bak README.Debian > patch
-
-provide this patch in a bug-report.
-
-
-There is a partly adjusted bootstrap for Debian but its not working 100%
-at /usr/share/kolabd/kolab_bootstrap
-Patches to make this bootstrap working 100% are very welcome!:)
-
--- Steffen Jöris, <steffen.joeris@skolelinux.de>  Thu, 29 Jun 2006 11:32:53 +0200
+ -- The Debian Kolab Maintainers, 11 December 2006

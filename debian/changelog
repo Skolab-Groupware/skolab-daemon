@@ -1,3 +1,19 @@
+kolabd (1.9.4-20060707.dfsg-3) unstable; urgency=medium
+
+  [ Peter Eisentraut ]
+  * Moved slapd to Recommends, and removed some other unnecessary
+    dependencies (closes: #400022)
+  * Added pointer to kolab-webadmin setup instructions (closes: #370531)
+  * Changed php path to /usr/bin/php4 to be explicit (closes: #401831)
+  * Improve explanation about apache configuration
+
+  [ Steffen Joeris ]
+  * Minor fixes to README.Debian and adding some useful information
+  * Fix README part about ldap configuration to avoid slapd
+    complaints about DB_CONFIG file and slapd.args file
+
+ -- Noèl Köthe <noel@debian.org>  Thu, 28 Dec 2006 11:56:29 +0100
+
 kolabd (1.9.4-20060707.dfsg-2) unstable; urgency=medium
 
   * Added version number to lsb-base dependency
