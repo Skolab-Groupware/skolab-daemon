@@ -2,7 +2,7 @@
 
 server_host = ldap://127.0.0.1:389
 search_base = dc=example,dc=com
-domain = $mydestination
+domain = example.com
 query_filter = (&(objectClass=kolabGroupOfNames)(!(kolabDeleteFlag=*))(mail=%s))
 special_result_attribute = member
 exclude_internal = yes

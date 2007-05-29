@@ -38,12 +38,10 @@ install: build
 	install -D -m 755 kolab_smtpdpolicy debian/kolabd/usr/sbin/kolab_smtpdpolicy
 	install -D -m 644 quotawarning.txt debian/kolabd/etc/kolab/quotawarning.txt
 	install -D -m 644 rootDSE.ldif debian/kolabd/etc/kolab/rootDSE.ldif
-	
-	# Install files in /usr/share/kolabd
-	install -D -m 755 kolab_bootstrap debian/kolabd/usr/share/kolabd/kolab_bootstrap
-	
-	# Template files for /etc/kolab/templates
-	for i in templates/* ; do install -D -m 644 $$i debian/kolabd/usr/share/doc/kolabd/$$i ; done
+
+	# Upstream Kolab bootstrapping files, installed for reference
+	install -D -m 755 kolab_bootstrap debian/kolabd/usr/share/doc/kolabd/bootstrap/kolab_bootstrap
+	for i in templates/* ; do install -D -m 644 $$i debian/kolabd/usr/share/doc/kolabd/bootstrap/$$i ; done
 
 	# install horde-sarge-iCal.patch
 	install -D -m 644 debian/horde-sarge-iCal.patch debian/kolabd/usr/share/doc/kolabd/horde-sarge-iCal.patch

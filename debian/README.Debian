@@ -193,7 +193,6 @@ your own.
 - Delete old LDAP data: rm /var/lib/ldap/*
 - Copy the DB_CONFIG file from your backup back into /var/lib/ldap/
 - Import LDAP data: slapadd < yourkolabldapdata
-TODO: We need to make an example LDAP data file.
 - Make sure that the files under /var/lib/ldap/ are owned by the
 openldap user (chown -R openldap:openldap /var/lib/ldap/).
 - Start the LDAP server again: /etc/init.d/slapd start
@@ -496,9 +495,9 @@ shouldn't be the case, and we will keep an eye on this bug.
 
 -------------------------------------------------------------------------------
 
-There is a partly adjusted bootstrap for Debian at
-/usr/share/kolabd/kolab_bootstrap, but it's not working 100%.  Patches
-to make this bootstrap working 100% are very welcome!
+The bootstrapping program and templates used by upstream can be found at
+/usr/share/doc/kolabd/bootstrap/ for reference, but that code are not
+adjusted for the Debian installation, so it won't actually work.
 
 
- -- The Debian Kolab Maintainers, 11 December 2006
+ -- The Debian Kolab Maintainers, 18 May 2007

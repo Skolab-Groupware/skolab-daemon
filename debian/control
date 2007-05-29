@@ -2,9 +2,10 @@ Source: kolabd
 Section: mail
 Priority: extra
 Maintainer: Debian Kolab Maintainers <pkg-kolab-devel@lists.alioth.debian.org>
-Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <steffen.joeris@skolelinux.de>, Peter Eisentraut <petere@debian.org>
+Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Peter Eisentraut <petere@debian.org>
 Build-Depends: debhelper (>= 4), dpatch
 Standards-Version: 3.7.2
+XS-Vcs-Browser: http://svn.debian.org/wsvn/pkg-kolab/kolabd/
 XS-Vcs-Svn: svn://svn.debian.org/pkg-kolab/kolabd/
 
 Package: kolabd

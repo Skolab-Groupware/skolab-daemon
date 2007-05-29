@@ -1,3 +1,18 @@
+kolabd (1.9.4-20060707.dfsg-4) unstable; urgency=low
+
+  [ Steffen Joeris ]
+  * Change maintainer address
+
+  [ Noèl Köthe ]
+  * remove $mydestination from kolab-ldapdistlist.cf; doesn't work there
+
+  [ Peter Eisentraut ]
+  * Install kolab_bootstrap under /usr/share/doc, so it doesn't look so
+    much like you can actually use it (closes: #365876)
+  * Added XS-Vcs-Browser field
+
+ -- Peter Eisentraut <petere@debian.org>  Tue, 29 May 2007 14:40:51 +0200
+
 kolabd (1.9.4-20060707.dfsg-3) unstable; urgency=medium
 
   [ Peter Eisentraut ]
