@@ -1,7 +1,7 @@
 Web admin interface for Kolab
 =============================
 
-Last edited: $Id: README.webgui,v 1.1 2005/04/11 01:05:16 steffen Exp $
+Last edited: $Id: README.webgui.in,v 1.5 2006/08/28 11:15:10 bernhard Exp $
 
 Requirements
 ------------
@@ -25,8 +25,8 @@ user classes
         user. The right are the same as "admin".
 
 By default all classes can use the webgui. By changing
-@l_prefix@/etc/kolab/templates/session_vars.php this can be
-configured. The user-classes that shold have access to the webgui
+/kolab/etc/kolab/templates/session_vars.php this can be
+configured. The user-classes that should have access to the webgui
 are listed in the $params['allow_user_classes'] array:
 
 $params['allow_user_classes'] = 
@@ -34,10 +34,10 @@ $params['allow_user_classes'] =
 
 
 2) Controlling access for regular users to the LDAP attributes of the
-user's account object. If it possible to change which LDAP attributes
+user's account object. It is possible to change which LDAP attributes
 are shown to users on the user page. For each attribute in the user
 form, an entry in the array $params['attribute_access'] in
-@l_prefix@/etc/kolab/templates/session_vars.php can be made. The key
+/kolab/etc/kolab/templates/session_vars.php can be made. The key
 of the entry is the attribute's name and the value is one of 
 
   "ro": Readonly.

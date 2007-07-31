@@ -14,21 +14,9 @@ fixperms() {
 	chmod 2775 /var/lib/kolab
 }
 
-create_cachefiles() {
-	if ! [ -f /var/lib/kolab/mailbox-uidcache.db ] ; then
-		echo "Creating Mailbox UID cache file"
-		/usr/sbin/kolabdcachetool mbox flush
-	fi
-	if ! [ -f /var/lib/kolab/graveyard-tscache.db ] ; then
-		echo "Creating Graveyard files"
-		/usr/sbin/kolabdcachetool gyard flush
-	fi
-}
-
 if [ "$1" = configure ]; then
 	add_kolab_system_users
 	fixperms
-	create_cachefiles
 fi
 
 #DEBHELPER#

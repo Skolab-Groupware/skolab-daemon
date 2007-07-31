@@ -1,0 +1,45 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 80-slapd-template.dpatch by Peter Eisentraut <petere@debian.org>
+##
+## DP: slapd.conf template fixes
+
+@DPATCH@
+diff -urNad kolabd-2.1.0-20070510.dfsg~/templates/DB_CONFIG.slapd.template.in kolabd-2.1.0-20070510.dfsg/templates/DB_CONFIG.slapd.template.in
+--- kolabd-2.1.0-20070510.dfsg~/templates/DB_CONFIG.slapd.template.in	2006-09-27 18:48:30.000000000 +0200
++++ kolabd-2.1.0-20070510.dfsg/templates/DB_CONFIG.slapd.template.in	2007-06-25 01:09:00.000000000 +0200
+@@ -1,7 +1,7 @@
+ KOLAB_META_START
+ TARGET=@ldapserver_dir@/DB_CONFIG
+ PERMISSIONS=0640
+-OWNERSHIP=@kolab_musr@:@kolab_rgrp@
++OWNERSHIP=@ldapserver_usr@:@ldapserver_grp@
+ KOLAB_META_END
+ # (c) 2005 Klaraelvdalens Datakonsult AB
+ #     Written by Steffen Hansen <steffen@klaralvdalens-datakonsult.se>
+diff -urNad kolabd-2.1.0-20070510.dfsg~/templates/slapd.conf.template.in kolabd-2.1.0-20070510.dfsg/templates/slapd.conf.template.in
+--- kolabd-2.1.0-20070510.dfsg~/templates/slapd.conf.template.in	2007-06-25 01:08:15.000000000 +0200
++++ kolabd-2.1.0-20070510.dfsg/templates/slapd.conf.template.in	2007-06-25 01:08:16.000000000 +0200
+@@ -13,6 +13,12 @@
+ # this file is automatically written by the Kolab config backend and should have the 
+ # file mode 0640
+ 
++modulepath	/usr/lib/ldap
++moduleload	back_bdb
++moduleload	back_monitor
++moduleload	refint
++moduleload	unique
++
+ # manual additions are lost unless made to the template in the Kolab config directory
+ # the template is  @sysconfdir@/kolab/templates/slapd.conf.template
+ 
+@@ -20,8 +26,8 @@
+ include @ldapserver_schemadir@/cosine.schema
+ include @ldapserver_schemadir@/inetorgperson.schema
+ #include @ldapserver_schemadir@/rfc2739.schema
+-include @ldapserver_schemadir@/kolab2.schema
+-#include @ldapserver_schemadir@/horde.schema
++include /usr/share/kolabd/schema/kolab2.schema
++#include /usr/share/kolabd/schema/horde.schema
+ 
+ pidfile		@ldapserver_pidfile@
+ replica-pidfile	@ldapserverslurpd_pidfile@

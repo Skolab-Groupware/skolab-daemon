@@ -1,4 +1,4 @@
-#!@l_prefix@/bin/perl
+#!/kolab/bin/perl
 
 # (c) 2004 Klaralvdalens Datakonsult AB
 #

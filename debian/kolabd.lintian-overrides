@@ -1,0 +1,1 @@
+kolabd: non-standard-file-perm etc/kolab/kolab.conf 0640 != 0644

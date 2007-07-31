@@ -1,0 +1,59 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 91-postfix-template.dpatch by Peter Eisentraut <petere@debian.org>
+##
+## DP: Adjustments in Postfix templates
+
+@DPATCH@
+diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/main.cf.template.in kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/main.cf.template.in
+--- kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/main.cf.template.in	2007-06-25 01:08:14.000000000 +0200
++++ kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/main.cf.template.in	2007-06-25 01:25:31.000000000 +0200
+@@ -19,16 +19,6 @@
+ # we use 20 Mebibyte = 20*2^20 Byte 
+ message_size_limit = 20971520
+ 
+-#   paths
+-command_directory = @sbindir@
+-daemon_directory = @libexecdir@/postfix
+-queue_directory = @emailserver_localstatedir@
+-
+-#   users
+-mail_owner= @emailserver_mail_owner@
+-setgid_group= @emailserver_setgid_grp@
+-default_privs= @emailserver_default_privs@
+-
+ #   local host
+ myhostname = @@@fqdnhostname@@@
+ mydomain = @@@postfix-mydomain@@@
+diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/master.cf.template.in kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/master.cf.template.in
+--- kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/master.cf.template.in	2006-06-26 18:39:17.000000000 +0200
++++ kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/master.cf.template.in	2007-06-25 01:25:42.000000000 +0200
+@@ -1,6 +1,6 @@
+ KOLAB_META_START
+ TARGET=@emailserver_confdir@/master.cf
+-PERMISSIONS=0640
++PERMISSIONS=0644
+ OWNERSHIP=@emailserver_usr@:@emailserver_grp@
+ KOLAB_META_END
+ # (c) 2004 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
+diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/transport.template.in kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/transport.template.in
+--- kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/transport.template.in	2007-01-08 22:28:14.000000000 +0100
++++ kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/transport.template.in	2007-06-25 01:25:50.000000000 +0200
+@@ -1,6 +1,6 @@
+ KOLAB_META_START
+ TARGET=@emailserver_confdir@/transport
+-PERMISSIONS=0640
++PERMISSIONS=0644
+ OWNERSHIP=@emailserver_tables_usr@:@emailserver_grp@
+ KOLAB_META_END
+ # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
+diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/virtual.template.in kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/virtual.template.in
+--- kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/virtual.template.in	2007-01-08 22:28:14.000000000 +0100
++++ kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/virtual.template.in	2007-06-25 01:26:01.000000000 +0200
+@@ -1,6 +1,6 @@
+ KOLAB_META_START
+ TARGET=@emailserver_confdir@/virtual
+-PERMISSIONS=0640
++PERMISSIONS=0644
+ OWNERSHIP=@emailserver_tables_usr@:@emailserver_grp@
+ KOLAB_META_END
+ # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>

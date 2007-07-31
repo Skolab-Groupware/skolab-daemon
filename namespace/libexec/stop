@@ -13,14 +13,13 @@
 ##  You can view the  GNU General Public License, online, at the GNU
 ##  Project's homepage; see <http://www.gnu.org/licenses/gpl.html>.
 ##
+PATH=/kolab/bin:$PATH
 
-prefix=@l_prefix@
-
-if [ ".$1" = ".--showhelp" ]; then
+if [ ".$1" = ".--help" ]; then
 	echo "Stop the server"
 	exit 0
 	HASHELP
 fi
 
+openpkg rc all stop
 
-${prefix}/bin/openpkg rc all stop

@@ -1,7 +1,7 @@
 Virus- and spam-filter setup for Kolab
 ======================================
 
-Last edited: $Id: README.amavisd,v 1.1 2005/04/09 21:42:18 steffen Exp $
+Last edited: $Id: README.amavisd.in,v 1.2 2005/12/10 21:57:11 richard Exp $
 
 Introduction
 ------------
@@ -26,7 +26,7 @@ the local user who would have been the recipient of the email
 containing the virus if it had not been infected.
 
 Any infected email that is blocked from reaching it's recipient is
-archived to @l_prefix@/var/amavisd/virusmails on the server.
+archived to /kolab/var/amavisd/virusmails on the server.
 
 Spam-handling is different: Spam is not blocked by the filter, but
 instead email potentially is spam is marked with the
@@ -50,7 +50,7 @@ $viruses_that_fake_sender_re = new_RE();
 @viruses_that_fake_sender_maps = ();
 $warnvirusrecip = 1;    # (defaults to false (undef))
 $warnbannedrecip = 1;   # (defaults to false (undef))
-$QUARANTINEDIR = '@l_prefix@/var/amavisd/virusmails';
+$QUARANTINEDIR = '/kolab/var/amavisd/virusmails';
 $virus_quarantine_to  = 'virus-quarantine';
 @mynetworks = qw( @@@postfix-mynetworks@@@ );
 

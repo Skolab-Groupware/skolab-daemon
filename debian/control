@@ -1,25 +1,34 @@
 Source: kolabd
 Section: mail
-Priority: optional
+Priority: extra
 Maintainer: Debian Kolab Maintainers <pkg-kolab-devel@lists.alioth.debian.org>
-Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <steffen.joeris@skolelinux.de>, Peter Eisentraut <petere@debian.org>
-Build-Depends-Indep: debhelper (>= 4.0.0), dpatch
-Standards-Version: 3.6.2
+Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Peter Eisentraut <petere@debian.org>
+Build-Depends: debhelper (>= 4), dpatch
+Standards-Version: 3.7.2
+XS-Vcs-Browser: http://svn.debian.org/wsvn/pkg-kolab/kolabd/
+XS-Vcs-Svn: svn://svn.debian.org/pkg-kolab/kolabd/
 
 Package: kolabd
 Architecture: all
-Depends: ${perl:Depends}, libkolab-perl, libnet-netmask-perl, libmail-box-perl, libterm-readkey-perl, libterm-readline-gnu-perl, openssl, slapd, ldap-utils, db4.2-util, postfix, postfix-ldap, apache2-mpm-prefork, apache2-utils, sasl2-bin, libsasl2-modules, kolab-cyrus-admin, kolab-cyrus-clients, kolab-cyrus-imapd, kolab-cyrus-pop3d, kolab-resource-handlers, adduser, lsb-base
-Description: Kolab groupware server
- Kolab is a secure, scalable and reliable groupware server. It is 
- formed by a number of well-known and proven components or the 
- standards tasks such as E-Mail, Directory Service and Web Service. 
- Kolab adds intelligent interaction between the components, a web 
- administration interface, management of free-busy lists etc. 
- Various clients can access Kolab, among them Kontact (KDE), Outlook 
- (Windows) and Horde (Web).
+Depends: ${perl:Depends}, libnet-netmask-perl, libmail-box-perl, libterm-readkey-perl, libterm-readline-gnu-perl,
+ postfix (>= 2.4), postfix-ldap (>= 2.4),
+ sasl2-bin, libsasl2-modules,
+ libkolab-perl (>= 5.8.7-20070420),
+ kolab-cyrus-admin, kolab-cyrus-clients, kolab-cyrus-imapd, kolab-cyrus-pop3d,
+ kolab-resource-handlers,
+ adduser, lsb-base (>= 3.0-3)
+Recommends: slapd, ldap-utils
+Suggests: openssl, db4.2-util, kolab-webadmin
+Description: groupware server
+ Kolab is a secure, scalable, and reliable groupware server.  It consists
+ of a number of well-known and proven components for the standard tasks
+ such as e-mail, directory service, and web service.  Kolab adds
+ intelligent interaction between the components, a web administration
+ interface, management of free/busy lists, etc.  Various clients can
+ access Kolab, among them Kontact (KDE), Outlook (Windows), and Horde
+ (web).
  .
- This package contains the kolabd-scripts to control the groupware 
- server, ldap gateway daemon, the dependencies and documentations
- to run Kolab.
+ This package contains the groupware server program, the LDAP gateway
+ daemon, as well as the dependencies and documentation to run Kolab.
  .
- Web site: http://www.kolab.org
+ Web site: http://www.kolab.org/

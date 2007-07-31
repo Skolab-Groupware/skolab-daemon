@@ -4,8 +4,9 @@
 ## DP: This is the patch to correct the path of the cachefiles
 
 @DPATCH@
---- kolabd-1.9.4/kolabdcachetool.orig	2006-01-26 13:06:41.000000000 +0100
-+++ kolabd-1.9.4/kolabdcachetool	2006-01-26 13:07:22.000000000 +0100
+diff -urNad kolabd-1.9.4-20060707.dfsg~/kolabdcachetool kolabd-1.9.4-20060707.dfsg/kolabdcachetool
+--- kolabd-1.9.4-20060707.dfsg~/kolabdcachetool	2006-11-08 10:08:39.000000000 +0100
++++ kolabd-1.9.4-20060707.dfsg/kolabdcachetool	2006-11-08 10:08:40.000000000 +0100
 @@ -25,13 +25,13 @@
  usage if ($func !~ /list/i && $func !~ /del/i && $func !~ /flush/i);
  
@@ -23,3 +24,15 @@
          || die "Unable to open graveyard timestamp cache";
  } else { usage; }
  
+diff -urNad kolabd-1.9.4-20060707.dfsg~/kolabquotawarn kolabd-1.9.4-20060707.dfsg/kolabquotawarn
+--- kolabd-1.9.4-20060707.dfsg~/kolabquotawarn	2006-11-08 10:08:39.000000000 +0100
++++ kolabd-1.9.4-20060707.dfsg/kolabquotawarn	2006-11-08 10:09:43.000000000 +0100
+@@ -108,7 +108,7 @@
+   fatal_exit( "Can't open quotawarning.txt" );
+ }
+ 
+-dbmopen( %quotawarn_db, $prefix.'/var/kolab/quotawarn.db', 0666 )
++dbmopen( %quotawarn_db, '/var/lib/kolab/quotawarn.db', 0666 )
+   || fatal_exit ('Unable to open quotawarn db');
+ 
+ if( $opt_d ) {

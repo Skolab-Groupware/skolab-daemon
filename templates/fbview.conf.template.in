@@ -1,0 +1,40 @@
+KOLAB_META_START
+TARGET=@resmgr_confdir@/fbview.conf
+PERMISSIONS=0640
+OWNERSHIP=@resmgr_usr@:@resmgr_grp@
+KOLAB_META_END
+<?php
+
+// What is the address of the Cyrus server where the calendar data is stored?
+$params['server'] = '@@@fqdnhostname@@@';
+
+// What is the Base DN of our LDAP database?
+$params['base_dn'] = '@@@base_dn@@@';
+
+// What DN should we use to bind to the LDAP server?
+$params['bind_dn'] = '@@@php_dn@@@';
+
+// What password should we use with the above DN when binding?
+$params['bind_pw'] = '@@@php_pw@@@';
+
+// What is our default mail domain? This is used if any users do not have
+// '@domain' specified after their username as part of their email address.
+$params['email_domain'] = '@@@postfix-mydomain@@@';
+
+// Are we using virtual domains with Cyrus?
+$params['virtual_domains'] = true;
+
+// Should we append domains to mailbox URIs? This only applies when
+// virtual_domains is true, and when using manager accounts.
+$params['append_domains'] = false;
+
+// What account should we use to read/write calendar data? This account should
+// have access to the calendar mailbox of all resource/group mailboxes.
+$params['calendar_user'] = Auth::getAuth();
+$params['calendar_pass'] = Auth::getCredential('password');
+
+// What is the name of the users' calendar mailbox?
+$params['calendar_store'] = 'Calendar';
+
+// Where can we get free/busy information from?
+$params['freebusy_url'] = 'https://'.urlencode($params['calendar_user']).':'.urlencode($params['calendar_pass']).'@'.'@@@fqdnhostname@@@@webserver_web_prefix@/freebusy/${USER}.xfb';
