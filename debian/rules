@@ -51,7 +51,7 @@ install: build
 
 	# Kolab bootstrapping templates
 	for i in templates/*.template ; do install -D -m 644 $$i debian/kolabd/etc/kolab/$$i ; done
-	rm $(addprefix debian/kolabd/etc/kolab/templates/,amavisd.* clamd.* cyrus.* freshclam.* httpd.local.* proftpd.* session_vars.*)
+	rm $(addprefix debian/kolabd/etc/kolab/templates/,amavisd.* clamd.* cyrus.* freshclam.* httpd.* proftpd.* session_vars.*)
 
 	# LDAP files
 	install -D -m 644 horde.schema debian/kolabd/usr/share/kolabd/schema/horde.schema

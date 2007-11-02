@@ -5,8 +5,8 @@
 
 @DPATCH@
 diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.dfsg/dist_conf/debian
---- kolabd-2.1.0-20070510.dfsg~/dist_conf/debian	2006-03-09 22:52:02.000000000 +0100
-+++ kolabd-2.1.0-20070510.dfsg/dist_conf/debian	2007-07-27 14:07:47.000000000 +0200
+--- kolabd-2.1.0-20070510.dfsg~/dist_conf/debian	2007-10-19 13:57:06.000000000 +0200
++++ kolabd-2.1.0-20070510.dfsg/dist_conf/debian	2007-10-19 13:57:43.000000000 +0200
 @@ -1,14 +1,15 @@
 -kolab_usr=root
 -kolab_grp=root
@@ -46,7 +46,7 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.d
  
  clamav_confdir=${sysconfdir}/clamav
  clamav_socket=${localstatedir}/clamav/clamd.sock
-@@ -52,9 +53,10 @@
+@@ -52,9 +53,11 @@
  emailserver_socket=${libdir}/postfix/lmtp
  emailserver_localstatedir=${localstatedir}/spool/postfix
  emailserver_logfile=${localstatedir}/log/mail.log
@@ -56,10 +56,11 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.d
  emailserver_musr=kolab
 -emailserver_grp=${restricted_kolab_grp}
 +emailserver_grp=root
++emailserver_master_usr=kolab
  
  ftpserver_scoreboardfile=${localstatedir}/proftpd/score
  ftpserver_logfile=${localstatedir}/log/proftpd.log
-@@ -69,34 +71,35 @@
+@@ -69,34 +72,35 @@
  
  imap_confdir=${sysconfdir}
  imap_confperm=0640
@@ -106,7 +107,7 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.d
  
  webserver_document_root=/var/www
  webserver_cgidir=${webserver_document_root}/cgi-bin
-@@ -114,28 +117,37 @@
+@@ -114,28 +118,39 @@
  webserver_sslmutex=${sysrundir}/ssl_mutex
  webserver_web_prefix=/kolab
  webserver_musr=kolab
@@ -123,25 +124,25 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.d
 -sasl_authdconffile=${sysconfdir}/sasl/____
 -sasl_smtpconffile=${libdir}/sasl2/smtpd.conf
 +sasl_authdconffile=${sysconfdir}/saslauthd.conf
-+sasl_smtpconffile=/etc/postfix/sasl/smtpd.conf
++sasl_smtpconffile=${sysconfdir}/postfix/sasl/smtpd.conf
  sasl_logfile=${localstatedir}/log/saslauthd.log
  
  resmgr_logfile=${localstatedir}/log/resmgr.log
 -resmgr_confdir=${sysconfdir}/resmgr
 +resmgr_confdir=${sysconfdir}/kolab
  resmgr_filterdir=${localstatedir}/resmgr/filter
--resmgr_scriptsdir=${resmgr_confdir}
+ resmgr_scriptsdir=${resmgr_confdir}
 -resmgr_usr=kolab
 -resmgr_grp=kolab-n
-+resmgr_scriptsdir=/usr/share/kolab-resource-handlers
-+resmgr_conffile_usr=root
-+resmgr_conffile_grp=www-data
++resmgr_conffile_usr=kolab
++resmgr_conffile_grp=root
 +resmgr_usr=root
 +resmgr_grp=www-data
  
  fbview_logfile=${localstatedir}/resmgr/fbview.log
  freebusy_logfile=${localstatedir}/resmgr/freebusy.log
- freebusy_cachedir=${webserver_document_root}${webserver_web_prefix}/freebusy/cache
+-freebusy_cachedir=${webserver_document_root}${webserver_web_prefix}/freebusy/cache
++freebusy_cachedir=${localstatedir}/lib/kolab/freebusy-cache
 +freebusy_usr=root
 +freebusy_grp=www-data
  
@@ -152,3 +153,5 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.d
 +
 +kolab_smtpdpolicy_conffile_usr=${kolab_musr}
 +kolab_smtpdpolicy_conffile_grp=${kolab_grp}
++
++aliases_file=${sysconfdir}/aliases

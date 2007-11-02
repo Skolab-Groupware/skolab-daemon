@@ -5,3 +5,4 @@
 80-kolab-syslog-facility
 90-slapd-template
 91-postfix-template
+92-resmgr-template

@@ -1,3 +1,21 @@
+kolabd (2.1.0-20070510.dfsg-2) unstable; urgency=low
+
+  [ Peter Eisentraut ]
+  * Aligned installation paths in templates with kolab-resource-handlers
+    package
+  * Dropped Apache templates; configuration is currently provided by
+    kolab-resource-handlers package
+  * Added Homepage control field
+
+  [ Philip Hands ]
+  * Added aliases_file definition to dist_conf/debian
+  * Added emailserver_master_usr definition to dist_conf/debian
+  * Added Suggests of amavisd-new
+  * Replaced flags=n by null_sender= in postfix master.cf template
+  * Corrected resmgr.conf permissions
+
+ -- Peter Eisentraut <petere@debian.org>  Fri, 02 Nov 2007 16:52:09 +0100
+
 kolabd (2.1.0-20070510.dfsg-1) unstable; urgency=low
 
   * New upstream release

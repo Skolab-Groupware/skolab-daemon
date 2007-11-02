@@ -4,9 +4,9 @@
 ## DP: Adjustments in Postfix templates
 
 @DPATCH@
-diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/main.cf.template.in kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/main.cf.template.in
---- kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/main.cf.template.in	2007-06-25 01:08:14.000000000 +0200
-+++ kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/main.cf.template.in	2007-06-25 01:25:31.000000000 +0200
+diff -urNad kolabd-2.1.0-20070510.dfsg~/templates/main.cf.template.in kolabd-2.1.0-20070510.dfsg/templates/main.cf.template.in
+--- kolabd-2.1.0-20070510.dfsg~/templates/main.cf.template.in	2007-05-09 12:25:06.000000000 +0200
++++ kolabd-2.1.0-20070510.dfsg/templates/main.cf.template.in	2007-10-19 13:37:42.000000000 +0200
 @@ -19,16 +19,6 @@
  # we use 20 Mebibyte = 20*2^20 Byte 
  message_size_limit = 20971520
@@ -24,9 +24,9 @@ diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/mai
  #   local host
  myhostname = @@@fqdnhostname@@@
  mydomain = @@@postfix-mydomain@@@
-diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/master.cf.template.in kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/master.cf.template.in
---- kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/master.cf.template.in	2006-06-26 18:39:17.000000000 +0200
-+++ kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/master.cf.template.in	2007-06-25 01:25:42.000000000 +0200
+diff -urNad kolabd-2.1.0-20070510.dfsg~/templates/master.cf.template.in kolabd-2.1.0-20070510.dfsg/templates/master.cf.template.in
+--- kolabd-2.1.0-20070510.dfsg~/templates/master.cf.template.in	2006-06-26 18:39:17.000000000 +0200
++++ kolabd-2.1.0-20070510.dfsg/templates/master.cf.template.in	2007-10-19 13:38:21.000000000 +0200
 @@ -1,6 +1,6 @@
  KOLAB_META_START
  TARGET=@emailserver_confdir@/master.cf
@@ -35,9 +35,27 @@ diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/mas
  OWNERSHIP=@emailserver_usr@:@emailserver_grp@
  KOLAB_META_END
  # (c) 2004 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
-diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/transport.template.in kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/transport.template.in
---- kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/transport.template.in	2007-01-08 22:28:14.000000000 +0100
-+++ kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/transport.template.in	2007-06-25 01:25:50.000000000 +0200
+@@ -91,7 +91,7 @@
+     -o smtpd_hard_error_limit=1000
+ kolabpolicy    unix  -       n       n       -       -       spawn user=@emailserver_master_usr@ argv=@kolab_scriptsdir@/kolab_smtpdpolicy 
+ 
+-kolabfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ flags=n argv=@PHP@
++kolabfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ null_sender= argv=@PHP@
+     -c @phpini_dir@/php.ini
+     -f @resmgr_scriptsdir@/kolabfilter.php 
+     --
+@@ -101,7 +101,7 @@
+     -c ${client_address}
+     -u ${sasl_username}
+ 
+-kolabmailboxfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ flags=n argv=@PHP@
++kolabmailboxfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ null_sender= argv=@PHP@
+     -c @phpini_dir@/php.ini
+     -f @resmgr_scriptsdir@/kolabmailboxfilter.php 
+     --
+diff -urNad kolabd-2.1.0-20070510.dfsg~/templates/transport.template.in kolabd-2.1.0-20070510.dfsg/templates/transport.template.in
+--- kolabd-2.1.0-20070510.dfsg~/templates/transport.template.in	2007-01-08 22:28:14.000000000 +0100
++++ kolabd-2.1.0-20070510.dfsg/templates/transport.template.in	2007-10-19 13:37:42.000000000 +0200
 @@ -1,6 +1,6 @@
  KOLAB_META_START
  TARGET=@emailserver_confdir@/transport
@@ -46,9 +64,9 @@ diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/tra
  OWNERSHIP=@emailserver_tables_usr@:@emailserver_grp@
  KOLAB_META_END
  # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
-diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/virtual.template.in kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/virtual.template.in
---- kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324~/templates/virtual.template.in	2007-01-08 22:28:14.000000000 +0100
-+++ kolabd-2.1.0-20070510.dfsg.obsolete.0.250543409799324/templates/virtual.template.in	2007-06-25 01:26:01.000000000 +0200
+diff -urNad kolabd-2.1.0-20070510.dfsg~/templates/virtual.template.in kolabd-2.1.0-20070510.dfsg/templates/virtual.template.in
+--- kolabd-2.1.0-20070510.dfsg~/templates/virtual.template.in	2007-01-08 22:28:14.000000000 +0100
++++ kolabd-2.1.0-20070510.dfsg/templates/virtual.template.in	2007-10-19 13:37:42.000000000 +0200
 @@ -1,6 +1,6 @@
  KOLAB_META_START
  TARGET=@emailserver_confdir@/virtual

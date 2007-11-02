@@ -5,6 +5,7 @@ Maintainer: Debian Kolab Maintainers <pkg-kolab-devel@lists.alioth.debian.org>
 Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Peter Eisentraut <petere@debian.org>
 Build-Depends: debhelper (>= 4), dpatch
 Standards-Version: 3.7.2
+Homepage: http://www.kolab.org/
 XS-Vcs-Browser: http://svn.debian.org/wsvn/pkg-kolab/kolabd/
 XS-Vcs-Svn: svn://svn.debian.org/pkg-kolab/kolabd/
 
@@ -18,7 +19,7 @@ Depends: ${perl:Depends}, libnet-netmask-perl, libmail-box-perl, libterm-readkey
  kolab-resource-handlers,
  adduser, lsb-base (>= 3.0-3)
 Recommends: slapd, ldap-utils
-Suggests: openssl, db4.2-util, kolab-webadmin
+Suggests: openssl, db4.2-util, kolab-webadmin, amavisd-new
 Description: groupware server
  Kolab is a secure, scalable, and reliable groupware server.  It consists
  of a number of well-known and proven components for the standard tasks
@@ -30,5 +31,3 @@ Description: groupware server
  .
  This package contains the groupware server program, the LDAP gateway
  daemon, as well as the dependencies and documentation to run Kolab.
- .
- Web site: http://www.kolab.org/
