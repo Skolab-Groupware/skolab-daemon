@@ -1,12 +1,12 @@
 #! /bin/sh /usr/share/dpatch/dpatch-run
-## 10-dist_conf.dpatch by Peter Eisentraut <petere@debian.org>
+## common/dist_conf.dpatch by Peter Eisentraut <petere@debian.org>
 ##
 ## DP: Adjusts some paths
 
 @DPATCH@
 diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.dfsg/dist_conf/debian
---- kolabd-2.1.0-20070510.dfsg~/dist_conf/debian	2007-10-19 13:57:06.000000000 +0200
-+++ kolabd-2.1.0-20070510.dfsg/dist_conf/debian	2007-10-19 13:57:43.000000000 +0200
+--- kolabd-2.1.0-20070510.dfsg~/dist_conf/debian	2007-12-12 23:41:50.000000000 +0100
++++ kolabd-2.1.0-20070510.dfsg/dist_conf/debian	2007-12-12 23:45:14.000000000 +0100
 @@ -1,14 +1,15 @@
 -kolab_usr=root
 -kolab_grp=root
@@ -29,7 +29,14 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.d
  
  BASHELL=/bin/bash
  PERL=${bindir}/perl
-@@ -25,13 +26,13 @@
+@@ -19,19 +20,19 @@
+ pkgdocdir=${datadir}/doc/kolab
+ 
+ # perl -V:vendorlib | sed "s/.*'\(.*\)'\;/\1/"
+-perllib=${libdir}/perl5
++perllib=/usr/share/perl5
+ 
+ amavisd_conffile=${sysconfdir}/amavis/conf.d
  amavisd_templatedir=${sysconfdir}/amavis/conf.d
  amavisd_logfile=${localstatedir}/log/amavis.log
  amavisd_home=${localstatedir}/lib//amavis
@@ -60,7 +67,7 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.d
  
  ftpserver_scoreboardfile=${localstatedir}/proftpd/score
  ftpserver_logfile=${localstatedir}/log/proftpd.log
-@@ -69,34 +72,35 @@
+@@ -69,36 +72,37 @@
  
  imap_confdir=${sysconfdir}
  imap_confperm=0640
@@ -105,8 +112,11 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.d
 +ldapserver_grp=openldap
 +ldapserver_rusr=openldap
  
- webserver_document_root=/var/www
+-webserver_document_root=/var/www
++webserver_document_root=/usr/share
  webserver_cgidir=${webserver_document_root}/cgi-bin
+ webserver_sessions=${localstatedir}/cache/kolab/httpd_sessions
+ webserver_logdir=${localstatedir}/log/apache2
 @@ -114,28 +118,39 @@
  webserver_sslmutex=${sysrundir}/ssl_mutex
  webserver_web_prefix=/kolab
@@ -129,8 +139,9 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/dist_conf/debian kolabd-2.1.0-20070510.d
  
  resmgr_logfile=${localstatedir}/log/resmgr.log
 -resmgr_confdir=${sysconfdir}/resmgr
+-resmgr_filterdir=${localstatedir}/resmgr/filter
 +resmgr_confdir=${sysconfdir}/kolab
- resmgr_filterdir=${localstatedir}/resmgr/filter
++resmgr_filterdir=${localstatedir}/lib/kolab/resmgr/filter
  resmgr_scriptsdir=${resmgr_confdir}
 -resmgr_usr=kolab
 -resmgr_grp=kolab-n

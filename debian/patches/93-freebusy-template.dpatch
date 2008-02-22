@@ -1,0 +1,20 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 93-freebusy-template.dpatch by Peter Eisentraut <petere@debian.org>
+##
+## DP: Adjustments in freebusy template
+
+@DPATCH@
+diff -urNad kolabd-2.1.0-20070510.dfsg~/templates/freebusy.conf.template.in kolabd-2.1.0-20070510.dfsg/templates/freebusy.conf.template.in
+--- kolabd-2.1.0-20070510.dfsg~/templates/freebusy.conf.template.in	2007-03-02 05:40:21.000000000 +0100
++++ kolabd-2.1.0-20070510.dfsg/templates/freebusy.conf.template.in	2007-12-28 16:27:14.000000000 +0100
+@@ -81,8 +81,8 @@
+ $params['send_content_disposition'] = false;
+ 
+ // Where are we logging to?
+-$params['log'] = 'file:@freebusy_logfile@';                // File...
+-// $params['log'] = 'syslog:cons, pid';            // Or syslog...
++// $params['log'] = 'file:@freebusy_logfile@';                // File...
++$params['log'] = 'syslog:cons, pid';            // Or syslog...
+ 
+ // What level of output should we log? Higher levels give more verbose output.
+ // One of: 0 (RM_LOG_SILENT); 1 (RM_LOG_ERROR); 2 (RM_LOG_WARN); 3 (RM_LOG_INFO) or 4 (RM_LOG_DEBUG).

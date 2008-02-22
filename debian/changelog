@@ -1,3 +1,13 @@
+kolabd (2.1.0-20070510.dfsg-3) unstable; urgency=low
+
+  * Internal Subversion repository reorganization to keep common patches in
+    common location, in particular patches/common/dist_conf.dpatch
+  * Updated standards version
+  * Set syslog as logging method in freebusy.conf template (closes: #455071)
+  * Changed control fields XS-Vcs-* to Vcs-*
+
+ -- Peter Eisentraut <petere@debian.org>  Fri, 22 Feb 2008 15:52:14 +0100
+
 kolabd (2.1.0-20070510.dfsg-2) unstable; urgency=low
 
   [ Peter Eisentraut ]

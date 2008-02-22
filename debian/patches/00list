@@ -1,4 +1,4 @@
-10-dist_conf
+common/dist_conf
 30-bootstrap
 #60-kolabdcachetool-cachefiles
 70-kolab2.schema-removal.of.rfc2739.dpatch
@@ -6,3 +6,4 @@
 90-slapd-template
 91-postfix-template
 92-resmgr-template
+93-freebusy-template

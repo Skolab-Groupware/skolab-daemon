@@ -4,10 +4,10 @@ Priority: extra
 Maintainer: Debian Kolab Maintainers <pkg-kolab-devel@lists.alioth.debian.org>
 Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Peter Eisentraut <petere@debian.org>
 Build-Depends: debhelper (>= 4), dpatch
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
 Homepage: http://www.kolab.org/
-XS-Vcs-Browser: http://svn.debian.org/wsvn/pkg-kolab/kolabd/
-XS-Vcs-Svn: svn://svn.debian.org/pkg-kolab/kolabd/
+Vcs-Browser: http://svn.debian.org/wsvn/pkg-kolab/kolabd/trunk/
+Vcs-Svn: svn://svn.debian.org/pkg-kolab/kolabd/trunk/
 
 Package: kolabd
 Architecture: all
