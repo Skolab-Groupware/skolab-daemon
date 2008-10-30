@@ -1,1 +1,3 @@
 var/lib/kolab
+etc/kolab/filter
+etc/kolab/freebusy

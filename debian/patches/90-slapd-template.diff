@@ -35,11 +35,11 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/templates/slapd.conf.template.in kolabd-
 @@ -20,8 +26,8 @@
  include @ldapserver_schemadir@/cosine.schema
  include @ldapserver_schemadir@/inetorgperson.schema
- #include @ldapserver_schemadir@/rfc2739.schema
+ include @ldapserver_schemadir@/rfc2739.schema
 -include @ldapserver_schemadir@/kolab2.schema
 -#include @ldapserver_schemadir@/horde.schema
 +include /usr/share/kolabd/schema/kolab2.schema
-+#include /usr/share/kolabd/schema/horde.schema
++include /usr/share/kolabd/schema/horde.schema
  
  pidfile		@ldapserver_pidfile@
  replica-pidfile	@ldapserverslurpd_pidfile@

@@ -1,0 +1,34 @@
+#!/bin/sh /usr/share/dpatch/dpatch-run
+## 70-kolab2.schema-removal.of.rfc2739.dpatch by Noèl Köthe <noel@debian.org>
+##
+## DP: remove upstream rfc2739 schema because it is not dfsg
+## DP: see rules that install a dfsg version of it
+
+@DPATCH@
+diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.391802680053846~/Makefile.am kolabd-2.1.0-20070510.dfsg.obsolete.0.391802680053846/Makefile.am
+--- kolabd-2.1.0-20070510.dfsg.obsolete.0.391802680053846~/Makefile.am	2007-05-08 11:39:03.000000000 +0200
++++ kolabd-2.1.0-20070510.dfsg.obsolete.0.391802680053846/Makefile.am	2007-06-21 20:18:14.000000000 +0200
+@@ -95,8 +95,7 @@
+ EXTRA_DIST += namespace/libexec/stop
+ 
+ ldapschema_FILES =  kolab2.schema \
+-	horde.schema \
+-	rfc2739.schema
++	horde.schema
+ 
+ ldapschemadir = $(ldapserver_confdir)/schema
+ dist_ldapschema_DATA = $(ldapschema_FILES)
+diff -urNad kolabd-2.1.0-20070510.dfsg.obsolete.0.391802680053846~/Makefile.in kolabd-2.1.0-20070510.dfsg.obsolete.0.391802680053846/Makefile.in
+--- kolabd-2.1.0-20070510.dfsg.obsolete.0.391802680053846~/Makefile.in	2007-05-10 12:28:35.000000000 +0200
++++ kolabd-2.1.0-20070510.dfsg.obsolete.0.391802680053846/Makefile.in	2007-06-21 20:18:14.000000000 +0200
+@@ -301,8 +301,7 @@
+ kolabnamespacedir = $(libexecdir)/kolab
+ kolabnamespace_DATA = $(kolabnamespace_FILES)
+ ldapschema_FILES = kolab2.schema \
+-	horde.schema \
+-	rfc2739.schema
++	horde.schema
+ 
+ ldapschemadir = $(ldapserver_confdir)/schema
+ dist_ldapschema_DATA = $(ldapschema_FILES)
+

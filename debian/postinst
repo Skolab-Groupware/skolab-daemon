@@ -9,6 +9,17 @@ add_kolab_system_users() {
 	fi
 }
 
+adduser_postfix_in_sasl() {
+	# Add user postfix to group sasl, if such group exists
+        adduser postfix sasl || true
+}
+
+adduser_cyrus_in_kolab() {
+	# Add user cyrus to group kolab, if such group exists
+	# This is needed for PKI
+        adduser cyrus kolab || true
+}
+
 fixperms() {
 	chown kolab:kolab /var/lib/kolab
 	chmod 2775 /var/lib/kolab
@@ -16,6 +27,8 @@ fixperms() {
 
 if [ "$1" = configure ]; then
 	add_kolab_system_users
+	adduser_postfix_in_sasl
+	adduser_cyrus_in_kolab
 	fixperms
 fi
 

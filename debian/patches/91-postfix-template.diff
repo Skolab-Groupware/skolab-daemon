@@ -35,24 +35,6 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/templates/master.cf.template.in kolabd-2
  OWNERSHIP=@emailserver_usr@:@emailserver_grp@
  KOLAB_META_END
  # (c) 2004 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
-@@ -91,7 +91,7 @@
-     -o smtpd_hard_error_limit=1000
- kolabpolicy    unix  -       n       n       -       -       spawn user=@emailserver_master_usr@ argv=@kolab_scriptsdir@/kolab_smtpdpolicy 
- 
--kolabfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ flags=n argv=@PHP@
-+kolabfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ null_sender= argv=@PHP@
-     -c @phpini_dir@/php.ini
-     -f @resmgr_scriptsdir@/kolabfilter.php 
-     --
-@@ -101,7 +101,7 @@
-     -c ${client_address}
-     -u ${sasl_username}
- 
--kolabmailboxfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ flags=n argv=@PHP@
-+kolabmailboxfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ null_sender= argv=@PHP@
-     -c @phpini_dir@/php.ini
-     -f @resmgr_scriptsdir@/kolabmailboxfilter.php 
-     --
 diff -urNad kolabd-2.1.0-20070510.dfsg~/templates/transport.template.in kolabd-2.1.0-20070510.dfsg/templates/transport.template.in
 --- kolabd-2.1.0-20070510.dfsg~/templates/transport.template.in	2007-01-08 22:28:14.000000000 +0100
 +++ kolabd-2.1.0-20070510.dfsg/templates/transport.template.in	2007-10-19 13:37:42.000000000 +0200

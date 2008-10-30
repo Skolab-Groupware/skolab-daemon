@@ -19,9 +19,7 @@ KOLAB_META_END
 server_host = @@@ldap_uri@@@
 search_base = @@@user_dn_list@@@
 query_filter = (&(objectClass=kolabGroupOfNames)(!(kolabDeleteFlag=*))(mail=%s))
-special_result_attribute = member
 exclude_internal = yes
-result_attribute = mail
 result_filter = %s
 search_timeout = 15
 scope = sub
@@ -30,3 +28,10 @@ bind_dn = @@@php_dn@@@
 bind_pw = @@@php_pw@@@
 version = 3
 #debuglevel = 255
+
+
+# Postfix 2.4.0 distribution list support
+# see http://archive.netbsd.se/?ml=postfix-devel&a=2007-03&m=3322510
+special_result_attribute = member
+result_attribute = 
+leaf_result_attribute = mail

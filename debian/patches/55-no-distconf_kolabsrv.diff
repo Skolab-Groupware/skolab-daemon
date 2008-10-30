@@ -1,0 +1,54 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 55-no-distconf_kolabsrv.dpatch by Mathieu Parent <math.parent@gmail.com>
+##
+## DP: distconf/kolabsrv.in is not shipped in. We don't need it anyway.
+
+@DPATCH@
+diff -urNad kolabd-2.1.99-20080521.dfsg~/Makefile.am kolabd-2.1.99-20080521.dfsg/Makefile.am
+--- kolabd-2.1.99-20080521.dfsg~/Makefile.am	2008-05-25 12:36:30.000000000 +0200
++++ kolabd-2.1.99-20080521.dfsg/Makefile.am	2008-05-25 12:37:48.000000000 +0200
+@@ -149,8 +149,8 @@
+ 	kolabcheckperm
+ else
+ kolabsbin_FILES = kolabd \
+-	kolabcheckperm \
+-	dist_conf/kolabsrv
++	kolabcheckperm
++#	dist_conf/kolabsrv
+ endif	
+ 
+ kolabsbindir = $(sbindir)/
+@@ -226,9 +226,9 @@
+ 	chmod 744 $(DESTDIR)$(sbindir)/kolabd
+ 	chmod 744 $(DESTDIR)$(sbindir)/kolabcheckperm
+ 	chmod 755 $(DESTDIR)$(bindir)/kolabpasswd
+-if ! OPENPKG
+-	chmod 755 $(DESTDIR)$(sbindir)/kolabsrv
+-endif
++#if ! OPENPKG
++#	chmod 755 $(DESTDIR)$(sbindir)/kolabsrv
++#endif
+ if OPENPKG
+ 	chmod 755 $(DESTDIR)$(kolabrcdir)/$(kolabrc_DATA)
+ 	chmod 744 $(DESTDIR)$(bindir)/kolab
+diff -urNad kolabd-2.1.99-20080521.dfsg~/Makefile.in kolabd-2.1.99-20080521.dfsg/Makefile.in
+--- kolabd-2.1.99-20080521.dfsg~/Makefile.in	2008-05-25 12:36:30.000000000 +0200
++++ kolabd-2.1.99-20080521.dfsg/Makefile.in	2008-05-25 12:37:10.000000000 +0200
+@@ -284,7 +284,7 @@
+ kolabdoc_DATA = $(kolabdoc_FILES) $(kolabdoc_GENERATED)
+ @OPENPKG_FALSE@kolabsbin_FILES = kolabd \
+ @OPENPKG_FALSE@	kolabcheckperm \
+-@OPENPKG_FALSE@	dist_conf/kolabsrv
++# @OPENPKG_FALSE@	dist_conf/kolabsrv
+ 
+ @OPENPKG_TRUE@kolabsbin_FILES = kolabd \
+ @OPENPKG_TRUE@	kolabcheckperm
+@@ -895,7 +895,7 @@
+ 	chmod 744 $(DESTDIR)$(sbindir)/kolabd
+ 	chmod 744 $(DESTDIR)$(sbindir)/kolabcheckperm
+ 	chmod 755 $(DESTDIR)$(bindir)/kolabpasswd
+-@OPENPKG_FALSE@	chmod 755 $(DESTDIR)$(sbindir)/kolabsrv
++# @OPENPKG_FALSE@	chmod 755 $(DESTDIR)$(sbindir)/kolabsrv
+ @OPENPKG_TRUE@	chmod 755 $(DESTDIR)$(kolabrcdir)/$(kolabrc_DATA)
+ @OPENPKG_TRUE@	chmod 744 $(DESTDIR)$(bindir)/kolab
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -1,0 +1,32 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 85-slapd-2.4-compat.dpatch by  <math.parent@gmail.com>
+##
+## DP: Purpose : be compatible with OpenLDAP 2.4
+
+@DPATCH@
+diff -urNad kolabd-2.1.99-20080521.dfsg~/templates/slapd.conf.template.in kolabd-2.1.99-20080521.dfsg/templates/slapd.conf.template.in
+--- kolabd-2.1.99-20080521.dfsg~/templates/slapd.conf.template.in	2008-05-25 16:36:39.000000000 +0200
++++ kolabd-2.1.99-20080521.dfsg/templates/slapd.conf.template.in	2008-05-25 16:37:12.000000000 +0200
+@@ -29,7 +29,8 @@
+ replogfile      @ldapserver_replogfile@
+ replicationinterval 5
+ 
+-schemacheck 	       on
++#schemacheck doesn't exists in debian's slapd 2.4
++#schemacheck 	       on
+ 
+ TLSCertificateFile     @sysconfdir@/kolab/cert.pem
+ TLSCertificateKeyFile  @sysconfdir@/kolab/key.pem
+@@ -49,9 +50,9 @@
+ checkpoint 	512 5
+ idlcachesize    10000
+ idletimeout	300
+-		# The idletimeout can be increased if some clients develop
+-		# problems. Please report to kolab-devel@kolab.org
+-		# if you encounter such a client.
++#		The idletimeout can be increased if some clients develop
++#		problems. Please report to kolab-devel@kolab.org
++#		if you encounter such a client.
+ dirtyread
+ 
+ directory	@ldapserver_dir@

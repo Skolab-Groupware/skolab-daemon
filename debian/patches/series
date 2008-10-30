@@ -1,0 +1,14 @@
+10-dist_conf.diff
+30-bootstrap.diff
+40-disable-amavis.diff
+50-postfix-hashes.diff
+55-no-distconf_kolabsrv.diff
+#60-kolabdcachetool-cachefiles.diff
+70-kolab2.schema-removal.of.rfc2739.diff
+80-kolab_globals.diff
+85-slapd-2.4-compat.diff
+86-slapd-syncrepl-24.diff
+90-slapd-template.diff
+91-postfix-template.diff
+92-resmgr-template.diff
+93-freebusy-template.diff

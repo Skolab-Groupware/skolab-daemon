@@ -11,5 +11,7 @@ ldap_uri : ldap://127.0.0.1:389
 ldap_master_uri : @@@ldap_master_uri@@@
 php_dn : cn=nobody,cn=internal,@@@kolab_basedn@@@
 php_pw : @@@nobody_pw@@@
-calendar_dn : cn=calendar,cn=internal,@@@kolab_basedn@@@
+calendar_id : calendar
 calendar_pw : @@@calendar_pw@@@
+slurpd_addr : 127.0.0.1
+slurpd_port : 9999

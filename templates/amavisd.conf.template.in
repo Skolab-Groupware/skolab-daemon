@@ -101,7 +101,7 @@ $ENV{TMPDIR} = $TEMPBASE;       # wise to set TMPDIR, but not obligatory
 # POSTFIX, or SENDMAIL in dual-MTA setup, or EXIM V4
 # (set host and port number as required; host can be specified
 # as IP address or DNS name (A or CNAME, but MX is ignored)
-$forward_method = 'smtp:127.0.0.1:10026';  # where to forward checked mail
+$forward_method = 'smtp:@@@local_addr@@@:10026';  # where to forward checked mail
 $notify_method = $forward_method;          # where to submit notifications
 
 # NOTE: The defaults (above) are good for Postfix or dual-sendmail. You MUST
@@ -237,9 +237,9 @@ $inet_socket_port = 10024;        # accept SMTP on this local TCP port
 # - do not allow free access to the amavisd SMTP port !!!
 #
 # when MTA is at the same host, use the following (one or the other or both):
-#$inet_socket_bind = '127.0.0.1'; # limit socket bind to loopback interface
+$inet_socket_bind = '@@@local_addr@@@'; # limit socket bind to loopback interface
                                   # (default is '127.0.0.1')
-@inet_acl = qw( 127.0.0.1 );      # allow SMTP access only from localhost IP
+@inet_acl = qw( @@@local_addr@@@ );      # allow SMTP access only from localhost IP
                                   # (default is qw( 127.0.0.1 ) )
 
 # when MTA (one or more) is on a different host, use the following:
@@ -1515,7 +1515,6 @@ $policy_bank{'MYUSERS'} = {  # mail from authenticated users on this system
   warnbannedrecip_maps => undef,# (defaults to false (undef))
   warnvirussender => 1,
   warnbannedsender => 1,
-  mynetworks => qw(0.0.0.0/0),
 };
 
 

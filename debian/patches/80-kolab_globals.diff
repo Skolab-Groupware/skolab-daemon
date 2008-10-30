@@ -1,0 +1,25 @@
+#!/bin/sh /usr/share/dpatch/dpatch-run
+## 80-kolab-syslog-facility.dpatch by Marc Brockschmidt <marc.brockschmidt@credativ.de>
+##
+## DP: -Use Fedora Directory Server (persistent searches) LDAP backend
+## DP: -Use syslog
+
+@DPATCH@
+diff -urNad kolabd-2.1.99-20080521.dfsg~/kolab.globals.in kolabd-2.1.99-20080521.dfsg/kolab.globals.in
+--- kolabd-2.1.99-20080521.dfsg~/kolab.globals.in	2008-06-10 23:34:22.000000000 +0200
++++ kolabd-2.1.99-20080521.dfsg/kolab.globals.in	2008-06-10 23:35:00.000000000 +0200
+@@ -7,7 +7,7 @@
+ cyrus-pop3 : FALSE
+ cyrus-pop3s : TRUE
+ cyrus-sieve : TRUE
+-directory_mode : slurpd
++directory_mode : syncrepl
+ gyard_deletion_period : 10080
+ ldap_uri : ldap://127.0.0.1:389
+ log_level : 2
+@@ -48,4 +48,4 @@
+ bind_any : TRUE
+ bind_addr : 0.0.0.0
+ calendar_id : calendar
+-syslog_facility : user
++syslog_facility : local5

@@ -1,3 +1,529 @@
+2008-07-09  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/imapd.conf.template.in: kolab/issue2855 (Can create folder
+	while logging in as user without domain name): Remove autocreatequota
+	setting to prevent creating INBOX.
+	* kolab_bootstrap.in: Update checkPort statements to current Kolab
+	server: no ftpd, no strange pop3/imap ports, lmtp, postfix reinjection.
+
+2008-07-04  Sascha Wilde  <wilde@intevation.de>
+
+	* kolabd.spec.in: changed `with_horde' default to "yes".
+
+2008-07-03  Marcus Hüwe <suse-tux@gmx.de>
+
+	* dist_conf/suse: provide correct value for spamassassin_confdir
+
+2008-07-03  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/master.cf.template.in: virtual_maps -> virtual_alias_maps.
+	See kolab/issue1895 (switch from virtual_maps to virtual_alias_maps)
+
+2008-06-26  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* kolab_bootstrap.in: Use Net::Domain to determine fqdn more reliably.
+	* kolab_bootstrap.in: Make sure suggested domain name contains a dot.
+
+2008-06-05  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/fbview.conf.template.in: Removed unused file.
+	* Makefile.am: Removed entry for fbview.conf.template.
+
+2008-05-29  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* kolabpasswd.in: fixed typo: passwod -> password
+
+2008-04-30  Sascha Wilde  <wilde@intevation.de>
+
+	* Makefile.am: Major cleanup: replaced lots of redundant rules by
+	two generalized ones.  (TODO: actually one should do...)
+
+2008-04-29  Sascha Wilde  <wilde@intevation.de>
+
+	* dist_conf/kolab (spamassassin_confdir): New variable.
+
+	* dist_conf/common (do_subst): Added `spamassassin_confdir'.
+
+	* templates/local.cf.template.in: New file with some rules similar
+	to what was done in 2.1 by patching spamassassin.
+
+	* Makefile.am (kolabtemplate_FILES): Added new local.cf template.
+
+2008-04-22  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/imapd.annotation_definitions.template.in:
+	Rename xfb-readable to pxfb-readable-for.
+
+2008-04-17  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/slapd.conf.template.in: move comment away from value.
+
+2008-04-04 Richard Bos <richard@radoeka.nl>
+
+	* templates/cyrus.conf.template.in: changed delprune from
+	  period=1440 to at=0400, (issue2436)
+
+2008-04-02  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/httpd.conf.template.in, templates/resmgr.conf.template.in:
+	Rename .xpfb to .pxfb.
+	Triggering .pfb generates partial extended fb, too.
+
+2008-03-19 Richard Bos <richard@radoeka.nl>
+
+	* dist_conf/common, dist_conf/centos-clarkconnect,
+	  dist_conf/debian, dist_conf/gentoo, dist_conf/kolab
+	  dist_conf/mandriva, dist_conf/suse: added variable
+	  smarty_compiledir=${phplibdir2}/${kolab_php_module_prefix}admin/templates_c
+	  See issue 2538
+
+2008-03-13  Sascha Wilde  <wilde@intevation.de>
+
+	* templates/resmgr.conf.template.in: Use https for freebusy_url.
+
+2008-03-07  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/httpd.conf.template.in: Enforce SSL for horde and fbview
+	and corrected Location entries for changed webserver_web_prefix and
+	kolab_wui.
+
+2008-03-06 Richard Bos <richard@radoeka.nl>
+
+	* kolab/issue2507
+	* templates/session_vars.php.template.in: changed TARGET path from
+	  a possible readonly location to @sysconfdir@/kolab
+
+2008-03-05  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/header_checks.template.in, templates/main.cf.template.in,
+	Makefile.am: Fix kolab/issue2350 (Email from buggy Lotus notes client
+	not accepted by Cyrus) and filter some MUA headers to not allow
+	receiving mails which are already marked as read, flagged, etc.
+
+	* kolab.globals.in, templates/imapd.conf.template.in:
+	Fix kolab/issue2358 (mistmatch between cyrus-admins and cyrus-admin)
+
+2008-03-03  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* kolab.conf, kolab.globals.in: moved default entry for
+	syslog_facility to kolab.globals (see kolab/issue2446)
+
+2008-02-23 Richard Bos <richard@radoeka.nl>
+	* kolab_bootstrap.in, templates/httpd.conf.template.in,
+	  dist_conf/common, dist_conf/centos-clarkconnect,
+	  dist_conf/debian, dist_conf/gentoo, dist_conf/kolab
+	  dist_conf/mandriva, dist_conf/suse: changed the hardcoded
+	  path to the web user interface (/admin) into a variable: kolab_wui.
+
+2008-02-20 Richard Bos <richard@radoeka.nl>
+	* templates/httpd.conf.template.in: added missing webserver_web_prefix
+
+2008-02-19  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* dist_conf/centos-clarkconnect, dist_conf/debian, dist_conf/gentoo,
+	dist_conf/kolab, dist_conf/suse: Fixed locations of graveyard_uidcache
+	and graveyard_tscache autoconf variables. This only affects
+	kolabdcachetool, as the locations are hardcoded in perl-kolab.
+	* templates/httpd.conf.template.in: Reenable downloading of
+	freebusy lists after the change as of 2008-02-09.
+
+2008-02-13 Richard Bos <richard@radoeka.nl>
+	* dist_conf/suse, dist_conf/common, dist_conf/kolab,
+	  dist_conf/centos-clarkconnect: changed the rpm suffix _rpm to _pkg
+	  so it better describes what it refers to, also for platforms that
+	  use another package management system.
+	* Added the variable kolab_pkgs to add more packages if needed.  This
+	  variable is used in the kolab-webadmin package
+
+2008-02-12 Marcus Hüwe <suse-tux@gmx.de>
+	* dist_conf/suse: corrected path to freshclam PidFile + other minor fixes
+
+2008-02-11 Richard Bos <richard@radoeka.nl>
+	* dist_conf/common, dist_conf/suse: added autoconf variables for the rpms:
+	  kolab-filter_rpm, kolab-freebusy_rpm, perl-kolab-conf_rpm,
+	  php-pear-kolab_filter_rpm and php-pear-kolab_freebusy_rpm
+
+2008-02-11  Sascha Wilde  <wilde@intevation.de>
+
+	* templates/resmgr.conf.template.in: Added 'privileged_networks',
+	  see kolab/issue2466.
+
+2008-02-09 Richard Bos <richard@radoeka.nl>
+	* templates/httpd.conf.template.in: removed webdav related configuration
+	  settings.  See: https://www.intevation.de/roundup/kolab/issue1686
+
+2008-02-07  Gunnar Wrobel  <p@rdus.de>
+
+	* namespace/libexec/generatefb.in:
+
+	Removed the script again because calling the script on the command
+	line destroys ownership of the cache. The recommended way is to
+	call the script via the web.
+
+	* Makefile.am (namespace/libexec/generatefb):
+
+	Removed the generatefb tool again.
+
+	* templates/httpd.conf.template.in:
+
+	Allow internal users (also manager) to log in via the apache
+	authentication (only relevant for free/busy).
+
+2008-02-06  Gunnar Wrobel  <p@rdus.de>
+
+	* namespace/libexec/generatefb.in (CLI_PASS):
+
+	Fix php.ini location as suggested by Richard Bos.
+
+	* Makefile.am (namespace/libexec/generatefb):
+
+	Add the new namespace script.
+
+	* namespace/libexec/generatefb.in:
+
+	Add a bash script for calling the new generatefb.php script
+
+2008-02-01 Richard Bos <richard@radoeka.nl>
+	* dist_conf/kolabsrv.in: changed the reference to the script itself
+	  to an autotools variable (@KOLABRC@).
+
+2008-01-31 Marcus Hüwe <suse-tux@gmx.de>
+	* dist_conf/kolabsrv.in: added getServiceName method to map distribution
+	  specific rc script names.
+	* dist_conf/suse: updated logfile locations + other fixes (now support for
+	  suse <= 10.1 is completely dropped)
+
+2008-01-28 Richard Bos <richard@radoeka.nl>
+	* kolabquotawarn.in: the quotawarn.db can not be opened on an
+	  openSUSE system, as a not-existing directory is used.  Use the
+	  correct autotools variable @kolab_statedir@ instead of
+	  @localstatedir@ to obtain the correct behavior.
+	* namespace/libexec/showlog.in: added missing log files and
+	  corrected 2 autotools variables @resmgr_logfile@ and
+	  @freebusy_logfile@ that where removed some time ago.
+
+2007-12-16 Richard Bos <richard@radoeka.nl>
+	* dist_conf/suse: the sasl2/smtp.conf location has changed, adapt to this.
+
+2007-12-04 Richard Bos <richard@radoeka.nl>
+	* templates/convert_resmgr_conf2config.pl: added.
+	  The script is to be used to convert the templates/resmgr.conf.template
+	  file into config.php, which is than to be copied to
+	  kolab-filter cvs module.
+
+2007-12-03  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* kolab_bootstrap.in, templates/resmgr.conf.template.in: Removed
+	resource password handling which is unused since server 2.1.
+
+2007-11-30  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/cyrus.conf.template.in:
+
+	kolab/issue2225 (notifyd logging going into fsl.log)
+
+	* templates/ldapdistlist.cf.template.in:
+
+	kolab/issue2206 (Multiple deliveries to distribution lists)
+
+2007-11-29  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/httpd.conf.template.in:
+
+	Reverted the fix for bug #1507. Read:
+
+	http://www.horde.org/horde/docs/?f=SECURITY.html
+
+	* templates/imapd.annotation_definitions.template.in:
+
+	Added /vendor/kolab/xfb-readable
+
+2007-11-29  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/resmgr.conf.template.in: lmpt -> lmtp, smpt -> smtp
+
+	* templates/resmgr.conf.template.in: Fixed connection addresses
+	for IMAP server and LMTP.
+
+2007-11-28  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/kolab.conf.template.in (calendar_id):
+
+	Rename "calendar_dn" to "calendar_id"
+
+	* kolab_bootstrap.in:
+
+	Use "calendar_id" instead of "calendar_pw"
+
+	* kolab.globals.in (calendar_id):
+
+	Added global calendar_id setting.
+
+2007-11-27  Gunnar Wrobel  <p@rdus.de>
+
+	* dist_conf/common:
+	* dist_conf/kolab:
+
+	resmgr_logfile is now resmgr_logdir.
+	resmgr_filterdir is now resmgr_tmpdir.
+
+	* templates/resmgr.conf.template.in:
+
+	Updated the template for the restructured kolab-filter package.
+
+2007-11-23  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/freebusy.conf.template.in:
+
+	Add remote_servers configuration variable.
+
+	* dist_conf/kolab (freebusy_cachedir):
+
+	Fixed cachedir location.
+
+2007-11-22  Gunnar Wrobel  <p@rdus.de>
+
+	* dist_conf/kolab (freebusy_logdir):
+	* dist_conf/common:
+
+	freebusy_logfile is now freebusy_logdir.
+
+	* templates/freebusy.conf.template.in:
+
+	Updated the template for the restructured kolab-freebusy package.
+
+2007-11-22  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/master.cf.template.in: Allow postfix smtp and smtps
+	to bind to a specific IP, too.
+
+2007-11-21  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/httpd.conf.template.in:
+
+	 kolab/issue2236 (Apache UID access broken)
+
+2007-11-07  Marcus Hüwe  <suse-tux@gmx.de>
+	* dist_conf/suse:
+	changed the location of the resmgr_confdir
+
+2007-11-07  Gunnar Wrobel  <p@rdus.de>
+
+	* kolabd.spec.in:
+	* Makefile.am (install-data-hook):
+	* templates/php.ini.template.in:
+	* dist_conf/common:
+
+	Added webserver_tmpdir
+
+2007-10-22  Marcus Hüwe  <suse-tux@gmx.de>
+
+	* dist_conf/suse:
+	changed the location of the smtpd.conf file (sasl_smtpconffile)
+
+	* dist_conf/kolabsrv.in:
+	replaced "apache" with "apache2". This file isn't used by the openpkg
+	installation so this change has no impact on it.
+
+2007-10-17  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* Makefile.am, kolab.globals.in, kolab2.schema, kolab_bootstrap.in,
+	kolabd.spec.in, dist_conf/centos-clarkconnect, dist_conf/common,
+	dist_conf/debian, dist_conf/gentoo, dist_conf/kolab,
+	dist_conf/mandriva, dist_conf/suse, namespace/libexec/showlog.in,
+	templates/rc.conf.template.in:
+	kolab/issue934 (Remove FTP FreeBusy Service (proftpd))
+
+	* templates/proftpd.conf.template.in: Removed.
+
+	* templates/httpd.conf.template.in: kolab/issue1686 (Remove WebDAV Support)
+
+2007-10-03  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/httpd.conf.template.in:
+
+	kolab/issue1796 (httpd.conf : MISSING Include "/kolab/etc/apache/apache.d/*.conf")
+	https://intevation.de/roundup/kolab/issue1796
+
+	* Makefile.am:
+
+	Add kolabquotareport.
+
+	See kolab/issue1811 (Spurious files in CVS, kolabd directory)
+	https://intevation.de/roundup/kolab/issue1811
+
+	* templates/main.cf.template.in (virtual_alias_maps):
+
+	Switched from virtual_maps to virtual_alias_maps.
+
+	See kolab/issue1895 (switch from virtual_maps to virtual_alias_maps)
+	https://intevation.de/roundup/kolab/issue1895
+
+	* templates/imapd.annotation_definitions.template.in:
+
+	Added additional "/vendor/horde/share-params" annotation for
+	extended shares in Horde.
+
+	* templates/imapd.conf.template.in (sieve_extensions):
+
+	Define this parameter for additional sieve extensions "body" and
+	"include".
+
+	See kolab/issue2038 (additional sieve extensions)
+	https://intevation.de/roundup/kolab/issue2038
+
+2007-08-05  Gunnar Wrobel  <p@rdus.de>
+
+	* kolabd.spec.in:
+
+	Added "with_horde" support.
+
+2007-08-02  Gunnar Wrobel  <p@rdus.de>
+
+	* kolabd.spec.in:
+
+	Ensure the php error dir gets the correct ownership.
+
+	* Makefile.am (install-data-hook):
+
+	Create a directory for php errors.
+
+	* dist_conf/common (do_subst):
+
+	Add the webserver_logdir in the replacement ops.
+
+	* templates/httpd.conf.template.in:
+
+	The "graphics" directory is now called "themes"
+
+	* templates/php.ini.template.in (error_reporting):
+
+	Log php errors into a file rather than displaying them.
+
+2007-08-01  Gunnar Wrobel  <p@rdus.de>
+
+	* Makefile.am:
+	* kolabd/kolabconf.in:
+	* kolab.globals.in :
+
+	Moved kolabconf in its own package and modified the global
+	configuration file so that it provides all necessary configuration
+	for the kolabconf script.
+
+2007-07-31  Gunnar Wrobel  <p@rdus.de>
+
+	* kolab.globals.in (kolab_locals):
+
+	Instead of rewriting variables within the perl-kolab library these
+	are now provided within kolab.globals.
+
+	* kolabcheckperm.in (Kolab):
+	* kolab_upgrade.in (Kolab):
+	* kolabquotawarn.in (Kolab):
+	* kolabquotareport.in (Kolab):
+	* kolabconf.in (Kolab):
+	* kolabd.in (Kolab):
+
+	Fixed reloadConfig call to contain the path to the global
+	configuration file.
+
+2007-07-27  Gunnar Wrobel  <p@rdus.de>
+
+	* kolabquotareport.in:
+	* kolabquotawarn.in:
+	* kolabd.in:
+	* kolab_upgrade.in:
+
+	Added statedir variable to the LDAP startup call.
+
+	* Makefile.am (kolabquotareport):
+
+	Made kolabquotareport a rewritten file (kolabquotareport.in)
+	The file does not get installed though.
+
+	* kolab.globals.in:
+	* dist_conf/*:
+
+	Added the kolabconf_script variable.
+
+	* Makefile.am (kolab.globals):
+
+	Made kolab.globals a rewritten file (kolab.globals.in)
+
+2007-07-26  Gunnar Wrobel  <p@rdus.de>
+
+	* Makefile.am:
+	* dirservnotify.in:
+	* dirservupdate.in:
+	* kolab.globals:
+	* kolabd.in:
+
+	Removing "dirserv"-support from kolabd. The corresponding
+	perl-module has been left untouched since its first import in
+	kolab CVS and still uses the very first Kolab schema. It does not
+	work at the moment. If somebody thinks this should be revived,
+	please revert and fix the corresponding Kolab::DirServ module.
+
+2007-07-26  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* templates/master.cf.template.in: Use spaces instead of tabs
+	for discard to match the style of other lines.
+
+2007-07-26  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/master.cf.template.in:
+
+	A Gentoo user notified me of missing services in the Gentoo
+	postfix configuration. I checked the Kolab-Server-2.2 postfix
+	configuration and "postfix upgrade-configuration" adds a missing
+	"discard" service. Added to the template.
+
+2007-06-27  Marcus Hüwe    <suse-tux@gmx.de>
+
+	* dist_conf/suse:
+
+	The emailserver_socket is stored in $(libexecdir) and not in $(libdir). This
+	fixes a x86_64 issue.
+
+2007-06-22  Marcus Hüwe    <suse-tux@gmx.de>
+
+	* Makefile.am, dirservnotify, dirservupdate:
+
+	autoconfiscated dirservnotify and dirservupdate. "dirservnotify" was renamed
+	to "dirservnotify.in" and "dirservupdate" was renamed to "dirservupdate.in".
+
+2007-06-21  Marcus Hüwe    <suse-tux@gmx.de>
+
+	* Makefile.am:
+	
+	fixed kolab/issue1805 (Uncleaned files in kolabd source package)
+	Added missing Makefile dependencies (pointed out by Peter Eisentraut)
+
+	fixed kolab/issue1804 (Several files apparently missing in kolabd 2.1.0 package)
+	"dirservnotify", "dirservupdate" and "kolabdcachetool" are a part of a normal
+	kolabd installation (they will be installed to $(kolab_scriptsdir))
+
+	* kolabd.spec.in:
+
+	removed "rm -rf $RPM_BUILD_ROOT" from the %install section as this opens
+	a possible race condition (see http://lists.opensuse.org/opensuse-packaging/2007-02/msg00005.html
+	for more information)
+
+	* kolabdcachetool.in:
+
+	autoconfiscated version of kolabdcachetool (renamed kolabdcachetool to
+	kolabdcachetool.in)
+
+2007-05-11  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/saslauthd.conf.template.in (ldap_bind_pw): 
+
+	kolab/issue1126 (ldap_simple_bind() failed and Domain/Realm not available)
+	https://intevation.de/roundup/kolab/issue1126
+	
+	Partial fix for this issue (should remove the "Domain/Realm not
+	available" message)
+
 2007-05-07  Gunnar Wrobel  <p@rdus.de>
 
 	* Makefile.am (ldapschema_FILES): 
@@ -35,7 +561,7 @@
 	Should fix
 	issue1609 (https://intevation.de/roundup/kolab/issue1609)
 
-2007-03-22  Marcus HÃ¼we    <suse-tux@gmx.de>
+2007-03-22  Marcus Hüwe    <suse-tux@gmx.de>
 
 	* templates/main.cf.template.in:
 
@@ -50,7 +576,7 @@
 	the kolabconf log. Resolves:
 	kolab/issue1638 (https://intevation.de/roundup/kolab/issue1638)
 
-2007-02-11 Marcus HÃ¼we <suse-tux@gmx.de>
+2007-02-11 Marcus Hüwe <suse-tux@gmx.de>
 	* dist_conf/suse, dist_conf/kolab/, dist_conf/common,
 	  dist_conf/gentoo: Added new variable TAR
 	* kolab_bootstrap.in: Added a condition to the slave setup so that
@@ -64,7 +590,7 @@
 2007-01-08 Richard Bos <richard@radoeka.nl>
 	* dist_conf/suse, dist_conf/kolab, dist_conf/common,
 	  dist_conf/gentoo, templates/virtual.template.in,
-          templates/transport.template.in: changed emailserver_transport_usr
+	  templates/transport.template.in: changed emailserver_transport_usr
 	  to emailserver_tables_usr.
 
 2006-12-15  Gunnar Wrobel  <wrobel@pardus.de>
@@ -84,7 +610,7 @@
 2006-11-14 Richard Bos <richard@radoeka.nl>
 	* dist_conf/suse, dist_conf/kolab, dist_conf/common,
 	  dist_conf/gentoo, templates/virtual.template.in,
-          templates/transport.template.in: Added a new variable 
+	  templates/transport.template.in: Added a new variable 
 	  emailserver_transport_usr
 
 2006-11-01  Gunnar Wrobel  <wrobel@pardus.de>
@@ -104,7 +630,7 @@
 	order to get the correct path under all distributions.
 	
 
-2006-10-02	Marcus HÃ¼we <suse-tux@gmx.de>
+2006-10-02	Marcus Hüwe <suse-tux@gmx.de>
 	* templates/slapd.conf.template.in: fixed issue1426 - thanks
 	Gunnar!
 
@@ -150,7 +676,7 @@
 	in Postfix 2.2), everything else is cleanup or commented out by
 	default.
 
-2006-04-13 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-04-13 Marcus Hüwe <suse-tux@gmx.de>
 	* templates/master.cf.template.in: replaced @bindir@/php with @PHP@
 	* dist_conf/suse: changed the location for the ldapserver_argsfile,
 	  ldapserver_pidfile and ldapserverslurpd_pidfile
@@ -160,7 +686,7 @@
 	  engine uses a real /freebusy directory on the filesystem before
 	  %{DOCUMENT_ROOT}/freebusy.  This may result in unexpected behaviour.
 
-2006-04-03 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-04-03 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* dist_conf/common, dist_conf/kolab, dist_conf/suse,
 	  templates/freebusy.conf.template.in: introduction of freebusy_usr
@@ -170,7 +696,7 @@
 	* templates/php.ini.template.in: use the variable phpini_dir instead
 	  of webserver_confdir.
 
-2006-03-26 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-03-26 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* dist_conf/{common,suse,kolab}, templates/main.cf.template.in:
 	  Introduced new variable @aliases_file@
@@ -179,13 +705,13 @@
 	* dist_conf/suse, dist_conf/kolab provide the correct values for
 	  the resmgr_scriptsdir variable.
 
-2006-03-20 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-03-20 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* dist_conf/common, dist_conf/kolab, dist_conf/suse,
 	  templates/master.cf.template.in: introduce a new variable phpini_dir
 	  for the directory that holds the php.ini file to be used.
 
-2006-03-16 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-03-16 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* dist_conf/suse: run as user kolab instead of nobody.
 
@@ -197,7 +723,7 @@
 	  In the old location the directory was not writable by the ldap
 	  daemon, in the new location /var/run/slapd/ it is.
 
-2006-03-02 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-03-02 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* dist_conf/common, dist_conf/kolab, dist_conf/suse,
 	  kolab_bootstrap.in, kolab_sslcert.sh.in: introduced a new
@@ -207,7 +733,7 @@
 	* dist_conf/kolab: Use amavisd.log instead of amavis.log as log file
 	  to fix logrotate in OpenPKG installation (Issue1015).
 
-2006-02-06 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-02-06 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* Makefile.am: create the kolab_statedir directory, during make.
 
@@ -234,7 +760,7 @@
 	  kolab-n and kolab-r!
 	  See https://intevation.de/roundup/kolab/issue1083
 
-2006-02-01 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-02-01 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* dist_conf/common,
 	  dist_conf/kolab,
@@ -247,14 +773,14 @@
 	  @amavisd_logfile@, see tracker:
 	  https://intevation.de/roundup/kolab/issue1088
 
-2006-01-31 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-01-31 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* dist_conf/common,
 	  dist_conf/kolab,
 	  dist_conf/suse,
 	  templates/kolab_smtpdpolicy.conf.template.in: added
 	  kolab_smtpdpolicy_conffile_usr and
-          kolab_smtpdpolicy_conffile_grp variables.
+	  kolab_smtpdpolicy_conffile_grp variables.
 
 2006-01-23 Richard Bos <richard@radoeka.nl>
 	* kolabquotawarn.in: removed \n in error string, seems redundant.
@@ -272,7 +798,7 @@
 	  emailserver_default_privs and emailserver_master_usr
 	  Remove variable emailserver_mail_usr, it is not used anymore
 
-2006-01-17 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-01-17 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* dist_conf/{common,kolab,suse}: introduced *_rpm variables and
 	  ldapserver_rgrp variable.
@@ -291,7 +817,7 @@
 	* templates/session_vars.php.template.in: use @webserver_musr@ instead
 	  of @kolab_musr@
 
-2006-01-15 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-01-15 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* dist_conf/common,
 	  dist_conf/kolab,
@@ -321,7 +847,7 @@
 	  use the real value 'kolab-r' instead
 	* kolab_sslcert.sh.in: replace restricted_kolab_grp with kolab_rgrp
 
-2006-01-14 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-01-14 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* configure.ac: replaced --enable-dist with --with-dist
 	  Added dist_conf file check.  If dist_conf file specified with
@@ -376,13 +902,13 @@
 	  kolabd's Makefile.am is updated for dist_conf sources.
 	  Added a distclean-local rule to remove the directory autom4te.cache
 
-2006-01-02 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-01-02 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* Makefile.am: changed kolabrc_FILE into kolabrc_DATA to fix
 	  bug issue1068; rc.kolabd need to be executable
 	  Thanks Marcus for providing the fix.
 
-2006-01-01 Marcus HÃ¼we <suse-tux@gmx.de>
+2006-01-01 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos, see issue1049
 	* dist_conf/debian: added (provided by  Benoit Mortier)
 	* dist_conf/suse, dist_conf/kolab, dist_conf/common: added backupdir
@@ -400,14 +926,14 @@
 	* dist_conf/suse: adjusted freebusy_cachedir to reflect the
 	  addition of webserver_web_prefix
 
-2005-12-30 Marcus HÃ¼we <suse-tux@gmx.de>
+2005-12-30 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos, see issue1049
 	* templates/resmgr.conf.template.in,
 	  templates/fbview.conf.template.in: added
 	  @webserver_web_prefix@ (we did what Mandriva already had done!)
 	* dist_conf/{kolab,suse,common}: added @webserver_web_prefix@
 
-2005-12-30 Marcus HÃ¼we <suse-tux@gmx.de>
+2005-12-30 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos, see issue1047
 	* dist_conf/{kolab,suse}: added KOLABRC variable
 	* kolab_bootstrap.in: replaced @bindir@/openpkg with @KOLABRC@
@@ -452,7 +978,7 @@
 	* Makefile.am: make kolabpasswd executable for non OPENPKG distributions
 	  as well
 
-2005-12-22 Marcus HÃ¼we <suse-tux@gmx.de>
+2005-12-22 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* dist_conf/suse: changed perllib from site_perl to vendor_perl
 	  changed pkgdocdir from ${datadir}/doc/packages to
@@ -469,7 +995,7 @@
 	  that the variable BASH does not get updated in configure, as it is
 	  already set by bash itself....)
 
-2005-12-18 Marcus HÃ¼we <suse-tux@gmx.de>
+2005-12-18 Marcus Hüwe <suse-tux@gmx.de>
 	Patch committed by Richard Bos
 	* Makefile.am: removed redundant prefix dist_
 	  Removed commented out lines
@@ -477,7 +1003,7 @@
 2005-12-17 Richard Bos <richard@radoeka.nl>
 	* dist_conf/common: added @ftpserver_pidfile@
 
-2005-12-17 Richard Bos <richard@radoeka.nl> and Marcus HÃ¼we <suse-tux@gmx.de>
+2005-12-17 Richard Bos <richard@radoeka.nl> and Marcus Hüwe <suse-tux@gmx.de>
 	* configure.ac: added --enable/--disable-openpkg configure options,
 	  by default openpkg is enabled.  When disabled, the files kolab,
 	  namespace/kolab and rc.kolabd are not distributed as they are
@@ -571,7 +1097,7 @@
 	  in phplibdir2
 	* Makefile.am: added kolab_upgrade
 
-2005-11-27 Marcus HÃ¼we <suse-tux@gmx.de>
+2005-11-27 Marcus Hüwe <suse-tux@gmx.de>
 	* dist_conf/common: altered bash_exec, perl_exec to respectively:
 	  BASH and PERL.
 	  Added: PHP, freebusy_cachefile and resmgr_filter in preparation for

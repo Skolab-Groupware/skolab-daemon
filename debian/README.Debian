@@ -60,7 +60,16 @@ which will figure all this out automatically.
 2. Bootstrap
 ------------
 
-Run
+Stop all daemons:
+
+# /etc/init.d/apache2 stop
+# /etc/init.d/kolabd stop
+# /etc/init.d/kolab-cyrus stop
+# /etc/init.d/postfix stop
+# /etc/init.d/saslauthd stop
+# /etc/init.d/slapd stop
+
+Run:
 
 # kolab_bootstrap -b
 
@@ -70,34 +79,26 @@ check in /etc/kolab/templates/ for which files might be overwritten in
 what way.
 
 After kolab_bootstrap has finished, you can start all the daemons
-again that kolab_bootstrap had asked you to stop, in particular slapd,
-saslauthd, kolab-cyrus, and kolabd, ideally in that order.
+again:
+
+/etc/init.d/slapd start
+/etc/init.d/saslauthd start
+/etc/init.d/postfix start
+/etc/init.d/kolab-cyrus start
+/etc/init.d/kolabd start
+/etc/init.d/apache2 start
+
 
 You can test afterwards whether authentication is working as expected
 by using the testsaslauthd command, e.g.,
 
-# testsaslauthd -u manager -p PASSWORD.
+# testsaslauthd -u manager localhost.
 
 using the password that you configured in kolab_bootstrap.
 
 -------------------------------------------------------------------------------
 
-3. Cyrus IMAP Server
---------------------
-
-If everything is running and authentication is working, then you can
-start creating mailboxes:
-
-# cyradm --user manager localhost
-IMAP Password:
-              localhost> cm user/username@example.com
-localhost>
-
-At this point you are ready to access the Kolab accounts.
-
--------------------------------------------------------------------------------
-
-4. Web Administration Frontend
+3. Web Administration Frontend
 -------------------------------
 
 If you want the Web Administration frontend, install the package
@@ -106,7 +107,7 @@ instructions.
 
 -------------------------------------------------------------------------------
 
-5. Enabling TLS for IMAP
+4. Enabling TLS for IMAP
 ------------------------
 
 If you are planning to use the Toltec Groupware Connector, you will
@@ -131,7 +132,7 @@ tls_key_file: /etc/ssl/certs/cyrus.pem
 
 -------------------------------------------------------------------------------
 
-6. Troubleshooting
+5. Troubleshooting
 ------------------
 
 If there are strange DB_ERROR entries in the /var/log/mail.log file

@@ -1,0 +1,84 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 86-slapd-syncrepl-24.dpatch by  <math.parent@gmail.com>
+##
+## DP: Purpose : enable syncrepl instead of slurpd
+
+@DPATCH@
+diff -urNad kolabd-2.1.99+20080204.dfsg~/kolab_bootstrap.in kolabd-2.1.99+20080204.dfsg/kolab_bootstrap.in
+--- kolabd-2.1.99+20080204.dfsg~/kolab_bootstrap.in	2008-03-15 10:11:23.000000000 +0100
++++ kolabd-2.1.99+20080204.dfsg/kolab_bootstrap.in	2008-03-15 10:11:23.000000000 +0100
+@@ -795,14 +795,32 @@
+   chmod 0600, $kolab_config;
+   kolab_chown "@kolab_musr@","@kolab_mgrp@",$kolab_config;
+ 
+-  print << 'EOS';
++  ######################################################
++  # code needed for slurpd, it can be removed when
++  # kolab has fully switched to syncrepl.
++  my $directory_mode = "";
++  my $kolab_globals = "@sysconfdir@/kolab/kolab.globals";
++  my $fd = IO::File->new($kolab_globals, "r")
++    || die "could not open $kolab_globals";
++  foreach (<$fd>) {
++    if (/(.*) : (.*)/) {
++      if ($1 eq "directory_mode") { $directory_mode = $2};
++    }
++  }
++
++  if ($directory_mode ne "syncrepl" and $directory_mode ne "sync") {
++    print << 'EOS';
+ Now the master server needs to be stopped briefly while the contents of the LDAP database
+ is copied over to this slave. Please make sure that this slave is entered into the list 
+ of kolabhosts on the master before proceeding.
+ EOS
+-  kolab_system("ssh -CA $master_host /etc/init.d/slapd stop");
+-  kolab_system("ssh -CA $master_host @TAR@ -C @ldapserver_statedir@ -pcf - openldap-data | @TAR@ -C @ldapserver_statedir@ -pxf -");
+-  kolab_system("ssh -CA $master_host /etc/init.d/slapd start");
++    kolab_system("ssh -CA $master_host /etc/init.d/slapd stop");
++    kolab_system("ssh -CA $master_host @TAR@ -C @ldapserver_statedir@ -pcf - openldap-data | @TAR@ -C @ldapserver_statedir@ -pxf -");
++    kolab_system("ssh -CA $master_host /etc/init.d/slapd start");
++  }
++  # slurpd support
++  ######################################################
++  
+ 
+   # FIXME: we should get rid of this construct because it makes the code hard to read.
+   #        A if (-e @sysconfdir@/rc.conf) statement should be enough.
+diff -urNad kolabd-2.1.99+20080204.dfsg~/templates/slapd.conf.template.in kolabd-2.1.99+20080204.dfsg/templates/slapd.conf.template.in
+--- kolabd-2.1.99+20080204.dfsg~/templates/slapd.conf.template.in	2008-03-15 10:11:23.000000000 +0100
++++ kolabd-2.1.99+20080204.dfsg/templates/slapd.conf.template.in	2008-03-15 10:12:16.000000000 +0100
+@@ -24,10 +24,7 @@
+ #include @ldapserver_schemadir@/horde.schema
+ 
+ pidfile		@ldapserver_pidfile@
+-replica-pidfile	@ldapserverslurpd_pidfile@
+ argsfile	@ldapserver_argsfile@
+-replogfile      @ldapserver_replogfile@
+-replicationinterval 5
+ 
+ #schemacheck doesn't exists in debian's slapd 2.4
+ #schemacheck 	       on
+@@ -66,6 +63,23 @@
+         bindmethod=simple 
+ 	credentials=secret
+ 
++#### Provide the modern syncprov/syncrepl method of ldap replication
++# This database is a synchronisation provider
++# Note that a database can be both a consumer and a provider 
++moduleload      syncprov
++overlay syncprov
++# Guarantee that contextCSN gets written.
++syncprov-checkpoint  1024 16
++# Save a log of last write operations
++syncprov-sessionlog 4096
++# Support delta-based syncrepl
++syncprov-reloadhint TRUE
++# Put an index on attributes used for synchronisation
++# Note that these indexes are used locally both for server and client 
++# during synchronisation.
++index entryCSN eq
++index entryUUID eq
++
+ #### Using overlays to improve data consistency
+ # Ensure that we never get dangling member attributes
+ # Checked on rename and delete

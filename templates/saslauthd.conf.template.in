@@ -26,6 +26,9 @@ ldap_bind_pw: @@@user_bind_pw@@@
 #        Specify the password for ldap_bind_dn.  Do not specify this parameter
 #        for the anonymous bind.
 
+# Avoid the "Domain/Realm not available" error message
+ldap_default_realm: @@@postfix-mydomain@@@
+
 ldap_version: 3
 #ldap_version: <3> <2|3>
 #        Specify the LDAP protocol version to use.

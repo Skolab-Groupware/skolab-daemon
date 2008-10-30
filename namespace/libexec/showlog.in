@@ -23,18 +23,22 @@ fi
 
 #list of logfiles, maintainers please update
 logfiles="
-@ftpserver_logfile@
 @amavisd_logfile@
+@freshclam_logfile@
 @fsl_logfile@
 @sasl_logfile@
-@resmgr_logfile@
-@freebusy_logfile@
+@resmgr_logdir@/resmgr.log
+@resmgr_logdir@/filter.log
+@resmgr_logdir@/fatal.log
+@freebusy_logdir@/freebusy.log
+@fbview_logfile@
 @clamav_logfile@
 @imap_masterlogfile@
 @imap_misclogfile@
 @webserver_errorlogfile@
 @webserver_accesslogfile@
 @ldapserver_logfile@
+@ldapserver_replogfile@
 @emailserver_logfile@
 "
 

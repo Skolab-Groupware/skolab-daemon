@@ -12,4 +12,6 @@ use Kolab;
 use Kolab::Util;
 use Kolab::Conf;
 
+Kolab::reloadConfig("@sysconfdir@/kolab/kolab.globals");
+
 exit( Kolab::Conf::checkPermissions>0?0:-1 );

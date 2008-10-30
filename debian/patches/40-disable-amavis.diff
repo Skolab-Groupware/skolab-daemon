@@ -1,0 +1,18 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 40-disable-amavis.dpatch by  <math.parent@gmail.com>
+##
+## DP: amavis is only suggested, so disable by default
+
+@DPATCH@
+diff -urNad kolabd-2.1.99+20080204.dfsg~/kolab_bootstrap.in kolabd-2.1.99+20080204.dfsg/kolab_bootstrap.in
+--- kolabd-2.1.99+20080204.dfsg~/kolab_bootstrap.in	2008-02-29 14:47:55.000000000 +0100
++++ kolabd-2.1.99+20080204.dfsg/kolab_bootstrap.in	2008-02-29 14:48:30.000000000 +0100
+@@ -540,7 +540,7 @@
+         'postfix-mynetworks' => $mynetworkinterfaces,
+         #'postfix-relayhost' => "",
+         #'postfix-transport' => "",
+-        'postfix-enable-virus-scan' => "TRUE",
++        'postfix-enable-virus-scan' => "FALSE",
+         'cyrus-autocreatequota' => 100000,
+         'cyrus-quotawarn' => 80,
+         'cyrus-admins' => "manager",

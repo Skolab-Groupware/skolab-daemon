@@ -26,11 +26,23 @@ START {
 
 # UNIX sockets start with a slash and are put into /openpkg/var/imapd/sockets
 SERVICES {
-  @@@cyrus-imap@@@
-  @@@cyrus-imaps@@@
-  @@@cyrus-pop3@@@
-  @@@cyrus-pop3s@@@
-  @@@cyrus-sieve@@@
+@@@if cyrus-imap@@@
+  imap cmd="imapd -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:143" prefork=0
+@@@else@@@
+  imap cmd="imapd -C @imap_confdir@/imapd.conf" listen="@@@local_addr@@@:143" prefork=0
+@@@endif@@@
+@@@if cyrus-imaps@@@
+  imaps cmd="imapd -s -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:993" prefork=0
+@@@endif@@@
+@@@if cyrus-pop3@@@
+  pop3 cmd="pop3d -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:110" prefork=0
+@@@endif@@@
+@@@if cyrus-pop3s@@@
+  pop3s cmd="pop3d -s -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:995" prefork=0
+@@@endif@@@
+@@@if cyrus-sieve@@@
+  sieve cmd="timsieved -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:2000" prefork=0
+@@@endif@@@
 
 #@@@if is-master@@@
 #  mupdate       cmd="mupdate -m" listen=3905 prefork=1
@@ -38,10 +50,10 @@ SERVICES {
 
   # LMTP is required for delivery
   lmtpunix	cmd="lmtpd" listen="@emailserver_socket@" prefork=0
-  lmtp          cmd="lmtpd -a" listen="127.0.0.1:2003"
+  lmtp          cmd="lmtpd -a" listen="@@@local_addr@@@:2003"
 
   # this is only necessary if using notifications
-  notify	cmd="notifyd" listen="@imap_notify_socket@" proto="udp" prefork=1
+  notifyd	cmd="notifyd" listen="@imap_notify_socket@" proto="udp" prefork=1
 }
 
 EVENTS {
@@ -49,7 +61,7 @@ EVENTS {
   checkpoint	cmd="ctl_cyrusdb -c" period=30
 
   # this is only necessary if using duplicate delivery suppression
-  delprune	cmd="cyr_expire -E 3" period=1440
+  delprune	cmd="cyr_expire -E 3" at=0400
 
   # this is only necessary if caching TLS sessions
   tlsprune	cmd="tls_prune" period=1440

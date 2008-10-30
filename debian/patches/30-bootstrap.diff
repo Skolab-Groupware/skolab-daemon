@@ -4,49 +4,18 @@
 ## DP: Fixups for Debian
 
 @DPATCH@
-diff -urNad kolabd-2.1.0-20070510.dfsg~/kolab_bootstrap.in kolabd-2.1.0-20070510.dfsg/kolab_bootstrap.in
---- kolabd-2.1.0-20070510.dfsg~/kolab_bootstrap.in	2007-02-11 15:47:51.000000000 +0100
-+++ kolabd-2.1.0-20070510.dfsg/kolab_bootstrap.in	2007-07-30 13:44:24.000000000 +0200
-@@ -21,6 +21,7 @@
+diff -urNad kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in kolabd-2.2.0-20080709.dfsg/kolab_bootstrap.in
+--- kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in	2008-10-27 18:26:09.000000000 +0100
++++ kolabd-2.2.0-20080709.dfsg/kolab_bootstrap.in	2008-10-27 18:28:24.000000000 +0100
+@@ -22,6 +22,7 @@
  use Net::LDAP::Entry;
  use Net::Netmask;
  use File::Copy;
 +use File::Path;
  use Getopt::Std;
- use Sys::Hostname;
  use Term::ReadKey;
-@@ -49,19 +50,19 @@
- sub myhostname {
-   my $host = '';
-   # FIXME: hardcoded - maybe fixed later
--  if( open( HOSTNAME, '/etc/HOSTNAME' ) ) {
--    $host = <HOSTNAME>;
--    chomp $host;
--    close( HOSTNAME );
--  }
-+#  if( open( HOSTNAME, '/etc/HOSTNAME' ) ) {
-+#    $host = <HOSTNAME>;
-+#    chomp $host;
-+#    close( HOSTNAME );
-+#  }
-   # FIXME: hardcoded - maybe fixed later
--  if( open( HOSTNAME, '/etc/hostname' ) ) {
--    $host = <HOSTNAME>;
--    chomp $host;
--    close( HOSTNAME );
--  }
-+#  if( open( HOSTNAME, '/etc/hostname' ) ) {
-+#    $host = <HOSTNAME>;
-+#    chomp $host;
-+#    close( HOSTNAME );
-+#  }
-   if( $host eq '' ) {
--    $host = `hostname`;
-+    $host = `hostname --fqdn`;
-   }
-   return $host;
- }
-@@ -90,7 +91,7 @@
+ use Time::Local;
+@@ -69,7 +70,7 @@
      print ("Error: Found $name running on Port $port\n");
      print ("Check your installation!\n");
      print ("You must stop the service $name before running Kolab\n");
@@ -55,7 +24,16 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/kolab_bootstrap.in kolabd-2.1.0-20070510
      exit 1;
    }
  }
-@@ -226,7 +227,7 @@
+@@ -181,7 +182,7 @@
+ 
+ print ("Excellent all required Ports are available!\n");
+ 
+-system("@sbindir@/slapcat >/dev/null 2>&1");
++system("su  --shell /bin/sh --command @sbindir@/slapcat @ldapserver_usr@ >/dev/null 2>&1");
+ if ($?==0) {
+   print ("\nFound existing configuration\n");
+   print "\nBootstrapping Kolab will overwrite old configuration\n";
+@@ -203,7 +204,7 @@
    }
    my $epochseconds = timelocal(gmtime);
    my $backupdir="@backupdir@/backup".$epochseconds;
@@ -64,7 +42,7 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/kolab_bootstrap.in kolabd-2.1.0-20070510
  
    print "creating backup of LDAP repository\n";
    system("cp -pRP \"@ldapserver_dir@\" \"$backupdir/openldap-data\"");
-@@ -396,8 +397,23 @@
+@@ -375,8 +376,23 @@
    };
  
    my $confname = "@sasl_smtpconffile@";
@@ -88,7 +66,7 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/kolab_bootstrap.in kolabd-2.1.0-20070510
    getopts('b');
  
    if ($opt_b) {
-@@ -437,6 +453,7 @@
+@@ -418,6 +434,7 @@
        undef $slpd;
        undef $tmpl;
        kolab_chown "@ldapserver_usr@","@ldapserver_grp@","@ldapserver_confdir@/slapd.conf";
@@ -96,7 +74,7 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/kolab_bootstrap.in kolabd-2.1.0-20070510
        
        my $tmplname = "@sysconfdir@/kolab/templates/slapd.replicas.template";
        $confname = "@ldapserver_confdir@/slapd.replicas";
-@@ -485,7 +502,7 @@
+@@ -466,7 +483,7 @@
        $ldap_uri = "ldap://127.0.0.1:389/";
        # ensure that the database has correct permissions
        system("chown @ldapserver_rusr@:@ldapserver_grp@ @ldapserver_dir@/*");
@@ -105,7 +83,7 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/kolab_bootstrap.in kolabd-2.1.0-20070510
        print ("Waiting for OpenLDAP to start\n");
        sleep 10;
  
-@@ -654,7 +671,7 @@
+@@ -632,7 +649,7 @@
  
     if ($ldap_uri =~ /127\.0\.0\.1/ || $ldap_uri =~ /localhost/) {
        print "\nkill temporary slapd\n\n";
@@ -114,7 +92,7 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/kolab_bootstrap.in kolabd-2.1.0-20070510
        sleep 1; # actually race should be impossible
        system("killall -9 slapd >/dev/null 2>&1");
     }
-@@ -721,7 +738,7 @@
+@@ -680,7 +697,7 @@
    ##### Slave server setup
  
    print "stop running slapd (if any)\n";
@@ -123,7 +101,7 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/kolab_bootstrap.in kolabd-2.1.0-20070510
  
    # Make sure that no rogue demons are running
    tryConnect( '127.0.0.1', 389 ) && die "A process is already listening to port 389 (ldap)\n"
-@@ -839,9 +856,9 @@
+@@ -800,9 +817,9 @@
  is copied over to this slave. Please make sure that this slave is entered into the list 
  of kolabhosts on the master before proceeding.
  EOS
@@ -135,11 +113,20 @@ diff -urNad kolabd-2.1.0-20070510.dfsg~/kolab_bootstrap.in kolabd-2.1.0-20070510
  
    # FIXME: we should get rid of this construct because it makes the code hard to read.
    #        A if (-e @sysconfdir@/rc.conf) statement should be enough.
-@@ -939,6 +956,6 @@
+@@ -869,6 +886,8 @@
+   }
+ 
+   kolab_system("@sbindir@/kolabconf -n");
++  #run postfix newaliases
++  kolab_system("@bindir@/newaliases");
+ 
+   $fd = IO::File->new($kolab_config, "w+") || die "could not open $kolab_config";
+   print $fd "fqdnhostname : $fqdn\n";
+@@ -891,6 +910,6 @@
  
  #system("@sysconfdir@/kolab/kolab_sslcert.sh $fqdn");
  print "kolab is now ready to run!\n";
 -print "please run '@KOLABRC@ rc all start'\n";
 +print "please restart all the daemons\n";
  print ("Use login=manager and passwd=$bind_pw when you log into\n");
- print ("the webinterface https://$fqdn@webserver_web_prefix@/admin !\n");
+ print ("the webinterface https://$fqdn@kolab_wui@ !\n");

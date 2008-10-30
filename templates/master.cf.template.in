@@ -18,7 +18,7 @@ KOLAB_META_END
 # service type  private unpriv  chroot  wakeup  maxproc command + args
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
-smtp      inet  n       -       n       -       -       smtpd
+@@@bind_addr@@@:smtp      inet  n       -       n       -       -       smtpd
 #628      inet  n       -       n       -       -       qmqpd
 pickup    fifo  n       -       n       60      1       pickup
 cleanup   unix  n       -       n       -       0       cleanup
@@ -34,27 +34,30 @@ proxymap  unix  -       -       n       -       -       proxymap
 smtp      unix  -       -       n       -       -       smtp
 relay     unix  -       -       n       -       -       smtp -o fallback_relay=
 showq     unix  n       -       n       -       -       showq
+discard   unix  -       -       n       -       -       discard
 error     unix  -       -       n       -       -       error
+retry     unix  -       -       n       -       -       error
 local     unix  -       n       n       -       -       local
 #virtual   unix  -       n       n       -       -       virtual
 lmtp      unix  -       -       n       -       -       lmtp
 anvil     unix  -       -       n       -       1       anvil
 scache    unix  -       -       n       -       1       scache
+#maildrop unix  -       n       n       -       -       pipe flags=DRhu user=vmail argv=@bindir@/maildrop -d ${recipient}
 #cyrus    unix  -       n       n       -       -       pipe user=cyrus argv=@bindir@/cyrdeliver -e -r ${sender} -m ${extension} ${user}
 #uucp     unix  -       n       n       -       -       pipe flags=Fqhu user=uucp argv=@bindir@/uux -r -n -z -a$sender - $nexthop!rmail ($recipient)
 #ifmail   unix  -       n       n       -       -       pipe flags=F user=ftn argv=@bindir@/ifmail -r $nexthop ($recipient)
 #bsmtp    unix  -       n       n       -       -       pipe flags=Fq. user=foo argv=@bindir@/bsmtp -f $sender $nexthop $recipient
-465       inet  n       -       n       -       -       smtpd -o smtpd_tls_wrappermode=yes -o smtpd_sasl_auth_enable=yes 
-post-cleanup unix  n    -       n       -       0       cleanup -o virtual_maps=
+@@@bind_addr@@@:465       inet  n       -       n       -       -       smtpd -o smtpd_tls_wrappermode=yes -o smtpd_sasl_auth_enable=yes 
+post-cleanup unix  n    -       n       -       0       cleanup -o virtual_alias_maps=
 smtp-amavis unix -	-	n	-	2       smtp
     -o smtp_data_done_timeout=1200
     -o smtp_send_xforward_command=yes
     -o disable_dns_lookups=yes
 # SMTP interface for injecting mail back into postfix
 # from kolabfilter
-127.0.0.1:10025 inet n	-	n	-	-  smtpd
+@@@local_addr@@@:10025 inet n	-	n	-	-  smtpd
 @@@if postfix-enable-virus-scan@@@
-    -o content_filter=smtp-amavis:[127.0.0.1]:10024
+    -o content_filter=smtp-amavis:[@@@local_addr@@@]:10024
 @@@else@@@
     -o content_filter=
 @@@endif@@@
@@ -74,7 +77,7 @@ smtp-amavis unix -	-	n	-	2       smtp
     -o smtpd_hard_error_limit=1000
 # SMTP interface for injecting mail back into postfix
 # from amavis
-127.0.0.1:10026 inet n	-	n	-	-  smtpd
+@@@local_addr@@@:10026 inet n	-	n	-	-  smtpd
     -o content_filter=
     -o cleanup_service_name=post-cleanup
     -o local_recipient_maps=
@@ -91,7 +94,7 @@ smtp-amavis unix -	-	n	-	2       smtp
     -o smtpd_hard_error_limit=1000
 kolabpolicy    unix  -       n       n       -       -       spawn user=@emailserver_master_usr@ argv=@kolab_scriptsdir@/kolab_smtpdpolicy 
 
-kolabfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ flags=n argv=@PHP@
+kolabfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ null_sender= argv=@PHP@
     -c @phpini_dir@/php.ini
     -f @resmgr_scriptsdir@/kolabfilter.php 
     --
@@ -101,7 +104,7 @@ kolabfilter     unix  -       n       n       -       -       pipe user=@emailse
     -c ${client_address}
     -u ${sasl_username}
 
-kolabmailboxfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ flags=n argv=@PHP@
+kolabmailboxfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ null_sender= argv=@PHP@
     -c @phpini_dir@/php.ini
     -f @resmgr_scriptsdir@/kolabmailboxfilter.php 
     --

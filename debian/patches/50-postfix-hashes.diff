@@ -1,0 +1,115 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 50-postfix-hashes.dpatch by Mathieu Parent <math.parent@gmail.com>
+##
+## DP: Postfix hashes templates
+
+@DPATCH@
+diff -urNad kolabd-2.1.99-20080521.dfsg.obsolete.0.329789713797258~/Makefile.am kolabd-2.1.99-20080521.dfsg.obsolete.0.329789713797258/Makefile.am
+--- kolabd-2.1.99-20080521.dfsg.obsolete.0.329789713797258~/Makefile.am	2008-04-30 14:48:47.000000000 +0200
++++ kolabd-2.1.99-20080521.dfsg.obsolete.0.329789713797258/Makefile.am	2008-05-25 12:14:20.000000000 +0200
+@@ -39,7 +39,9 @@
+ dist_kolabconfig_DATA = $(kolabconfig_FILES)
+ 
+ 
+-kolabtemplate_FILES = templates/amavisd.conf.template \
++kolabtemplate_FILES = templates/access.template \
++	templates/amavisd.conf.template \
++	templates/canonical.template \
+ 	templates/clamd.conf.template \
+ 	templates/cyrus.conf.template \
+ 	templates/DB_CONFIG.slapd.template \
+@@ -61,6 +63,7 @@
+ 	templates/ldapvirtual.cf.template \
+ 	templates/kolab_smtpdpolicy.conf.template \
+ 	templates/php.ini.template \
++	templates/relocated.template \
+ 	templates/resmgr.conf.template \
+ 	templates/saslauthd.conf.template \
+ 	templates/session_vars.php.template \
+diff -urNad kolabd-2.1.99-20080521.dfsg.obsolete.0.329789713797258~/Makefile.in kolabd-2.1.99-20080521.dfsg.obsolete.0.329789713797258/Makefile.in
+--- kolabd-2.1.99-20080521.dfsg.obsolete.0.329789713797258~/Makefile.in	2008-05-21 17:35:44.000000000 +0200
++++ kolabd-2.1.99-20080521.dfsg.obsolete.0.329789713797258/Makefile.in	2008-05-25 12:15:38.000000000 +0200
+@@ -190,7 +190,9 @@
+ 
+ kolabconfigdir = $(kolabconfdir)
+ dist_kolabconfig_DATA = $(kolabconfig_FILES)
+-kolabtemplate_FILES = templates/amavisd.conf.template \
++kolabtemplate_FILES = templates/access.template \
++	templates/amavisd.conf.template \
++	templates/canonical.template \
+ 	templates/clamd.conf.template \
+ 	templates/cyrus.conf.template \
+ 	templates/DB_CONFIG.slapd.template \
+@@ -212,6 +214,7 @@
+ 	templates/ldapvirtual.cf.template \
+ 	templates/kolab_smtpdpolicy.conf.template \
+ 	templates/php.ini.template \
++	templates/relocated.template \
+ 	templates/resmgr.conf.template \
+ 	templates/saslauthd.conf.template \
+ 	templates/session_vars.php.template \
+diff -urNad kolabd-2.1.99+20080314.dfsg~/templates/access.template.in kolabd-2.1.99+20080314.dfsg/templates/access.template.in
+--- kolabd-2.1.99+20080314.dfsg~/templates/access.template.in	1970-01-01 01:00:00.000000000 +0100
++++ kolabd-2.1.99+20080314.dfsg/templates/access.template.in	2008-04-03 23:34:27.000000000 +0200
+@@ -0,0 +1,14 @@
++KOLAB_META_START
++TARGET=@emailserver_confdir@/access
++PERMISSIONS=0640
++OWNERSHIP=@emailserver_tables_usr@:@emailserver_grp@
++RUNONCHANGE=/usr/sbin/postmap -o @emailserver_confdir@/access
++KOLAB_META_END
++# (c) 2008 Mathieu Parent <math.parent@gmail.com>
++# This program is Free Software under the GNU General Public License (>=v2).
++# Read the file COPYING that comes with this packages for details.
++
++# this file is automatically written by the Kolab config backend
++# manual additions are lost unless made to the template in the Kolab config
++# directory
++# The template is  @sysconfdir@/kolab/templates/access.template
+diff -urNad kolabd-2.1.99+20080314.dfsg~/templates/canonical.template.in kolabd-2.1.99+20080314.dfsg/templates/canonical.template.in
+--- kolabd-2.1.99+20080314.dfsg~/templates/canonical.template.in	1970-01-01 01:00:00.000000000 +0100
++++ kolabd-2.1.99+20080314.dfsg/templates/canonical.template.in	2008-04-03 23:34:27.000000000 +0200
+@@ -0,0 +1,14 @@
++KOLAB_META_START
++TARGET=@emailserver_confdir@/canonical
++PERMISSIONS=0640
++OWNERSHIP=@emailserver_tables_usr@:@emailserver_grp@
++RUNONCHANGE=/usr/sbin/postmap -o @emailserver_confdir@/canonical
++KOLAB_META_END
++# (c) 2008 Mathieu Parent <math.parent@gmail.com>
++# This program is Free Software under the GNU General Public License (>=v2).
++# Read the file COPYING that comes with this packages for details.
++
++# this file is automatically written by the Kolab config backend
++# manual additions are lost unless made to the template in the Kolab config
++# directory
++# The template is  @sysconfdir@/kolab/templates/canonical.template
+diff -urNad kolabd-2.1.99+20080314.dfsg~/templates/relocated.template.in kolabd-2.1.99+20080314.dfsg/templates/relocated.template.in
+--- kolabd-2.1.99+20080314.dfsg~/templates/relocated.template.in	1970-01-01 01:00:00.000000000 +0100
++++ kolabd-2.1.99+20080314.dfsg/templates/relocated.template.in	2008-04-03 23:34:27.000000000 +0200
+@@ -0,0 +1,14 @@
++KOLAB_META_START
++TARGET=@emailserver_confdir@/relocated
++PERMISSIONS=0640
++OWNERSHIP=@emailserver_tables_usr@:@emailserver_grp@
++RUNONCHANGE=/usr/sbin/postmap -o @emailserver_confdir@/relocated
++KOLAB_META_END
++# (c) 2008 Mathieu Parent <math.parent@gmail.com>
++# This program is Free Software under the GNU General Public License (>=v2).
++# Read the file COPYING that comes with this packages for details.
++
++# this file is automatically written by the Kolab config backend
++# manual additions are lost unless made to the template in the Kolab config
++# directory
++# The template is  @sysconfdir@/kolab/templates/relocated.template
+diff -urNad kolabd-2.1.99+20080314.dfsg~/templates/virtual.template.in kolabd-2.1.99+20080314.dfsg/templates/virtual.template.in
+--- kolabd-2.1.99+20080314.dfsg~/templates/virtual.template.in	2008-04-03 23:34:07.000000000 +0200
++++ kolabd-2.1.99+20080314.dfsg/templates/virtual.template.in	2008-04-03 23:35:10.000000000 +0200
+@@ -2,6 +2,7 @@
+ TARGET=@emailserver_confdir@/virtual
+ PERMISSIONS=0640
+ OWNERSHIP=@emailserver_tables_usr@:@emailserver_grp@
++RUNONCHANGE=/usr/sbin/postmap -o @emailserver_confdir@/virtual
+ KOLAB_META_END
+ # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
+ # (c) 2003 Martin Konold <martin.konold@erfrakon.de>

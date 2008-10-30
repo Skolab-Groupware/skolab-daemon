@@ -2,21 +2,21 @@ Source: kolabd
 Section: mail
 Priority: extra
 Maintainer: Debian Kolab Maintainers <pkg-kolab-devel@lists.alioth.debian.org>
-Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Peter Eisentraut <petere@debian.org>
-Build-Depends: debhelper (>= 4), dpatch
-Standards-Version: 3.7.3
+Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Peter Eisentraut <petere@debian.org>, Mathieu Parent <math.parent@gmail.com>
+Build-Depends: debhelper (>= 4), quilt (>= 0.40)
+Standards-Version: 3.8.0
 Homepage: http://www.kolab.org/
-Vcs-Browser: http://svn.debian.org/wsvn/pkg-kolab/kolabd/trunk/
-Vcs-Svn: svn://svn.debian.org/pkg-kolab/kolabd/trunk/
+Vcs-Browser: http://svn.debian.org/wsvn/pkg-kolab/kolabd/branches/2.2/
+Vcs-Svn: svn://svn.debian.org/pkg-kolab/kolabd/branches/2.2/
 
 Package: kolabd
 Architecture: all
 Depends: ${perl:Depends}, libnet-netmask-perl, libmail-box-perl, libterm-readkey-perl, libterm-readline-gnu-perl,
  postfix (>= 2.4), postfix-ldap (>= 2.4),
  sasl2-bin, libsasl2-modules,
- libkolab-perl (>= 5.8.7-20070420),
+ libkolab-perl (>= 1:2.2.0-2),
  kolab-cyrus-admin, kolab-cyrus-clients, kolab-cyrus-imapd, kolab-cyrus-pop3d,
- kolab-resource-handlers,
+ kolabconf (>= 2.2.0-2), kolab-filter, kolab-freebusy,
  adduser, lsb-base (>= 3.0-3)
 Recommends: slapd, ldap-utils
 Suggests: openssl, db4.2-util, kolab-webadmin, amavisd-new

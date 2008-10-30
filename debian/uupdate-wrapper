@@ -1,0 +1,7 @@
+#!/bin/sh
+
+version=$2
+file=$3
+
+rpm2cpio $file | cpio -i --quiet '*-*.tar.bz2'
+bunzip2 -c *.tar.bz2 | gzip > kolabd-$version.tar.gz

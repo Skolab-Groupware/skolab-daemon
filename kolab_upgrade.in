@@ -10,7 +10,9 @@ use Kolab;
 use Kolab::Util;
 use Kolab::LDAP;
 
-Kolab::LDAP::startup;
+Kolab::reloadConfig("@sysconfdir@/kolab/kolab.globals");
+
+Kolab::LDAP::startup("@kolab_statedir@");
 
 # Utility functions
 sub getLdapEntry {

@@ -1,3 +1,58 @@
+kolabd (2.2.0-20080709.dfsg-1) unstable; urgency=low
+
+  * New upstream version: 2.2.0
+    - removed 80-kolab-syslog-facility.dpatch: partially applied upstream
+  * README.Debian: 
+    - Mention which daemons to stop/start,
+    - Remove unneeded creation of cyrus mailboxes
+  * switch from dpatch to quilt
+  * debian/control
+    - updated versioned dependency on libkolab-perl (Closes: #498202)
+    - added versioned dependency on kolabconf
+  * debian/rules
+    - add user postfix to group sasl during postinst, to allow authentication
+      within postfix
+    - remove /etc/kolab/templates/local.cf.template (new amavisd config)
+  * updated then removed common/dist_conf.dpatch
+    - smarty has now the good path
+    - kolab-webadmin url is now /admin
+    - added spamassassin_confdir (not used) as requested by Sascha Wilde on
+      http://kolab.org/pipermail/kolab-devel/2008-June/009079.html
+    - removed: integrated upstream
+    - back for some time
+  * updated patch 30-bootstrap
+    - run newaliases at the end of kolab_bootstrap
+    - gethostname rewriten upstream to use Net::Domain
+    - slapcat run under openldap user to prevent creation of files as root
+  * new patch 40-disable-amavis: amavis is suggested, so disabled as default
+  * new patch 50-postfix-hashes: Postfix hashes templates
+    - Added RUNONCHANGE=/usr/sbin/postmap -o @emailserver_confdir@/... so that 
+      kolabconf doesn't need to know about postfix
+  * new patch 55-no-distconf_kolabsrv: distconf/kolabsrv.in is not shipped in.
+    We don't need it anyway.
+  * new patch 80-kolab_globals.dpatch:
+    - use syncrepl LDAP backend, the only one compatible with slapd 2.4
+    - use syslog
+  * new patch 85-slapd-2.4-compat: to be compatible with slapd 2.4 (Closes: 
+    #473881)
+  * new patch 86-slapd-syncrepl-24: to enable syncrepl
+    (Closes: #463791)
+  * updated patch 90-slapd-template: enable horde.schema by default 
+  * updated patch 91-postfix-template: partially applied upstream
+  * updated patch 92-resmgr-template, path is now /etc/kolab/filter/config.php
+    and format has changed (updated debian/dirs accordingly)
+  * updated patch 93-freebusy-template, path is now
+    /etc/kolab/freebusy/config.php and format has changed (updated debian/dirs
+    accordingly)
+  * Re-add rfc2739 schema with a copyright notice: see
+    http://lists.debian.org/debian-legal/2008/04/msg00087.html
+  * debian/postinst: add user cyrus to group kolab. This is needed for PKI.
+  * Bump Standards-Version to 3.8.0 (updated Vcs-Browser and Vcs-Svn fields) 
+  * debian/preinst: remove unused_conffile
+    /etc/kolab/templates/fbview.conf.template 
+
+ -- Mathieu Parent <math.parent@gmail.com>  Thu, 30 Oct 2008 21:52:55 +0100
+
 kolabd (2.1.0-20070510.dfsg-3) unstable; urgency=low
 
   * Internal Subversion repository reorganization to keep common patches in
