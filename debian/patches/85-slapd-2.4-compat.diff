@@ -1,12 +1,16 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 85-slapd-2.4-compat.dpatch by  <math.parent@gmail.com>
-##
-## DP: Purpose : be compatible with OpenLDAP 2.4
+Goal: be compatible with OpenLDAP 2.4
 
-@DPATCH@
-diff -urNad kolabd-2.1.99-20080521.dfsg~/templates/slapd.conf.template.in kolabd-2.1.99-20080521.dfsg/templates/slapd.conf.template.in
---- kolabd-2.1.99-20080521.dfsg~/templates/slapd.conf.template.in	2008-05-25 16:36:39.000000000 +0200
-+++ kolabd-2.1.99-20080521.dfsg/templates/slapd.conf.template.in	2008-05-25 16:37:12.000000000 +0200
+- remove schemacheck
+- indent syntax correction
+
+Author: Mathieu Parent <math.parent@gmail.com>
+
+Upstream status: Already included, will be in 2.2.1
+
+Index: b/templates/slapd.conf.template.in
+===================================================================
+--- a/templates/slapd.conf.template.in
++++ b/templates/slapd.conf.template.in
 @@ -29,7 +29,8 @@
  replogfile      @ldapserver_replogfile@
  replicationinterval 5

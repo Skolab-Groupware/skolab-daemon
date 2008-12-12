@@ -1,12 +1,13 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 92-resmgr-template.dpatch by Peter Eisentraut <petere@debian.org>
-##
-## DP: Adjustments in resmgr template
+Goal: Adjustments in resmgr template
 
-@DPATCH@
-diff -urNad kolabd-2.1.99+20080204.dfsg~/templates/resmgr.conf.template.in kolabd-2.1.99+20080204.dfsg/templates/resmgr.conf.template.in
---- kolabd-2.1.99+20080204.dfsg~/templates/resmgr.conf.template.in	2007-12-07 16:49:21.000000000 +0100
-+++ kolabd-2.1.99+20080204.dfsg/templates/resmgr.conf.template.in	2008-02-17 23:27:19.000000000 +0100
+Author: Peter Eisentraut <petere@debian.org>
+
+Upstream status: Specific to Debian
+
+Index: b/templates/resmgr.conf.template.in
+===================================================================
+--- a/templates/resmgr.conf.template.in
++++ b/templates/resmgr.conf.template.in
 @@ -1,5 +1,5 @@
  KOLAB_META_START
 -TARGET=@resmgr_confdir@/config.php
@@ -14,7 +15,7 @@ diff -urNad kolabd-2.1.99+20080204.dfsg~/templates/resmgr.conf.template.in kolab
  PERMISSIONS=0640
  OWNERSHIP=@resmgr_conffile_usr@:@resmgr_conffile_grp@
  KOLAB_META_END
-@@ -163,8 +163,8 @@
+@@ -166,8 +166,8 @@
   */
  $conf['log']['enabled']          = true;
  $conf['log']['priority']         = PEAR_LOG_DEBUG; // Leave this on DEBUG for now. We just restructured the package...
@@ -25,4 +26,3 @@ diff -urNad kolabd-2.1.99+20080204.dfsg~/templates/resmgr.conf.template.in kolab
  $conf['log']['ident']            = 'Kolab Filter';
  $conf['log']['params']['append'] = true;
  
-

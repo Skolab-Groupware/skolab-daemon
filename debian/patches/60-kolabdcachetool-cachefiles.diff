@@ -1,9 +1,9 @@
-#!/bin/sh /usr/share/dpatch/dpatch-run
-## 60-kolabdcachetool-cachefiles.dpatch by Noèl Köthe <noel@debian.org>
-##
-## DP: This is the patch to correct the path of the cachefiles
+Goal: correct the path of the cachefiles
 
-@DPATCH@
+Author: Noèl Köthe <noel@debian.org>
+
+Upstream status: Already included, will be in 2.2.1
+
 diff -urNad kolabd-1.9.4-20060707.dfsg~/kolabdcachetool kolabd-1.9.4-20060707.dfsg/kolabdcachetool
 --- kolabd-1.9.4-20060707.dfsg~/kolabdcachetool	2006-11-08 10:08:39.000000000 +0100
 +++ kolabd-1.9.4-20060707.dfsg/kolabdcachetool	2006-11-08 10:08:40.000000000 +0100

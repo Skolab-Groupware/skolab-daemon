@@ -1,3 +1,6 @@
 var/lib/kolab
+var/backups/kolab
 etc/kolab/filter
 etc/kolab/freebusy
+etc/amavis/conf.d
+etc/ldap/schema

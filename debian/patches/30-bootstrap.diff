@@ -1,21 +1,14 @@
-#!/bin/sh /usr/share/dpatch/dpatch-run
-## 30-bootstrap.dpatch by Noèl Köthe <noel@debian.org>
-##
-## DP: Fixups for Debian
+Goal: kolab_bootstrap debian specificic stuff
 
-@DPATCH@
-diff -urNad kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in kolabd-2.2.0-20080709.dfsg/kolab_bootstrap.in
---- kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in	2008-10-27 18:26:09.000000000 +0100
-+++ kolabd-2.2.0-20080709.dfsg/kolab_bootstrap.in	2008-10-27 18:28:24.000000000 +0100
-@@ -22,6 +22,7 @@
- use Net::LDAP::Entry;
- use Net::Netmask;
- use File::Copy;
-+use File::Path;
- use Getopt::Std;
- use Term::ReadKey;
- use Time::Local;
-@@ -69,7 +70,7 @@
+Author: Noèl Köthe <noel@debian.org>
+
+Upstream status: Parts can be included
+
+Index: b/kolab_bootstrap.in
+===================================================================
+--- a/kolab_bootstrap.in
++++ b/kolab_bootstrap.in
+@@ -69,7 +69,7 @@
      print ("Error: Found $name running on Port $port\n");
      print ("Check your installation!\n");
      print ("You must stop the service $name before running Kolab\n");
@@ -24,7 +17,7 @@ diff -urNad kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in kolabd-2.2.0-20080709
      exit 1;
    }
  }
-@@ -181,7 +182,7 @@
+@@ -181,7 +181,7 @@
  
  print ("Excellent all required Ports are available!\n");
  
@@ -33,16 +26,26 @@ diff -urNad kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in kolabd-2.2.0-20080709
  if ($?==0) {
    print ("\nFound existing configuration\n");
    print "\nBootstrapping Kolab will overwrite old configuration\n";
-@@ -203,7 +204,7 @@
-   }
-   my $epochseconds = timelocal(gmtime);
-   my $backupdir="@backupdir@/backup".$epochseconds;
--  mkdir($backupdir,0700) || die "cannot mkdir : $!";
-+  mkpath($backupdir,0,0700) || die "cannot mkpath : $!";
+@@ -286,6 +286,18 @@
+   print "Proceeding with master server setup\n\n";
+ }
  
-   print "creating backup of LDAP repository\n";
-   system("cp -pRP \"@ldapserver_dir@\" \"$backupdir/openldap-data\"");
-@@ -375,8 +376,23 @@
++# enable saslauthd by default
++copy("/etc/default/saslauthd", "/etc/default/saslauthd.orig") || die "could not read /etc/default/saslauthd.orig";
++my $saslauthd_orig = IO::File->new("/etc/default/saslauthd.orig", "r") || die "could not read /etc/default/saslauthd.orig";
++my $saslauthd = IO::File->new("/etc/default/saslauthd", "w") || die "could not read /etc/default/saslauthd";
++foreach (<$saslauthd_orig>) {
++  s/^(# )?START=.*$/START=yes/g;
++  s/^MECHANISMS="pam"/MECHANISMS="ldap"/g;
++      print $saslauthd $_;
++}
++undef $saslauthd;
++undef $saslauthd_orig;
++
+ if ( $is_master eq "true" ) {
+   ##### Master server setup
+   getopt('f');
+@@ -375,6 +387,9 @@
    };
  
    my $confname = "@sasl_smtpconffile@";
@@ -51,22 +54,8 @@ diff -urNad kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in kolabd-2.2.0-20080709
 +  }
    copy("@sysconfdir@/kolab/templates/smtpd.conf.template", $confname) || die "could not write to $confname";
  
-+  # enable saslauthd by default
-+  copy("/etc/default/saslauthd", "/etc/default/saslauthd.orig") || die "could not read /etc/default/saslauthd.orig";
-+  my $saslauthd_orig = IO::File->new("/etc/default/saslauthd.orig", "r") || die "could not read /etc/default/saslauthd.orig";
-+  my $saslauthd = IO::File->new("/etc/default/saslauthd", "w") || die "could not read /etc/default/saslauthd";
-+  foreach (<$saslauthd_orig>) {
-+    s/^(# )?START=.*$/START=yes/g;
-+    s/^MECHANISMS="pam"/MECHANISMS="ldap"/g;
-+        print $saslauthd $_;
-+  }
-+  undef $saslauthd;
-+  undef $saslauthd_orig;
-+
    getopts('b');
- 
-   if ($opt_b) {
-@@ -418,6 +434,7 @@
+@@ -418,6 +433,7 @@
        undef $slpd;
        undef $tmpl;
        kolab_chown "@ldapserver_usr@","@ldapserver_grp@","@ldapserver_confdir@/slapd.conf";
@@ -74,7 +63,7 @@ diff -urNad kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in kolabd-2.2.0-20080709
        
        my $tmplname = "@sysconfdir@/kolab/templates/slapd.replicas.template";
        $confname = "@ldapserver_confdir@/slapd.replicas";
-@@ -466,7 +483,7 @@
+@@ -466,7 +482,7 @@
        $ldap_uri = "ldap://127.0.0.1:389/";
        # ensure that the database has correct permissions
        system("chown @ldapserver_rusr@:@ldapserver_grp@ @ldapserver_dir@/*");
@@ -83,7 +72,7 @@ diff -urNad kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in kolabd-2.2.0-20080709
        print ("Waiting for OpenLDAP to start\n");
        sleep 10;
  
-@@ -632,7 +649,7 @@
+@@ -632,7 +648,7 @@
  
     if ($ldap_uri =~ /127\.0\.0\.1/ || $ldap_uri =~ /localhost/) {
        print "\nkill temporary slapd\n\n";
@@ -92,7 +81,7 @@ diff -urNad kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in kolabd-2.2.0-20080709
        sleep 1; # actually race should be impossible
        system("killall -9 slapd >/dev/null 2>&1");
     }
-@@ -680,7 +697,7 @@
+@@ -680,7 +696,7 @@
    ##### Slave server setup
  
    print "stop running slapd (if any)\n";
@@ -101,7 +90,7 @@ diff -urNad kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in kolabd-2.2.0-20080709
  
    # Make sure that no rogue demons are running
    tryConnect( '127.0.0.1', 389 ) && die "A process is already listening to port 389 (ldap)\n"
-@@ -800,9 +817,9 @@
+@@ -800,9 +816,9 @@
  is copied over to this slave. Please make sure that this slave is entered into the list 
  of kolabhosts on the master before proceeding.
  EOS
@@ -113,17 +102,13 @@ diff -urNad kolabd-2.2.0-20080709.dfsg~/kolab_bootstrap.in kolabd-2.2.0-20080709
  
    # FIXME: we should get rid of this construct because it makes the code hard to read.
    #        A if (-e @sysconfdir@/rc.conf) statement should be enough.
-@@ -869,6 +886,8 @@
-   }
+@@ -889,8 +905,11 @@
+   chmod 0600, $kolab_config;
+ }
  
-   kolab_system("@sbindir@/kolabconf -n");
-+  #run postfix newaliases
-+  kolab_system("@bindir@/newaliases");
- 
-   $fd = IO::File->new($kolab_config, "w+") || die "could not open $kolab_config";
-   print $fd "fqdnhostname : $fqdn\n";
-@@ -891,6 +910,6 @@
- 
++#run postfix newaliases
++kolab_system("@bindir@/newaliases");
++
  #system("@sysconfdir@/kolab/kolab_sslcert.sh $fqdn");
  print "kolab is now ready to run!\n";
 -print "please run '@KOLABRC@ rc all start'\n";

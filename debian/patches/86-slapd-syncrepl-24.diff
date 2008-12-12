@@ -1,13 +1,14 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 86-slapd-syncrepl-24.dpatch by  <math.parent@gmail.com>
-##
-## DP: Purpose : enable syncrepl instead of slurpd
+Goal: enable syncrepl instead of slurpd
 
-@DPATCH@
-diff -urNad kolabd-2.1.99+20080204.dfsg~/kolab_bootstrap.in kolabd-2.1.99+20080204.dfsg/kolab_bootstrap.in
---- kolabd-2.1.99+20080204.dfsg~/kolab_bootstrap.in	2008-03-15 10:11:23.000000000 +0100
-+++ kolabd-2.1.99+20080204.dfsg/kolab_bootstrap.in	2008-03-15 10:11:23.000000000 +0100
-@@ -795,14 +795,32 @@
+Author: Mathieu Parent <math.parent@gmail.com>
+
+Upstream status: Already included, will be in 2.2.1
+
+Index: b/kolab_bootstrap.in
+===================================================================
+--- a/kolab_bootstrap.in
++++ b/kolab_bootstrap.in
+@@ -812,14 +812,32 @@
    chmod 0600, $kolab_config;
    kolab_chown "@kolab_musr@","@kolab_mgrp@",$kolab_config;
  
@@ -44,9 +45,10 @@ diff -urNad kolabd-2.1.99+20080204.dfsg~/kolab_bootstrap.in kolabd-2.1.99+200802
  
    # FIXME: we should get rid of this construct because it makes the code hard to read.
    #        A if (-e @sysconfdir@/rc.conf) statement should be enough.
-diff -urNad kolabd-2.1.99+20080204.dfsg~/templates/slapd.conf.template.in kolabd-2.1.99+20080204.dfsg/templates/slapd.conf.template.in
---- kolabd-2.1.99+20080204.dfsg~/templates/slapd.conf.template.in	2008-03-15 10:11:23.000000000 +0100
-+++ kolabd-2.1.99+20080204.dfsg/templates/slapd.conf.template.in	2008-03-15 10:12:16.000000000 +0100
+Index: b/templates/slapd.conf.template.in
+===================================================================
+--- a/templates/slapd.conf.template.in
++++ b/templates/slapd.conf.template.in
 @@ -24,10 +24,7 @@
  #include @ldapserver_schemadir@/horde.schema
  
@@ -58,7 +60,7 @@ diff -urNad kolabd-2.1.99+20080204.dfsg~/templates/slapd.conf.template.in kolabd
  
  #schemacheck doesn't exists in debian's slapd 2.4
  #schemacheck 	       on
-@@ -66,6 +63,23 @@
+@@ -65,6 +62,23 @@
          bindmethod=simple 
  	credentials=secret
  

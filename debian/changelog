@@ -1,3 +1,22 @@
+kolabd (2.2.0-20080709.dfsg-2) unstable; urgency=low
+
+  * amavis-new (Closes: #499094):
+    - amavisd.conf.template to redirect scanned messages to the postfix port
+      10026. Default port make messages bounce when amavis is enabled.
+    - debian/rules to keep this template
+    - added /etc/amavis/conf.d directory as template target
+  * refreshed patches, use quilt headers
+  * debian/rules, debian/patches/90-slapd-template.diff, debian/dirs:
+    move LDAP schemas to /etc/ldap/schema 
+  * debian/patches/30-bootstrap.diff, debian/dirs: Create /var/backups/kolab
+    on package installation. Reduce the bootstrap patch
+  * 30-bootstrap.diff: moved sasl configuration from master-only to master and
+    slave part 
+  * debian/patches/30-bootstrap.diff: run newaliases on main part (not slave
+    only) 
+
+ -- Mathieu Parent <math.parent@gmail.com>  Fri, 12 Dec 2008 20:48:03 +0100
+
 kolabd (2.2.0-20080709.dfsg-1) unstable; urgency=low
 
   * New upstream version: 2.2.0

@@ -2,7 +2,7 @@ Source: kolabd
 Section: mail
 Priority: extra
 Maintainer: Debian Kolab Maintainers <pkg-kolab-devel@lists.alioth.debian.org>
-Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Peter Eisentraut <petere@debian.org>, Mathieu Parent <math.parent@gmail.com>
+Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Mathieu Parent <math.parent@gmail.com>
 Build-Depends: debhelper (>= 4), quilt (>= 0.40)
 Standards-Version: 3.8.0
 Homepage: http://www.kolab.org/

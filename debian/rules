@@ -52,12 +52,12 @@ install: build
 
 	# Kolab bootstrapping templates
 	for i in templates/*.template ; do install -D -m 644 $$i debian/kolabd/etc/kolab/$$i ; done
-	rm $(addprefix debian/kolabd/etc/kolab/templates/,amavisd.* clamd.* cyrus.* freshclam.* httpd.* session_vars.* local.cf.template)
+	rm $(addprefix debian/kolabd/etc/kolab/templates/,clamd.* cyrus.* freshclam.* httpd.* session_vars.* local.cf.template)
 
 	# LDAP files
 	install -D -m 644 debian/rfc2739.schema debian/kolabd/etc/ldap/schema/rfc2739.schema
-	install -D -m 644 horde.schema debian/kolabd/usr/share/kolabd/schema/horde.schema
-	install -D -m 644 kolab2.schema debian/kolabd/usr/share/kolabd/schema/kolab2.schema
+	install -D -m 644 horde.schema debian/kolabd/etc/ldap/schema/horde.schema
+	install -D -m 644 kolab2.schema debian/kolabd/etc/ldap/schema/kolab2.schema
 
 #	# Commented out because of copyright issues, needs further investigation
 #	install -D -m 644 rfc2739.schema debian/kolabd/usr/share/kolabd/schema/rfc2739.schema

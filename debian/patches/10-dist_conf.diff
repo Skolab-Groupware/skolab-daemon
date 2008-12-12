@@ -1,12 +1,13 @@
-#!/bin/sh /usr/share/dpatch/dpatch-run
-## 10-dist_conf.dpatch by Mathieu Parent <math.parent@gmail.com>
-##
-## DP: Fixups for Debian
+Goal: fix dist_conf/debian
 
-@DPATCH@
-diff -urNad kolabd-2.2.0-20080709.dfsg~/dist_conf/debian kolabd-2.2.0-20080709.dfsg/dist_conf/debian
---- kolabd-2.2.0-20080709.dfsg~/dist_conf/debian	2008-10-27 17:19:20.000000000 +0100
-+++ kolabd-2.2.0-20080709.dfsg/dist_conf/debian	2008-10-27 17:19:27.000000000 +0100
+Author: Mathieu Parent <math.parent@gmail.com>
+
+Upstream status: Already included, will be in 2.2.1
+
+Index: b/dist_conf/debian
+===================================================================
+--- a/dist_conf/debian
++++ b/dist_conf/debian
 @@ -1,20 +1,21 @@
 +BASHELL=/bin/bash
 +PERL=${bindir}/perl

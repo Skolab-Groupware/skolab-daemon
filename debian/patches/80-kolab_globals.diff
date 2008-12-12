@@ -1,13 +1,16 @@
-#!/bin/sh /usr/share/dpatch/dpatch-run
-## 80-kolab-syslog-facility.dpatch by Marc Brockschmidt <marc.brockschmidt@credativ.de>
-##
-## DP: -Use Fedora Directory Server (persistent searches) LDAP backend
-## DP: -Use syslog
+Goal: kolab.globals
 
-@DPATCH@
-diff -urNad kolabd-2.1.99-20080521.dfsg~/kolab.globals.in kolabd-2.1.99-20080521.dfsg/kolab.globals.in
---- kolabd-2.1.99-20080521.dfsg~/kolab.globals.in	2008-06-10 23:34:22.000000000 +0200
-+++ kolabd-2.1.99-20080521.dfsg/kolab.globals.in	2008-06-10 23:35:00.000000000 +0200
+- Use syncrepl LDAP backend (OpenLDAP >= 2.3)
+- Use syslog
+
+Author: Mathieu Parent <math.parent@gmail.com>
+
+Upstream status: Already included, will be in 2.2.1 (kolab/issue2446)
+
+Index: b/kolab.globals.in
+===================================================================
+--- a/kolab.globals.in
++++ b/kolab.globals.in
 @@ -7,7 +7,7 @@
  cyrus-pop3 : FALSE
  cyrus-pop3s : TRUE
