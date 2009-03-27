@@ -1,4 +1,4 @@
-# $Id: kolab2.schema,v 1.27 2007/10/17 17:57:13 thomas Exp $
+# $Id: kolab2.schema,v 1.35 2009/02/09 15:32:37 thomas Exp $
 # (c) 2003, 2004 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003-2007  Martin Konold <martin.konold@erfrakon.de>
 # (c) 2003 Achim Frank <achim.frank@erfrakon.de>
@@ -75,7 +75,7 @@ attributetype ( 1.3.6.1.4.1.19414.2.1.3
 # Actually this attribute is deprecated as of Kolab 2.1. Instead we grant the 
 # calendar user dn: cn=calendar,cn=internal,dc=yourcompany,dc=com access to 
 # the respective calendar folder using IMAP ACLs.
-attributetype ( 1.3.6.1.4.1.19419.2.1.4
+attributetype ( 1.3.6.1.4.1.19414.2.1.4
   NAME 'kolabEncryptedPassword'
   DESC 'base64 encoded public key encrypted Password'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
@@ -97,7 +97,7 @@ attributetype ( 1.3.6.1.4.1.19414.2.1.6
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
 
 # fqdn of the server containg the actual user mailbox
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.1
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.1
   NAME 'kolabHomeServer'
   DESC 'server which keeps the users mailbox'
   EQUALITY caseIgnoreIA5Match
@@ -105,7 +105,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.1
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
 
 # flag for allowing unrestriced length of mails
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.2
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.2
   NAME 'unrestrictedMailSize'
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
@@ -114,7 +114,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.2
 # An email delegate can send email on behalf of the account  
 # which means using the "from" of the account.
 # Delegates are specified by the syntax of rfc822 email addresses.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.3
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.3
   NAME 'kolabDelegate'
   DESC 'Kolab user allowed to act as delegates - RFC822 Mailbox/Alias'
   EQUALITY caseIgnoreIA5Match
@@ -134,7 +134,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.3
 # In addition one of these values may be prefixed with a primary email 
 # address followed by a colon like
 # user@domain.tld: ACT_ALWAYS_ACCEPT
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.4
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.4
   NAME ( 'kolabInvitationPolicy' 'kolabResourceAction' )
   DESC 'defines how to respond to invitations'
   EQUALITY caseIgnoreIA5Match
@@ -143,7 +143,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.4
 
 # time span from now to the future used for the free busy data
 # measured in days
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.5
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.5
   NAME 'kolabFreeBusyFuture' 
   DESC 'time in days for fb data towards the future'
   EQUALITY integerMatch
@@ -152,7 +152,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.5
 
 # time span from now to the past used for the free busy data
 # measured in days
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.6
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.6
   NAME 'kolabFreeBusyPast'
   DESC 'time in days for fb data towards the past'
   EQUALITY integerMatch
@@ -162,7 +162,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.6
 # fqdn of the server as the default SMTP MTA
 # not used in Kolab 2 currently as in Kolab 2 the
 # default MTA is equivalent to the kolabHomeServer
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.7
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.7
   NAME 'kolabHomeMTA'
   DESC 'fqdn of default MTA'
   EQUALITY caseIgnoreIA5Match
@@ -180,7 +180,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.7
 # YYYYMMDDHHMMZ e.g. 200512311458Z.
 # see also: rfc 2252.
 # Currently this attribute is not used in Kolab.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.8
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.8
   NAME 'kolabVacationBeginDateTime'
   DESC 'Begin date of vacation'
   EQUALITY generalizedTimeMatch
@@ -197,7 +197,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.8
 # YYYYMMDDHHMMZ e.g. 200601012258Z.
 # see also: rfc 2252.
 # Currently this attribute is not used in Kolab.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.9
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.9
   NAME 'kolabVacationEndDateTime'
   DESC 'End date of vacation'
   EQUALITY generalizedTimeMatch
@@ -207,7 +207,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.9
 # Intervall in days after which senders get 
 # another vacation message.
 # Currently this attribute is not used in Kolab.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.10
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.10
   NAME 'kolabVacationResendInterval'
   DESC 'Vacation notice interval in days'
   EQUALITY integerMatch
@@ -220,7 +220,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.10
 # Default is the primary email address and all
 # email aliases of the kolabInetOrgPerson.
 # Currently this attribute is not used in Kolab.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.11
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.11
   NAME 'kolabVacationAddress'
   DESC 'Email address for vacation to response upon'
   EQUALITY caseIgnoreIA5Match
@@ -231,7 +231,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.11
 # unsolicited commercial email.
 # Default is no.
 # Currently this attribute is not used in Kolab.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.12
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.12
   NAME 'kolabVacationReplyToUCE'
   DESC 'Enable vacation notices to UCE'
   EQUALITY booleanMatch
@@ -243,7 +243,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.12
 # entries for each kolabInetOrgPerson
 # Default is to handle all domains.
 # Currently this attribute is not used in Kolab.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.13
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.13
   NAME 'kolabVacationReactDomain'
   DESC 'Multivalued -- Email domain for vacation to response upon'
   EQUALITY caseIgnoreIA5Match
@@ -255,7 +255,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.13
 # There can be multiple kolabForwardAddress entries for 
 # each kolabInetOrgPerson.
 # Currently this attribute is not used in Kolab.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.14
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.14
   NAME 'kolabForwardAddress'
   DESC 'Forward email to this address'
   EQUALITY caseIgnoreIA5Match
@@ -266,7 +266,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.14
 # kolabForwardAddress. 
 # Default is no.
 # Currently this attribute is not used in Kolab.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.15
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.15
   NAME 'kolabForwardKeepCopy'
   DESC 'Keep copy when forwarding'
   EQUALITY booleanMatch
@@ -276,7 +276,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.15
 # Enable forwarding of UCE. 
 # Default is yes.
 # Currently this attribute is not used in Kolab.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.16
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.16
   NAME 'kolabForwardUCE'
   DESC 'Enable forwarding of mails known as UCE'
   EQUALITY booleanMatch
@@ -289,7 +289,7 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.16
 # instead of being really deleted. Every entry must be prefixed
 # with an ISO 8601 date string e.g 200604301458Z. All times must 
 # be in zulu timezone.
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.17
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.17
   NAME 'kolabComment'
   DESC 'multi-value comment'
   EQUALITY caseIgnoreMatch
@@ -310,12 +310,21 @@ attributetype ( 1.3.6.1.4.1.19419.1.1.1.17
 # -.domain.tld     - disallow mail to everyone in domain.tld and its subdomains
 # -user@domain.tld - disallow mail to explicit user@domain.tld
 # -user@           - disallow mail to this user but any domain
-attributetype ( 1.3.6.1.4.1.19419.1.1.1.18
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.18
   NAME 'kolabAllowSMTPRecipient'
   DESC 'SMTP address allowed for destination (multi-valued)'
   EQUALITY caseIgnoreIA5Match
   SUBSTR caseIgnoreIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{512} )
+
+# Create the user mailbox on the kolabHomeServer only.
+# Default is no.
+attributetype ( 1.3.6.1.4.1.19414.1.1.1.19
+  NAME 'kolabHomeServerOnly'
+  DESC 'Create the user mailbox on the kolabHomeServer only'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 
+  SINGLE-VALUE )
 
 # kolabFolderType describes the kind of Kolab folder
 # as defined in the kolab format specification. 
@@ -405,6 +414,11 @@ attributetype ( 1.3.6.1.4.1.19414.2.1.510
   SUBSTR caseIgnoreIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
 
+attributetype ( 1.3.6.1.4.1.19414.2.1.511
+  NAME 'postfix-message-size-limit'
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+
 ##########################
 # cyrus imapd attributes #
 ##########################
@@ -473,6 +487,31 @@ attributetype ( 1.3.6.1.4.1.19414.2.1.609
   NAME 'cyrus-quotawarn'
   EQUALITY integerMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+
+# enable smmap support
+attributetype ( 1.3.6.1.4.1.19414.2.1.610
+  NAME 'cyrus-smmap'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+
+# enable fulldirhash support
+attributetype ( 1.3.6.1.4.1.19414.2.1.611
+  NAME 'cyrus-fulldirhash'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+
+# enable hashimapspool support
+attributetype ( 1.3.6.1.4.1.19414.2.1.612
+  NAME 'cyrus-hashimapspool'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+
+# enable squatter support
+attributetype ( 1.3.6.1.4.1.19414.2.1.613
+  NAME 'cyrus-squatter'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+
 
 #############################
 # apache and php attributes #
@@ -562,6 +601,7 @@ objectclass ( 1.3.6.1.4.1.19414.2.2.1
         postfix-virtual $
         postfix-enable-virus-scan $
         postfix-allow-unauthenticated $
+        postfix-message-size-limit $
         cyrus-quotawarn $
         cyrus-autocreatequota $
         cyrus-admins $
@@ -570,6 +610,10 @@ objectclass ( 1.3.6.1.4.1.19414.2.2.1
         cyrus-imaps $
         cyrus-pop3s $
         cyrus-sieve $
+        cyrus-smmap $
+        cyrus-fulldirhash $
+        cyrus-hashimapspool $
+        cyrus-squatter $
         apache-http $
         apache-allow-unauthenticated-fb $
         kolabfilter-verify-from-header $
@@ -623,6 +667,7 @@ objectclass ( 1.3.6.1.4.1.19414.3.2.2
   MAY ( c $
         alias $
         kolabHomeServer $
+        kolabHomeServerOnly $
         kolabHomeMTA $
         unrestrictedMailSize $
         kolabDelegate $
@@ -631,16 +676,16 @@ objectclass ( 1.3.6.1.4.1.19414.3.2.2
         kolabInvitationPolicy $
         kolabFreeBusyFuture $
         calFBURL $
-	kolabVacationBeginDateTime $
-	kolabVacationEndDateTime $
-	kolabVacationResendInterval $
-	kolabVacationAddress $
-	kolabVacationReplyToUCE $
-	kolabVacationReactDomain $
-	kolabForwardAddress $
-	kolabForwardKeepCopy $
+        kolabVacationBeginDateTime $
+        kolabVacationEndDateTime $
+        kolabVacationResendInterval $
+        kolabVacationAddress $
+        kolabVacationReplyToUCE $
+        kolabVacationReactDomain $
+        kolabForwardAddress $
+        kolabForwardKeepCopy $
         kolabForwardUCE $
-	kolabAllowSMTPRecipient $
+        kolabAllowSMTPRecipient $
         kolabDeleteflag $
         kolabComment ) )
 

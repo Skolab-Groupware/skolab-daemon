@@ -1,137 +1,343 @@
-Goal: fix dist_conf/debian
+Goal: Correct dist_conf/debian
 
 Author: Mathieu Parent <math.parent@gmail.com>
 
-Upstream status: Already included, will be in 2.2.1
+Upstream status: Can be commited upstream
 
 Index: b/dist_conf/debian
 ===================================================================
 --- a/dist_conf/debian
 +++ b/dist_conf/debian
-@@ -1,20 +1,21 @@
-+BASHELL=/bin/bash
-+PERL=${bindir}/perl
-+PHP=${bindir}/php
-+KOLABRC=${sbindir}/kolab
-+#RPM=${bindir}/rpm
-+TAR=/bin/tar
-+
- kolab_usr=kolab
- kolab_grp=kolab
- kolab_musr=kolab
- kolab_mgrp=kolab
- kolab_uid=1002
- kolab_gid=1002
--restricted_kolab_usr=kolab
--restricted_kolab_grp=kolab
- kolab_rusr=${restricted_kolab_usr}
- kolab_rgrp=${restricted_kolab_grp}
- kolab_susr=root
--pki_grp=${kolab_rgrp}
--
--BASHELL=/bin/bash
--PERL=${bindir}/perl
--PHP=${bindir}/php
--KOLABRC=${sbindir}/kolab
-+restricted_kolab_usr=kolab
-+restricted_kolab_grp=kolab
- 
- kolab_rcdir=${sysconfdir}/init.d
- pkgdocdir=${datadir}/doc/kolab
-@@ -35,8 +36,6 @@
- 
- fsl_logfile=${localstatedir}/log/fsl
- 
--sysrundir=${localstatedir}/run
--
- clamav_confdir=${sysconfdir}/clamav
- clamav_socket=${localstatedir}/clamav/clamd.sock
- clamav_logfile=${localstatedir}/log/clamav/clamav.log
-@@ -57,10 +56,13 @@
- emailserver_localstatedir=${localstatedir}/spool/postfix
- emailserver_logfile=${localstatedir}/log/mail.log
- emailserver_usr=root
--emailserver_tables_usr=root
- emailserver_musr=kolab
- emailserver_grp=root
-+#emailserver_mail_owner=
-+#emailserver_setgid_grp=
-+#emailserver_default_privs=
- emailserver_master_usr=kolab
-+emailserver_tables_usr=root
- 
- imap_confdir=${sysconfdir}
- imap_confperm=0640
-@@ -74,13 +76,18 @@
- imap_lmtp=${localstatedir}/run/cyrus/socket/lmtp
- imap_notify_socket=${localstatedir}/run/cyrus/socket/notify
- 
-+
- kolab_statedir=${localstatedir}/lib/kolab
- kolab_logdir=${localstatedir}/log/kolab
- kolab_pidfile=${sysrundir}/kolab.pid
- kolab_mailboxuiddb=${kolab_statedir}/mailbox-uidcache.db
-+kolab_smtpdpolicy_conffile_usr=${kolab_musr}
-+kolab_smtpdpolicy_conffile_grp=${kolab_grp}
-+#kolab_php_module_prefix=
- kolab_scriptsdir=${sbindir}
- kolab_php_smarty_prefix=smarty/libs
- smarty_compiledir=/var/cache/kolab-webadmin/templates
-+
- # Kolab web user interface
- kolab_wui=/admin
- 
-@@ -89,15 +96,18 @@
- ldapserver_replogfile=${ldapserver_statedir}/replog
- ldapserver_argsfile=${sysrundir}/slapd/slapd.args
- ldapserver_logfile=${localstatedir}/log/syslog
-+#ldapserver_rundir=
- ldapserver_pidfile=${sysrundir}/slapd/slapd.pid
- ldapserverslurpd_pidfile=${sysrundir}/slapd/slurpd.pid
- ldapserver_schemadir=${sysconfdir}/ldap/schema
- ldapserver_confdir=${sysconfdir}/ldap
- ldapserver_usr=openldap
- ldapserver_grp=openldap
-+ldapserver_rgrp=openldap
- ldapserver_rusr=openldap
- 
- webserver_document_root=/usr/share/kolab
-+#webserver_tmpdir=
- webserver_cgidir=${webserver_document_root}/cgi-bin
- webserver_sessions=${localstatedir}/cache/kolab/httpd_sessions
- webserver_logdir=${localstatedir}/log/apache2
-@@ -125,17 +135,20 @@
- sasl_smtpconffile=${sysconfdir}/postfix/sasl/smtpd.conf
- sasl_logfile=${localstatedir}/log/saslauthd.log
- 
--resmgr_logfile=${localstatedir}/log/resmgr.log
-+sysrundir=${localstatedir}/run
-+
-+resmgr_logdir=${localstatedir}/log
- resmgr_confdir=${sysconfdir}/kolab
--resmgr_filterdir=${localstatedir}/lib/kolab/resmgr/filter
--resmgr_scriptsdir=/usr/share/kolab/filter
+@@ -148,12 +148,13 @@
  resmgr_conffile_usr=kolab
  resmgr_conffile_grp=root
-+#resmgr_tmpdir=
-+resmgr_scriptsdir=/usr/share/kolab/filter
+ #resmgr_tmpdir=
++resmgr_locksdir=${kolab_statedir}/filter/locks
++resmgr_localedir=${libdir}/usr/share/php/data/Kolab_Filter/locale
+ resmgr_scriptsdir=${bindir}
  resmgr_usr=root
  resmgr_grp=www-data
-+resmgr_filterdir=${localstatedir}/lib/kolab/resmgr/filter
+-resmgr_filterdir=${kolab_statedir}/resmgr/filter
+ resmgr_log_type=syslog
+-resmgr_log_name=cons, pid
++resmgr_log_name='cons,pid'
  
- fbview_logfile=${localstatedir}/resmgr/fbview.log
--freebusy_logfile=${localstatedir}/resmgr/freebusy.log
-+freebusy_logdir=${localstatedir}/log
- freebusy_confdir=${sysconfdir}/kolab
- freebusy_cachedir=${localstatedir}/lib/kolab/freebusy-cache
+ fbview_logfile=${localstatedir}/log/fbview.log
+ freebusy_logdir=${localstatedir}/log
+@@ -162,7 +163,7 @@
  freebusy_usr=root
-@@ -146,8 +159,6 @@
+ freebusy_grp=www-data
+ freebusy_log_type=syslog
+-freebusy_log_name=cons, pid
++freebusy_log_name='cons,pid'
  
- backupdir=${localstatedir}/backups/kolab
- 
--kolab_smtpdpolicy_conffile_usr=${kolab_musr}
--kolab_smtpdpolicy_conffile_grp=${kolab_grp}
-+pki_grp=${kolab_rgrp}
- 
- aliases_file=${sysconfdir}/aliases
--
+ graveyard_uidcache=${kolab_statedir}/graveyard_uidcache.db
+ graveyard_tscache=${kolab_statedir}/graveyard_tscache.db
+Index: b/dist_conf/common
+===================================================================
+--- a/dist_conf/common
++++ b/dist_conf/common
+@@ -1,152 +1,152 @@
+ do_subst = sed \
+-	-e 's,[@]sysconfdir[@],$(sysconfdir),g' \
+-	-e 's,[@]bindir[@],$(bindir),g' \
+-	-e 's,[@]sbindir[@],$(sbindir),g' \
+-	-e 's,[@]prefix[@],$(prefix),g' \
+-	-e 's,[@]libdir[@],$(libdir),g' \
+-	-e 's,[@]datadir[@],$(datadir),g' \
+-	-e 's,[@]libexecdir[@],$(libexecdir),g' \
+-	-e 's,[@]localstatedir[@],$(localstatedir),g' \
+-	-e 's,[@]phpini_dir[@],$(phpini_dir),g' \
+-	-e 's,[@]phplibdir[@],$(phplibdir),g' \
+-	-e 's,[@]phplibdir2[@],$(phplibdir2),g' \
+-	-e 's,[@]phppeardir[@],$(phppeardir),g' \
+-	-e 's,[@]BASH[@],$(BASHELL),g' \
+-	-e 's,[@]CHKCONFIG[@],$(CHKCONFIG),g' \
+-	-e 's,[@]KOLABRC[@],$(KOLABRC),g' \
+-	-e 's,[@]LDAPD[@],$(LDAPD),g' \
+-	-e 's,[@]PERL[@],$(PERL),g' \
+-	-e 's,[@]PHP[@],$(PHP),g' \
+-	-e 's,[@]RPM[@],$(RPM),g' \
+-	-e 's,[@]TAR[@],$(TAR),g' \
+-	-e 's,[@]VERSION[@],$(VERSION),g' \
+-	-e 's,[@]WITHOPENPKG[@],$(WITHOPENPKG),g' \
+-	-e 's,[@]aliases_file[@],$(aliases_file),g' \
+-	-e 's,[@]syslog_facility[@],$(syslog_facility),g' \
+-	-e 's,[@]directory_mode[@],$(directory_mode),g' \
+-	-e 's,[@]amavisd_conffile[@],$(amavisd_conffile),g' \
+-	-e 's,[@]amavisd_grp[@],$(amavisd_grp),g' \
+-	-e 's,[@]amavisd_home[@],$(amavisd_home),g' \
+-	-e 's,[@]amavisd_logfile[@],$(amavisd_logfile),g' \
+-	-e 's,[@]amavisd_rusr[@],$(amavisd_rusr),g' \
+-	-e 's,[@]amavisd_templatedir[@],$(amavisd_templatedir),g' \
+-	-e 's,[@]amavisd_usr[@],$(amavisd_usr),g' \
+-	-e 's,[@]backupdir[@],$(backupdir),g' \
+-	-e 's,[@]backupfiles[@],$(backupfiles),g' \
+-	-e 's,[@]clamav_confdir[@],$(clamav_confdir),g' \
+-	-e 's,[@]clamav_datadir[@],$(clamav_datadir),g' \
+-	-e 's,[@]clamav_grp[@],$(clamav_grp),g' \
+-	-e 's,[@]clamav_logdir[@],$(clamav_logdir),g' \
+-	-e 's,[@]clamav_logfile[@],$(clamav_logfile),g' \
+-	-e 's,[@]clamav_pidfile[@],$(clamav_pidfile),g' \
+-	-e 's,[@]clamav_rusr[@],$(clamav_rusr),g' \
+-	-e 's,[@]clamav_socket[@],$(clamav_socket),g' \
+-	-e 's,[@]clamav_usr[@],$(clamav_usr),g' \
+-	-e 's,[@]emailserver_confdir[@],$(emailserver_confdir),g' \
+-	-e 's,[@]emailserver_default_privs[@],$(emailserver_default_privs),g' \
+-	-e 's,[@]emailserver_grp[@],$(emailserver_grp),g' \
+-	-e 's,[@]emailserver_localstatedir[@],$(emailserver_localstatedir),g' \
+-	-e 's,[@]emailserver_logfile[@],$(emailserver_logfile),g' \
+-	-e 's,[@]emailserver_mail_owner[@],$(emailserver_mail_owner),g' \
+-	-e 's,[@]emailserver_master_usr[@],$(emailserver_master_usr),g' \
+-	-e 's,[@]emailserver_musr[@],$(emailserver_musr),g' \
+-	-e 's,[@]emailserver_setgid_grp[@],$(emailserver_setgid_grp),g' \
+-	-e 's,[@]emailserver_socket[@],$(emailserver_socket),g' \
+-	-e 's,[@]emailserver_tables_usr[@],$(emailserver_tables_usr),g' \
+-	-e 's,[@]emailserver_usr[@],$(emailserver_usr),g' \
+-	-e 's,[@]fbview_logfile[@],$(fbview_logfile),g' \
+-	-e 's,[@]freebusy_confdir[@],$(freebusy_confdir),g' \
+-	-e 's,[@]freebusy_cachedir[@],$(freebusy_cachedir),g' \
+-	-e 's,[@]freebusy_grp[@],$(freebusy_grp),g' \
+-	-e 's,[@]freebusy_logdir[@],$(freebusy_logdir),g' \
+-	-e 's,[@]freebusy_usr[@],$(freebusy_usr),g' \
+-	-e 's,[@]freebusy_log_type[@],$(freebusy_log_type),g' \
+-	-e 's,[@]freebusy_log_name[@],$(freebusy_log_name),g' \
+-	-e 's,[@]freshclam_logfile[@],$(freshclam_logfile),g' \
+-	-e 's,[@]freshclam_pidfile[@],$(freshclam_pidfile),g' \
+-	-e 's,[@]fsl_logfile[@],$(fsl_logfile),g' \
+-	-e 's,[@]graveyard_tscache[@],$(graveyard_tscache),g' \
+-	-e 's,[@]graveyard_uidcache[@],$(graveyard_uidcache),g' \
+-	-e 's,[@]imap_confdir[@],$(imap_confdir),g' \
+-	-e 's,[@]imap_confperm[@],$(imap_confperm),g' \
+-	-e 's,[@]imap_grp[@],$(imap_grp),g' \
+-	-e 's,[@]imap_lmtp[@],$(imap_lmtp),g' \
+-	-e 's,[@]imap_masterlogfile[@],$(imap_masterlogfile),g' \
+-	-e 's,[@]imap_misclogfile[@],$(imap_misclogfile),g' \
+-	-e 's,[@]imap_notify_socket[@],$(imap_notify_socket),g' \
+-	-e 's,[@]imap_sievedir[@],$(imap_sievedir),g' \
+-	-e 's,[@]imap_spool[@],$(imap_spool),g' \
+-	-e 's,[@]imap_statedir[@],$(imap_statedir),g' \
+-	-e 's,[@]imap_usr[@],$(imap_usr),g' \
+-	-e 's,[@]kolab_gid[@],$(kolab_gid),g' \
+-	-e 's,[@]kolab_grp[@],$(kolab_grp),g' \
+-	-e 's,[@]kolab_mailboxuiddb[@],$(kolab_mailboxuiddb),g' \
+-	-e 's,[@]kolab_mgrp[@],$(kolab_mgrp),g' \
+-	-e 's,[@]kolab_musr[@],$(kolab_musr),g' \
+-	-e 's,[@]kolab_php_module_prefix[@],$(kolab_php_module_prefix),g' \
+-	-e 's,[@]kolab_php_smarty_prefix[@],$(kolab_php_smarty_prefix),g' \
+-	-e 's,[@]kolab_pidfile[@],$(kolab_pidfile),g' \
+-	-e 's,[@]kolab_rcdir[@],$(kolab_rcdir),g' \
+-	-e 's,[@]kolab_rgrp[@],$(kolab_rgrp),g' \
+-	-e 's,[@]kolab_pkgs[@],$(kolab_pkgs),g' \
+-	-e 's,[@]kolab_rusr[@],$(kolab_rusr),g' \
+-	-e 's,[@]kolab_scriptsdir[@],$(kolab_scriptsdir),g' \
+-	-e 's,[@]kolab_statedir[@],$(kolab_statedir),g' \
+-	-e 's,[@]kolab_smtpdpolicy_conffile_grp[@],$(kolab_smtpdpolicy_conffile_grp),g' \
+-	-e 's,[@]kolab_smtpdpolicy_conffile_usr[@],$(kolab_smtpdpolicy_conffile_usr),g' \
+-	-e 's,[@]kolab_susr[@],$(kolab_susr),g' \
+-	-e 's,[@]kolab_usr[@],$(kolab_usr),g' \
+-	-e 's,[@]kolab_wui[@],$(kolab_wui),g' \
+-	-e 's,[@]kolab_quotawarning[@],$(kolab_quotawarning),g' \
+-	-e 's,[@]kolabconf_script[@],$(kolabconf_script),g' \
+-	-e 's,[@]ldapserver_argsfile[@],$(ldapserver_argsfile),g' \
+-	-e 's,[@]ldapserver_confdir[@],$(ldapserver_confdir),g' \
+-	-e 's,[@]ldapserver_dir[@],$(ldapserver_dir),g' \
+-	-e 's,[@]ldapserver_grp[@],$(ldapserver_grp),g' \
+-	-e 's,[@]ldapserver_logfile[@],$(ldapserver_logfile),g' \
+-	-e 's,[@]ldapserver_pidfile[@],$(ldapserver_pidfile),g' \
+-	-e 's,[@]ldapserver_replogfile[@],$(ldapserver_replogfile),g' \
+-	-e 's,[@]ldapserver_rgrp[@],$(ldapserver_rgrp),g' \
+-	-e 's,[@]ldapserver_rusr[@],$(ldapserver_rusr),g' \
+-	-e 's,[@]ldapserver_schemadir[@],$(ldapserver_schemadir),g' \
+-	-e 's,[@]ldapserverslurpd_pidfile[@],$(ldapserverslurpd_pidfile),g' \
+-	-e 's,[@]ldapserver_statedir[@],$(ldapserver_statedir),g' \
+-	-e 's,[@]ldapserver_usr[@],$(ldapserver_usr),g' \
+-	-e 's,[@]pear_horde_pkgs[@],$(pear_horde_pkgs),g' \
+-	-e 's,[@]pkgdocdir[@],$(pkgdocdir),g' \
+-	-e 's,[@]pki_grp[@],$(pki_grp),g' \
+-	-e 's,[@]resmgr_confdir[@],$(resmgr_confdir),g' \
+-	-e 's,[@]resmgr_conffile_grp[@],$(resmgr_conffile_grp),g' \
+-	-e 's,[@]resmgr_conffile_usr[@],$(resmgr_conffile_usr),g' \
+-	-e 's,[@]resmgr_tmpdir[@],$(resmgr_tmpdir),g' \
+-	-e 's,[@]resmgr_grp[@],$(resmgr_grp),g' \
+-	-e 's,[@]resmgr_logdir[@],$(resmgr_logdir),g' \
+-	-e 's,[@]resmgr_scriptsdir[@],$(resmgr_scriptsdir),g' \
+-	-e 's,[@]resmgr_usr[@],$(resmgr_usr),g' \
+-	-e 's,[@]resmgr_log_type[@],$(resmgr_log_type),g' \
+-	-e 's,[@]resmgr_log_name[@],$(resmgr_log_name),g' \
+-	-e 's,[@]sasl_authdconffile[@],$(sasl_authdconffile),g' \
+-	-e 's,[@]sasl_logfile[@],$(sasl_logfile),g' \
+-	-e 's,[@]sasl_smtpconffile[@],$(sasl_smtpconffile),g' \
+-	-e 's,[@]smarty_compiledir[@],$(smarty_compiledir),g' \
+-	-e 's,[@]spamassassin_confdir[@],$(spamassassin_confdir),g' \
+-	-e 's,[@]webserver_acceptlock[@],$(webserver_acceptlock),g' \
+-	-e 's,[@]webserver_accesslogfile[@],$(webserver_accesslogfile),g' \
+-	-e 's,[@]webserver_cgidir[@],$(webserver_cgidir),g' \
+-	-e 's,[@]webserver_confdir[@],$(webserver_confdir),g' \
+-	-e 's,[@]webserver_document_root[@],$(webserver_document_root),g' \
+-	-e 's,[@]webserver_logdir[@],$(webserver_logdir),g' \
+-	-e 's,[@]webserver_errorlogfile[@],$(webserver_errorlogfile),g' \
+-	-e 's,[@]webserver_grp[@],$(webserver_grp),g' \
+-	-e 's,[@]webserver_musr[@],$(webserver_musr),g' \
+-	-e 's,[@]webserver_pidfile[@],$(webserver_pidfile),g' \
+-	-e 's,[@]webserver_runtime_status[@],$(webserver_runtime_status),g' \
+-	-e 's,[@]webserver_sessions[@],$(webserver_sessions),g' \
+-	-e 's,[@]webserver_sslmutex[@],$(webserver_sslmutex),g' \
+-	-e 's,[@]webserver_sslscache[@],$(webserver_sslscache),g' \
+-	-e 's,[@]webserver_tmpdir[@],$(webserver_tmpdir),g' \
+-	-e 's,[@]webserver_usr[@],$(webserver_usr),g' \
+-	-e 's,[@]webserver_web_prefix[@],$(webserver_web_prefix),g' \
+-	-e 's,[@]horde_cookie_path[@],$(horde_cookie_path),g' \
+-	-e 's,[@]horde_confdir[@],$(horde_confdir),g' \
+-	-e 's,[@]kronolith_confdir[@],$(kronolith_confdir),g'
++	-e 's=[@]sysconfdir[@]=$(sysconfdir)=g' \
++	-e 's=[@]bindir[@]=$(bindir)=g' \
++	-e 's=[@]sbindir[@]=$(sbindir)=g' \
++	-e 's=[@]prefix[@]=$(prefix)=g' \
++	-e 's=[@]libdir[@]=$(libdir)=g' \
++	-e 's=[@]datadir[@]=$(datadir)=g' \
++	-e 's=[@]libexecdir[@]=$(libexecdir)=g' \
++	-e 's=[@]localstatedir[@]=$(localstatedir)=g' \
++	-e 's=[@]phpini_dir[@]=$(phpini_dir)=g' \
++	-e 's=[@]phplibdir[@]=$(phplibdir)=g' \
++	-e 's=[@]phplibdir2[@]=$(phplibdir2)=g' \
++	-e 's=[@]phppeardir[@]=$(phppeardir)=g' \
++	-e 's=[@]BASH[@]=$(BASHELL)=g' \
++	-e 's=[@]CHKCONFIG[@]=$(CHKCONFIG)=g' \
++	-e 's=[@]KOLABRC[@]=$(KOLABRC)=g' \
++	-e 's=[@]LDAPD[@]=$(LDAPD)=g' \
++	-e 's=[@]PERL[@]=$(PERL)=g' \
++	-e 's=[@]PHP[@]=$(PHP)=g' \
++	-e 's=[@]RPM[@]=$(RPM)=g' \
++	-e 's=[@]TAR[@]=$(TAR)=g' \
++	-e 's=[@]VERSION[@]=$(VERSION)=g' \
++	-e 's=[@]WITHOPENPKG[@]=$(WITHOPENPKG)=g' \
++	-e 's=[@]aliases_file[@]=$(aliases_file)=g' \
++	-e 's=[@]syslog_facility[@]=$(syslog_facility)=g' \
++	-e 's=[@]directory_mode[@]=$(directory_mode)=g' \
++	-e 's=[@]amavisd_conffile[@]=$(amavisd_conffile)=g' \
++	-e 's=[@]amavisd_grp[@]=$(amavisd_grp)=g' \
++	-e 's=[@]amavisd_home[@]=$(amavisd_home)=g' \
++	-e 's=[@]amavisd_logfile[@]=$(amavisd_logfile)=g' \
++	-e 's=[@]amavisd_rusr[@]=$(amavisd_rusr)=g' \
++	-e 's=[@]amavisd_templatedir[@]=$(amavisd_templatedir)=g' \
++	-e 's=[@]amavisd_usr[@]=$(amavisd_usr)=g' \
++	-e 's=[@]backupdir[@]=$(backupdir)=g' \
++	-e 's=[@]backupfiles[@]=$(backupfiles)=g' \
++	-e 's=[@]clamav_confdir[@]=$(clamav_confdir)=g' \
++	-e 's=[@]clamav_datadir[@]=$(clamav_datadir)=g' \
++	-e 's=[@]clamav_grp[@]=$(clamav_grp)=g' \
++	-e 's=[@]clamav_logdir[@]=$(clamav_logdir)=g' \
++	-e 's=[@]clamav_logfile[@]=$(clamav_logfile)=g' \
++	-e 's=[@]clamav_pidfile[@]=$(clamav_pidfile)=g' \
++	-e 's=[@]clamav_rusr[@]=$(clamav_rusr)=g' \
++	-e 's=[@]clamav_socket[@]=$(clamav_socket)=g' \
++	-e 's=[@]clamav_usr[@]=$(clamav_usr)=g' \
++	-e 's=[@]emailserver_confdir[@]=$(emailserver_confdir)=g' \
++	-e 's=[@]emailserver_default_privs[@]=$(emailserver_default_privs)=g' \
++	-e 's=[@]emailserver_grp[@]=$(emailserver_grp)=g' \
++	-e 's=[@]emailserver_localstatedir[@]=$(emailserver_localstatedir)=g' \
++	-e 's=[@]emailserver_logfile[@]=$(emailserver_logfile)=g' \
++	-e 's=[@]emailserver_mail_owner[@]=$(emailserver_mail_owner)=g' \
++	-e 's=[@]emailserver_master_usr[@]=$(emailserver_master_usr)=g' \
++	-e 's=[@]emailserver_musr[@]=$(emailserver_musr)=g' \
++	-e 's=[@]emailserver_setgid_grp[@]=$(emailserver_setgid_grp)=g' \
++	-e 's=[@]emailserver_socket[@]=$(emailserver_socket)=g' \
++	-e 's=[@]emailserver_tables_usr[@]=$(emailserver_tables_usr)=g' \
++	-e 's=[@]emailserver_usr[@]=$(emailserver_usr)=g' \
++	-e 's=[@]fbview_logfile[@]=$(fbview_logfile)=g' \
++	-e 's=[@]freebusy_confdir[@]=$(freebusy_confdir)=g' \
++	-e 's=[@]freebusy_cachedir[@]=$(freebusy_cachedir)=g' \
++	-e 's=[@]freebusy_grp[@]=$(freebusy_grp)=g' \
++	-e 's=[@]freebusy_logdir[@]=$(freebusy_logdir)=g' \
++	-e 's=[@]freebusy_usr[@]=$(freebusy_usr)=g' \
++	-e 's=[@]freebusy_log_type[@]=$(freebusy_log_type)=g' \
++	-e 's=[@]freebusy_log_name[@]=$(freebusy_log_name)=g' \
++	-e 's=[@]freshclam_logfile[@]=$(freshclam_logfile)=g' \
++	-e 's=[@]freshclam_pidfile[@]=$(freshclam_pidfile)=g' \
++	-e 's=[@]fsl_logfile[@]=$(fsl_logfile)=g' \
++	-e 's=[@]graveyard_tscache[@]=$(graveyard_tscache)=g' \
++	-e 's=[@]graveyard_uidcache[@]=$(graveyard_uidcache)=g' \
++	-e 's=[@]imap_confdir[@]=$(imap_confdir)=g' \
++	-e 's=[@]imap_confperm[@]=$(imap_confperm)=g' \
++	-e 's=[@]imap_grp[@]=$(imap_grp)=g' \
++	-e 's=[@]imap_lmtp[@]=$(imap_lmtp)=g' \
++	-e 's=[@]imap_masterlogfile[@]=$(imap_masterlogfile)=g' \
++	-e 's=[@]imap_misclogfile[@]=$(imap_misclogfile)=g' \
++	-e 's=[@]imap_notify_socket[@]=$(imap_notify_socket)=g' \
++	-e 's=[@]imap_sievedir[@]=$(imap_sievedir)=g' \
++	-e 's=[@]imap_spool[@]=$(imap_spool)=g' \
++	-e 's=[@]imap_statedir[@]=$(imap_statedir)=g' \
++	-e 's=[@]imap_usr[@]=$(imap_usr)=g' \
++	-e 's=[@]kolab_gid[@]=$(kolab_gid)=g' \
++	-e 's=[@]kolab_grp[@]=$(kolab_grp)=g' \
++	-e 's=[@]kolab_mailboxuiddb[@]=$(kolab_mailboxuiddb)=g' \
++	-e 's=[@]kolab_mgrp[@]=$(kolab_mgrp)=g' \
++	-e 's=[@]kolab_musr[@]=$(kolab_musr)=g' \
++	-e 's=[@]kolab_php_module_prefix[@]=$(kolab_php_module_prefix)=g' \
++	-e 's=[@]kolab_php_smarty_prefix[@]=$(kolab_php_smarty_prefix)=g' \
++	-e 's=[@]kolab_pidfile[@]=$(kolab_pidfile)=g' \
++	-e 's=[@]kolab_rcdir[@]=$(kolab_rcdir)=g' \
++	-e 's=[@]kolab_rgrp[@]=$(kolab_rgrp)=g' \
++	-e 's=[@]kolab_pkgs[@]=$(kolab_pkgs)=g' \
++	-e 's=[@]kolab_rusr[@]=$(kolab_rusr)=g' \
++	-e 's=[@]kolab_scriptsdir[@]=$(kolab_scriptsdir)=g' \
++	-e 's=[@]kolab_statedir[@]=$(kolab_statedir)=g' \
++	-e 's=[@]kolab_smtpdpolicy_conffile_grp[@]=$(kolab_smtpdpolicy_conffile_grp)=g' \
++	-e 's=[@]kolab_smtpdpolicy_conffile_usr[@]=$(kolab_smtpdpolicy_conffile_usr)=g' \
++	-e 's=[@]kolab_susr[@]=$(kolab_susr)=g' \
++	-e 's=[@]kolab_usr[@]=$(kolab_usr)=g' \
++	-e 's=[@]kolab_wui[@]=$(kolab_wui)=g' \
++	-e 's=[@]kolab_quotawarning[@]=$(kolab_quotawarning)=g' \
++	-e 's=[@]kolabconf_script[@]=$(kolabconf_script)=g' \
++	-e 's=[@]ldapserver_argsfile[@]=$(ldapserver_argsfile)=g' \
++	-e 's=[@]ldapserver_confdir[@]=$(ldapserver_confdir)=g' \
++	-e 's=[@]ldapserver_dir[@]=$(ldapserver_dir)=g' \
++	-e 's=[@]ldapserver_grp[@]=$(ldapserver_grp)=g' \
++	-e 's=[@]ldapserver_logfile[@]=$(ldapserver_logfile)=g' \
++	-e 's=[@]ldapserver_pidfile[@]=$(ldapserver_pidfile)=g' \
++	-e 's=[@]ldapserver_replogfile[@]=$(ldapserver_replogfile)=g' \
++	-e 's=[@]ldapserver_rgrp[@]=$(ldapserver_rgrp)=g' \
++	-e 's=[@]ldapserver_rusr[@]=$(ldapserver_rusr)=g' \
++	-e 's=[@]ldapserver_schemadir[@]=$(ldapserver_schemadir)=g' \
++	-e 's=[@]ldapserverslurpd_pidfile[@]=$(ldapserverslurpd_pidfile)=g' \
++	-e 's=[@]ldapserver_statedir[@]=$(ldapserver_statedir)=g' \
++	-e 's=[@]ldapserver_usr[@]=$(ldapserver_usr)=g' \
++	-e 's=[@]pear_horde_pkgs[@]=$(pear_horde_pkgs)=g' \
++	-e 's=[@]pkgdocdir[@]=$(pkgdocdir)=g' \
++	-e 's=[@]pki_grp[@]=$(pki_grp)=g' \
++	-e 's=[@]resmgr_confdir[@]=$(resmgr_confdir)=g' \
++	-e 's=[@]resmgr_conffile_grp[@]=$(resmgr_conffile_grp)=g' \
++	-e 's=[@]resmgr_conffile_usr[@]=$(resmgr_conffile_usr)=g' \
++	-e 's=[@]resmgr_tmpdir[@]=$(resmgr_tmpdir)=g' \
++	-e 's=[@]resmgr_grp[@]=$(resmgr_grp)=g' \
++	-e 's=[@]resmgr_logdir[@]=$(resmgr_logdir)=g' \
++	-e 's=[@]resmgr_scriptsdir[@]=$(resmgr_scriptsdir)=g' \
++	-e 's=[@]resmgr_usr[@]=$(resmgr_usr)=g' \
++	-e 's=[@]resmgr_log_type[@]=$(resmgr_log_type)=g' \
++	-e 's=[@]resmgr_log_name[@]=$(resmgr_log_name)=g' \
++	-e 's=[@]sasl_authdconffile[@]=$(sasl_authdconffile)=g' \
++	-e 's=[@]sasl_logfile[@]=$(sasl_logfile)=g' \
++	-e 's=[@]sasl_smtpconffile[@]=$(sasl_smtpconffile)=g' \
++	-e 's=[@]smarty_compiledir[@]=$(smarty_compiledir)=g' \
++	-e 's=[@]spamassassin_confdir[@]=$(spamassassin_confdir)=g' \
++	-e 's=[@]webserver_acceptlock[@]=$(webserver_acceptlock)=g' \
++	-e 's=[@]webserver_accesslogfile[@]=$(webserver_accesslogfile)=g' \
++	-e 's=[@]webserver_cgidir[@]=$(webserver_cgidir)=g' \
++	-e 's=[@]webserver_confdir[@]=$(webserver_confdir)=g' \
++	-e 's=[@]webserver_document_root[@]=$(webserver_document_root)=g' \
++	-e 's=[@]webserver_logdir[@]=$(webserver_logdir)=g' \
++	-e 's=[@]webserver_errorlogfile[@]=$(webserver_errorlogfile)=g' \
++	-e 's=[@]webserver_grp[@]=$(webserver_grp)=g' \
++	-e 's=[@]webserver_musr[@]=$(webserver_musr)=g' \
++	-e 's=[@]webserver_pidfile[@]=$(webserver_pidfile)=g' \
++	-e 's=[@]webserver_runtime_status[@]=$(webserver_runtime_status)=g' \
++	-e 's=[@]webserver_sessions[@]=$(webserver_sessions)=g' \
++	-e 's=[@]webserver_sslmutex[@]=$(webserver_sslmutex)=g' \
++	-e 's=[@]webserver_sslscache[@]=$(webserver_sslscache)=g' \
++	-e 's=[@]webserver_tmpdir[@]=$(webserver_tmpdir)=g' \
++	-e 's=[@]webserver_usr[@]=$(webserver_usr)=g' \
++	-e 's=[@]webserver_web_prefix[@]=$(webserver_web_prefix)=g' \
++	-e 's=[@]horde_cookie_path[@]=$(horde_cookie_path)=g' \
++	-e 's=[@]horde_confdir[@]=$(horde_confdir)=g' \
++	-e 's=[@]kronolith_confdir[@]=$(kronolith_confdir)=g'

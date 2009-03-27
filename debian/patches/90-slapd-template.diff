@@ -2,8 +2,6 @@ Goal: slapd.conf template fixes
 
 - DB_CONFIG ownership
 - load modules
-- path of kolab2.schema
-- enable horde schema
 
 Author: Peter Eisentraut <petere@debian.org>
 
@@ -39,14 +37,12 @@ Index: b/templates/slapd.conf.template.in
  # manual additions are lost unless made to the template in the Kolab config directory
  # the template is  @sysconfdir@/kolab/templates/slapd.conf.template
  
-@@ -20,8 +26,8 @@
- include @ldapserver_schemadir@/cosine.schema
- include @ldapserver_schemadir@/inetorgperson.schema
- include @ldapserver_schemadir@/rfc2739.schema
--include @ldapserver_schemadir@/kolab2.schema
--#include @ldapserver_schemadir@/horde.schema
-+include @ldapserver_schemadir@/kolab2.schema
-+include @ldapserver_schemadir@/horde.schema
- 
- pidfile		@ldapserver_pidfile@
- argsfile	@ldapserver_argsfile@
+@@ -31,7 +37,7 @@
+ # or dynamically build.  When build dynamically the module must be loaded.
+ # As the slapd that comes with the openpkg version of kolab is statically
+ # build it is not necessary to load the module.
+-# moduleload syncprov
++moduleload syncprov
+ @@@else@@@
+ replica-pidfile	@ldapserverslurpd_pidfile@
+ replogfile      @ldapserver_replogfile@

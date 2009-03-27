@@ -36,7 +36,7 @@
         [ -f $kolabd_pidfile ] && kill -$1 `cat $kolabd_pidfile`
     }
 
-%status -u root -o
+%status -u @kolab_susr@ -o
     kolabd_usable="unknown"
     kolabd_active="no"
     rcService kolabd enable yes && \
@@ -68,30 +68,35 @@
     kolabd_signal HUP
     sleep 5
 
-%daily -u root
+%daily -u @kolab_susr@
     rcService kolabd enable yes || exit 0
     #   rotate logfiles
     shtool rotate -f \
         -n ${kolabd_log_resmgr_numfiles} -s ${kolabd_log_resmgr_minsize} -d \
         -z ${kolabd_log_resmgr_complevel} -m 640 \
-	-o ${kolabd_log_resmgr_owner} \
-	-g ${kolabd_log_resmgr_group} \
+        -o ${kolabd_log_resmgr_owner} \
+        -g ${kolabd_log_resmgr_group} \
         -P "${kolabd_log_resmgr_prolog}" \
         -E "${kolabd_log_resmgr_epilog}" \
-	"${kolabd_log_resmgr_logfile}"
+        "${kolabd_log_resmgr_logfile}"
     shtool rotate -f \
         -n ${kolabd_log_freebusy_numfiles} -s ${kolabd_log_freebusy_minsize} -d \
         -z ${kolabd_log_freebusy_complevel} -m 640 \
-	-o ${kolabd_log_freebusy_owner} \
-	-g ${kolabd_log_freebusy_group} \
+        -o ${kolabd_log_freebusy_owner} \
+        -g ${kolabd_log_freebusy_group} \
         -P "${kolabd_log_freebusy_prolog}" \
         -E "${kolabd_log_freebusy_epilog}" \
-	"${kolabd_log_freebusy_logfile}"
+        "${kolabd_log_freebusy_logfile}"
     shtool rotate -f \
         -n ${kolabd_log_fbview_numfiles} -s ${kolabd_log_fbview_minsize} -d \
         -z ${kolabd_log_fbview_complevel} -m 640 \
-	-o ${kolabd_log_fbview_owner} \
-	-g ${kolabd_log_fbview_group} \
+        -o ${kolabd_log_fbview_owner} \
+        -g ${kolabd_log_fbview_group} \
         -P "${kolabd_log_fbview_prolog}" \
         -E "${kolabd_log_fbview_epilog}" \
-	"${kolabd_log_fbview_logfile}"
+        "${kolabd_log_fbview_logfile}"
+
+%quarterly -u @kolab_musr@
+    rcService kolabd enable yes || exit 0
+    rcService kolabd active no  && exit 0
+    @bindir@/kolabquotawarn

@@ -18,28 +18,21 @@ endif
 
 kolab_SCRIPTS = $(KOLAB_SCRIPTS_FILES) \
 	kolab_sslcert.sh \
-	kolab_ca.sh \
-	kolab_bootstrap \
-	workaround.sh \
-	kolabquotawarn \
-	kolabquotareport \
-	kolab_upgrade \
-	kolab_smtpdpolicy \
-	kolabdcachetool
-
+	kolab_ca.sh
 
 kolabspecialdir = $(kolabconfdir)
 kolabspecial_DATA = kolab.globals
 
-kolabconfig_FILES = kolab.conf \
-	rootDSE.ldif \
-	quotawarning.txt
+kolabconfig_FILES = rootDSE.ldif
 
 kolabconfigdir = $(kolabconfdir)
 dist_kolabconfig_DATA = $(kolabconfig_FILES)
 
 
-kolabtemplate_FILES = templates/amavisd.conf.template \
+kolabtemplatedir = $(kolabconfdir)/templates
+kolabtemplate_DATA = templates/access.template \
+	templates/amavisd.conf.template \
+	templates/canonical.template \
 	templates/clamd.conf.template \
 	templates/cyrus.conf.template \
 	templates/DB_CONFIG.slapd.template \
@@ -60,6 +53,7 @@ kolabtemplate_FILES = templates/amavisd.conf.template \
 	templates/ldapvirtual.cf.template \
 	templates/kolab_smtpdpolicy.conf.template \
 	templates/php.ini.template \
+	templates/relocated.template \
 	templates/resmgr.conf.template \
 	templates/saslauthd.conf.template \
 	templates/session_vars.php.template \
@@ -69,15 +63,8 @@ kolabtemplate_FILES = templates/amavisd.conf.template \
 	templates/smtpd.conf.template \
 	templates/transport.template \
 	templates/virtual.template \
-	templates/local.cf.template
-
-kolabtemplatedir = $(kolabconfdir)/templates
-if OPENPKG
-kolabtemplate_DATA = $(kolabtemplate_FILES) \
+	templates/local.cf.template \
 	templates/rc.conf.template
-else
-kolabtemplate_DATA = $(kolabtemplate_FILES)
-endif
 
 
 kolabnamespace_FILES = namespace/libexec/newconfig \
@@ -140,13 +127,8 @@ kolabdoc_GENERATED = doc/README.amavisd \
 kolabdocdir = $(pkgdocdir)/@PACKAGE@
 kolabdoc_DATA = $(kolabdoc_FILES) $(kolabdoc_GENERATED)
 
-if OPENPKG
-kolabsbin_FILES = kolabd \
-	kolabcheckperm
-else
-kolabsbin_FILES = kolabd \
-	kolabcheckperm \
-	dist_conf/kolabsrv
+if ! OPENPKG
+kolabsbin_FILES = dist_conf/kolabsrv
 endif	
 
 kolabsbindir = $(sbindir)/
@@ -159,7 +141,7 @@ if OPENPKG
   KOLABBIN_FILES = namespace/kolab
 endif
 
-kolabbin_DATA = kolabpasswd $(KOLABBIN_FILES)
+kolabbin_DATA = $(KOLABBIN_FILES)
 
 
 if OPENPKG
@@ -212,15 +194,11 @@ install-data-hook:
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/freebusy
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_logdir)/php
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_sessions)
-	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_tmpdir)
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(kolab_statedir)
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/locks
+	chmod 444 $(DESTDIR)$(kolabconfdir)/kolab.globals
 	chmod 775 $(DESTDIR)$(kolabdir)$(kolab_FILES)
-	chmod 600 $(DESTDIR)$(kolabconfigdir)/kolab.conf
 	chmod 744 $(DESTDIR)$(kolabnamespacedir)/*
-	chmod 744 $(DESTDIR)$(sbindir)/kolabd
-	chmod 744 $(DESTDIR)$(sbindir)/kolabcheckperm
-	chmod 755 $(DESTDIR)$(bindir)/kolabpasswd
 if ! OPENPKG
 	chmod 755 $(DESTDIR)$(sbindir)/kolabsrv
 endif

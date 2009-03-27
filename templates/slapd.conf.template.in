@@ -24,15 +24,25 @@ include @ldapserver_schemadir@/kolab2.schema
 #include @ldapserver_schemadir@/horde.schema
 
 pidfile		@ldapserver_pidfile@
-replica-pidfile	@ldapserverslurpd_pidfile@
 argsfile	@ldapserver_argsfile@
+
+@@@if directory_replication_mode_is_syncrepl@@@
+# Depending on the build options of openldap the syncprov module is statically
+# or dynamically build.  When build dynamically the module must be loaded.
+# As the slapd that comes with the openpkg version of kolab is statically
+# build it is not necessary to load the module.
+# moduleload syncprov
+@@@else@@@
+replica-pidfile	@ldapserverslurpd_pidfile@
 replogfile      @ldapserver_replogfile@
 replicationinterval 5
+@@@endif@@@
 
-schemacheck 	       on
-
+@@@if bootstrap_config@@@
+@@@else@@@
 TLSCertificateFile     @sysconfdir@/kolab/cert.pem
 TLSCertificateKeyFile  @sysconfdir@/kolab/key.pem
+@@@endif@@@
 
 rootDSE                @sysconfdir@/kolab/rootDSE.ldif
 
@@ -48,10 +58,21 @@ suffix		"@@@base_dn@@@"
 cachesize       10000
 checkpoint 	512 5
 idlcachesize    10000
+
+# The idletimeout can be increased if some clients develop problems.
+# Please report to kolab-devel@kolab.org if you encounter such a client.
 idletimeout	300
-		# The idletimeout can be increased if some clients develop
-		# problems. Please report to kolab-devel@kolab.org
-		# if you encounter such a client.
+
+@@@if directory_replication_mode_is_syncrepl@@@
+# Use syncprov/syncrepl method for ldap replication
+overlay syncprov
+syncprov-checkpoint 1024 16
+syncprov-sessionlog 4096
+syncprov-reloadhint TRUE
+index entryCSN eq
+index entryUUID eq
+@@@endif@@@
+
 dirtyread
 
 directory	@ldapserver_dir@

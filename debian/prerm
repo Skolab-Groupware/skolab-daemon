@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if command -v a2dissite >/dev/null 2>&1; then
+  a2dissite kolab >/dev/null
+else
+  rm -f /etc/apache2/sites-enabled/kolab
+fi
+
+#DEBHELPER#

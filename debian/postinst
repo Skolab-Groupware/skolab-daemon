@@ -23,6 +23,30 @@ adduser_cyrus_in_kolab() {
 fixperms() {
 	chown kolab:kolab /var/lib/kolab
 	chmod 2775 /var/lib/kolab
+	
+	chmod 750 /var/lib/kolab/freebusy-cache/
+	chown www-data:root /var/lib/kolab/freebusy-cache/
+}
+
+configure_apache() {
+	#a2enmod and a2ensite are in same package apache*-common
+	if command -v a2enmod >/dev/null 2>&1; then
+		for mod in rewrite ssl ldap; do
+			a2enmod $mod >/dev/null
+		done
+
+		if [ -e /etc/apache2/mods-available/php5.load ]; then
+			a2enmod php5 >/dev/null
+		fi
+
+		a2ensite kolab >/dev/null
+	fi
+
+	if command -v invoke-rc.d >/dev/null 2>&1; then
+		invoke-rc.d apache2 force-reload || :
+	else
+		[ -x /etc/init.d/apache2 ] && /etc/init.d/apache2 force-reload || :
+	fi
 }
 
 if [ "$1" = configure ]; then
@@ -30,6 +54,7 @@ if [ "$1" = configure ]; then
 	adduser_postfix_in_sasl
 	adduser_cyrus_in_kolab
 	fixperms
+	configure_apache
 fi
 
 #DEBHELPER#

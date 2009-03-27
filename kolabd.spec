@@ -24,10 +24,6 @@
 ##  SUCH DAMAGE.
 ##
 
-#   package version
-%define       V_ei_maj 2.2
-%define       V_ei_min 0
-
 #   package information
 Name:         kolabd
 Summary:      Kolab2 Groupware Server Daemon
@@ -35,18 +31,14 @@ URL:          http://www.kolab.org/
 Vendor:       Erfrakon, Intevation, Code Fusion, Klaraelvdalens Datakonsult AB
 Packager:     Klaraelvdalens Datakonsult AB
 Distribution: OpenPKG
-Class:        PLUS
 Group:        Mail
 License:      GPL
-Version:      2.2.0
-Release:      20080709
+Version:      2.2.1
+Release:      20090304
 
 #   list of sources
 Source0:      kolabd-%{version}.tar.bz2
 #Source1:      rc.kolabd
-
-#   package options
-%option       with_horde              yes
 
 #   build information
 Prefix:       %{l_prefix}
@@ -61,25 +53,22 @@ PreReq:       clamav >= 0.90
 PreReq:       openldap, openldap::with_pth = no
 PreReq:       imap, imap::with_annotate = yes
 PreReq:       apache, apache::with_mod_ssl = yes, apache::with_mod_ldap = yes, apache::with_mod_authn_alias = yes
+PreReq:       Kolab_Filter
+PreReq:       Kolab_FreeBusy
 
-%if "%{with_horde}" == "yes"
-# FIXME (optional)
 # what about php::with_tidy = yes (for Horde Imp)
-PreReq:       php, php::with_pear = yes, php::with_gettext = yes, php::with_dom = yes, php::with_mcrypt = yes, php::with_iconv = yes, php::with_mbstring = yes, php::with_mbregex = yes, php::with_gd = yes, php::with_imap = yes, php::with_ssl = yes, php::with_ctype = yes, php::with_openldap = yes, php::with_mhash = yes, php::with_zlib = yes, php::with_bdb = yes, php::with_imap_annotate = yes, php::with_imap_myrights = yes, php::with_pear = yes, php::with_xml = yes, php::with_mm = yes
-PreReq:       apache-php, apache-php::with_gettext = yes, apache-php::with_dom = yes, apache-php::with_mcrypt = yes, apache-php::with_iconv = yes, apache-php::with_mbstring = yes, apache-php::with_mbregex = yes, apache-php::with_gd = yes, apache-php::with_imap = yes, apache-php::with_ssl = yes, apache-php::with_ctype = yes, apache-php::with_openldap = yes, apache-php::with_mhash = yes, apache-php::with_zlib = yes, apache-php::with_bdb = yes, apache-php::with_imap_annotate = yes, apache-php::with_imap_myrights = yes, apache-php::with_pear = yes, apache-php::with_xml = yes, apache-php::with_mm = yes
-%else
-PreReq:       php, php::with_zlib = yes, php::with_bdb = yes, php::with_gettext = yes, php::with_imap = yes, php::with_imap_annotate = yes, php::with_openldap = yes, php::with_pear = yes, php::with_xml = yes, php::with_dom = yes, php::with_ssl = yes, php::with_mbstring = yes, php::with_mm = yes
-PreReq:       apache-php, apache-php::with_zlib = yes, apache-php::with_bdb = yes, apache-php::with_gettext = yes, apache-php::with_imap = yes, apache-php::with_imap_annotate = yes, apache-php::with_openldap = yes, apache-php::with_pear = yes, apache-php::with_xml = yes, apache-php::with_dom = yes, apache-php::with_ssl = yes, apache-php::with_mbstring = yes, apache-php::with_mm = yes
-%endif
+PreReq:       php, php::with_gettext = yes, php::with_dom = yes, php::with_mcrypt = yes, php::with_iconv = yes, php::with_mbstring = yes, php::with_mbregex = yes, php::with_gd = yes, php::with_imap = yes, php::with_ssl = yes, php::with_ctype = yes, php::with_openldap = yes, php::with_mhash = yes, php::with_zlib = yes, php::with_bdb = yes, php::with_imap_annotate = yes, php::with_imap_myrights = yes, php::with_pear = yes, php::with_xml = yes, php::with_mm = yes, php::with_sqlite = yes, php::with_spl = yes
+PreReq:       apache-php, apache-php::with_gettext = yes, apache-php::with_dom = yes, apache-php::with_mcrypt = yes, apache-php::with_iconv = yes, apache-php::with_mbstring = yes, apache-php::with_mbregex = yes, apache-php::with_gd = yes, apache-php::with_imap = yes, apache-php::with_ssl = yes, apache-php::with_ctype = yes, apache-php::with_openldap = yes, apache-php::with_mhash = yes, apache-php::with_zlib = yes, apache-php::with_bdb = yes, apache-php::with_imap_annotate = yes, apache-php::with_imap_myrights = yes, apache-php::with_pear = yes, apache-php::with_xml = yes, apache-php::with_mm = yes, apache-php::with_sqlite = yes, php::with_spl = yes
 
 PreReq:       imapd, imapd::with_group = yes, imapd::with_group_igncase = yes, imapd::with_ldap = yes, imapd::with_annotate = yes, imapd::with_atvdom = yes, imapd::with_morelogging = yes, imapd::with_kolab = yes
 PreReq:       perl-ssl
 PreReq:       perl-www
 PreReq:       perl-ldap
 PreReq:       perl-kolab >= 2.1.0.cvs-20070801
-PreReq:       kolabconf
 AutoReq:      no
 AutoReqProv:  no
+
+Provides:     kolabd::with_horde
 
 %option       kolab_version snapshot
 
@@ -89,20 +78,9 @@ AutoReqProv:  no
     clients using third party plugins and web clients in the future. 
     In addition it is a robust and flexible general IMAP mail server 
     with LDAP addressbooks.
-    Kolab %{V_ei_maj}.%{V_ei_min}
-
-%track
-    prog kolab-ei = {
-        version   = %{V_ei_maj}.%{V_ei_min}
-        url       = ftp://ftp.kdab.net/pub/kolab/server/current/
-        regex     = kolabd-(__VER__)\.src\.rpm
-    }
 
 %prep
     %setup -q
-%if "%{with_horde}" == "yes"
-    sed -i -e 's/^#\(.*horde.*\)/\1/' templates/slapd.conf.template.in
-%endif
 
 %build
     ./configure --prefix=%{l_prefix} --with-dist=kolab
@@ -116,11 +94,8 @@ AutoReqProv:  no
 
     #   generate file list
     %{l_rpmtool} files -v -ofiles -r$RPM_BUILD_ROOT %{l_files_std} \
-	'%config(noreplace) %{l_prefix}/etc/kolab/kolab.conf' \
-	'%config %{l_prefix}/etc/kolab/quotawarning.txt' \
 	'%config %{l_prefix}/etc/kolab/templates/*.template' \
 	%dir '%defattr(-,%{l_nusr},%{l_ngrp})' %{l_prefix}/var/kolab/httpd_sessions \
-	%dir '%defattr(-,%{l_nusr},%{l_ngrp})' %{l_prefix}/var/kolab/tmp \
 	%dir '%defattr(-,%{l_nusr},%{l_ngrp})' %{l_prefix}/var/apache/log/php
 
 %files -f files
@@ -132,10 +107,9 @@ AutoReqProv:  no
     %{l_shtool} echo -e "Installing crontab entry"
 	# NOTE: OpenPKG's dcron package does not work currently, 
 	# so we have to rely on the host system's cron:
-    %{l_shtool} echo -e "`crontab -u %{l_musr} -l | grep -v %{l_prefix}/etc/kolab/kolabquotawarn`" \
-	'
-*/10 * * * * %{l_prefix}/etc/kolab/kolabquotawarn' | crontab - -u %{l_musr}
+    %{l_shtool} echo -e "`crontab -u %{l_musr} -l | grep -v '%{l_prefix}/[a-z/]*/kolabquotawarn'`" \
+	| crontab - -u %{l_musr}
 
-    echo "For a fresh install please initialize Kolab by running '$RPM_INSTALL_PREFIX/etc/kolab/kolab_bootstrap -b' as user root."
+    echo "For a fresh install please initialize Kolab by running '$RPM_INSTALL_PREFIX/sbin/kolab_bootstrap -b' as user root."
     echo "If you upgraded from a previous version simply refresh Kolab by running run '$RPM_INSTALL_PREFIX/sbin/kolabconf' as user root."
     echo "In every case execute '$RPM_INSTALL_PREFIX/bin/openpkg rc kolabd restart' as user root."

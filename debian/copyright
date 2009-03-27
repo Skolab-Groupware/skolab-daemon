@@ -1,7 +1,10 @@
-This package was debianized by Steffen Joeris <steffen.joeris@skolelinux.de> on
-Fri, 16 Dec 2005 14:32:36 +0100.
+This package was debianized:
 
-It was downloaded from <http://kolab.org/>
+    by Steffen Joeris <steffen.joeris@skolelinux.de> on Fri, 16 Dec 2005 14:32:36 +0100
+
+It was downloaded from:
+
+    <http://kolab.org/>
 
 Copyright Holder(s): 
 			Copyright (c) 2003,2004,2005  Code Fusion cc 
@@ -114,8 +117,8 @@ License:
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-On Debian systems, the complete text of the GNU General
-Public License can be found in `/usr/share/common-licenses/GPL'.
+On Debian systems, the complete text of the GNU General Public License
+version 2 can be found in `/usr/share/common-licenses/GPL-2'.
 
 The following file have a special copyright notice:
 

@@ -24,52 +24,35 @@ clean-patched:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k 
+	dh_prep 
 	dh_installdirs
 
 	# scripts for /usr/bin and /usr/sbin
-	install -D -m 755 kolabd debian/kolabd/usr/sbin/kolabd
-	install -D -m 755 kolabcheckperm debian/kolabd/usr/sbin/kolabcheckperm
-	install -D -m 755 kolabpasswd debian/kolabd/usr/bin/kolabpasswd
-	install -D -m 755 kolab_upgrade debian/kolabd/usr/sbin/kolab_upgrade
-	install -D -m 755 kolab_sslcert.sh debian/kolabd/usr/sbin/kolab_sslcert
+	install -D -m 755 kolab_sslcert.sh debian/kolabd/usr/sbin/kolab_sslcert 
 	install -D -m 755 kolab_ca.sh debian/kolabd/usr/sbin/kolab_ca.sh
-	install -D -m 755 kolabquotawarn debian/kolabd/usr/sbin/kolabquotawarn
-	install -D -m 755 kolab_smtpdpolicy debian/kolabd/usr/sbin/kolab_smtpdpolicy
-	install -D -m 755 kolab_bootstrap debian/kolabd/usr/sbin/kolab_bootstrap
-	install -D -m 755 kolabdcachetool debian/kolabd/usr/sbin/kolabdcachetool
-	install -D -m 755 kolabquotareport debian/kolabd/usr/sbin/kolabquotareport
 
 	# Files for /etc/kolab
-	install -D -m 640 kolab.conf debian/kolabd/etc/kolab/kolab.conf
 	install -D -m 644 kolab.globals debian/kolabd/etc/kolab/kolab.globals
 	# This file is obsolete we use kolabconf for it
 #	install -D -m 755 kolab debian/kolabd/etc/kolab/kolab
 	# unneeded simple script
 #	install -D -m 755 workaround.sh debian/kolabd/etc/kolab/workaround.sh
-	install -D -m 644 quotawarning.txt debian/kolabd/etc/kolab/quotawarning.txt
 	install -D -m 644 rootDSE.ldif debian/kolabd/etc/kolab/rootDSE.ldif
 
 	# Kolab bootstrapping templates
 	for i in templates/*.template ; do install -D -m 644 $$i debian/kolabd/etc/kolab/$$i ; done
 	rm $(addprefix debian/kolabd/etc/kolab/templates/,clamd.* cyrus.* freshclam.* httpd.* session_vars.* local.cf.template)
 
-	# LDAP files
+	# LDAP schemas
 	install -D -m 644 debian/rfc2739.schema debian/kolabd/etc/ldap/schema/rfc2739.schema
 	install -D -m 644 horde.schema debian/kolabd/etc/ldap/schema/horde.schema
 	install -D -m 644 kolab2.schema debian/kolabd/etc/ldap/schema/kolab2.schema
 
+	#apache config
+	install -D -m 644 debian/apache.conf debian/kolabd/etc/kolab/apache.conf
+
 #	# Commented out because of copyright issues, needs further investigation
 #	install -D -m 644 rfc2739.schema debian/kolabd/usr/share/kolabd/schema/rfc2739.schema
-
-	# Man pages
-	mkdir -p debian/kolabd/usr/share/man/man1
-	for x in `find debian/kolabd/usr/bin debian/kolabd/usr/sbin -type f`; do \
-	  sed "s/undocumented/`basename $$x`/g" debian/undocumented.1 >debian/kolabd/usr/share/man/man1/`basename $$x`.1; \
-	done
-
-	# Lintian
-	install -D -m 644 debian/kolabd.lintian-overrides debian/kolabd/usr/share/lintian/overrides/kolabd
 
 binary-indep: build install
 	dh_testdir

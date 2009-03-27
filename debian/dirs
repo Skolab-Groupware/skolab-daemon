@@ -1,5 +1,6 @@
 var/lib/kolab
-var/backups/kolab
+var/lib/kolab/backups
+var/lib/kolab/freebusy-cache
 etc/kolab/filter
 etc/kolab/freebusy
 etc/amavis/conf.d

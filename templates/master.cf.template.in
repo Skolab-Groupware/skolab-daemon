@@ -92,24 +92,26 @@ smtp-amavis unix -	-	n	-	2       smtp
     -o smtpd_error_sleep_time=0
     -o smtpd_soft_error_limit=1001
     -o smtpd_hard_error_limit=1000
-kolabpolicy    unix  -       n       n       -       -       spawn user=@emailserver_master_usr@ argv=@kolab_scriptsdir@/kolab_smtpdpolicy 
+kolabpolicy    unix  -       n       n       -       -       spawn user=@emailserver_master_usr@ argv=@bindir@/kolab_smtpdpolicy 
 
 kolabfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ null_sender= argv=@PHP@
     -c @phpini_dir@/php.ini
-    -f @resmgr_scriptsdir@/kolabfilter.php 
+    -f @resmgr_scriptsdir@/kolabfilter 
     --
-    -h @@@fqdnhostname@@@
-    -s ${sender}
-    -r ${recipient}
-    -c ${client_address}
-    -u ${sasl_username}
+    --host=@@@fqdnhostname@@@
+    --sender=${sender}
+    --recipient=${recipient}
+    --client=${client_address}
+    --user=${sasl_username}
+    --config=@resmgr_confdir@/kolabfilter.conf
 
 kolabmailboxfilter     unix  -       n       n       -       -       pipe user=@emailserver_master_usr@ null_sender= argv=@PHP@
     -c @phpini_dir@/php.ini
-    -f @resmgr_scriptsdir@/kolabmailboxfilter.php 
+    -f @resmgr_scriptsdir@/kolabmailboxfilter 
     --
-    -h @@@fqdnhostname@@@
-    -s ${sender}
-    -r ${recipient}
-    -c ${client_address}
+    --host=@@@fqdnhostname@@@
+    --sender=${sender}
+    --recipient=${recipient}
+    --client=${client_address}
+    --config=@resmgr_confdir@/kolabfilter.conf
 

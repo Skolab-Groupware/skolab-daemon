@@ -1,3 +1,69 @@
+kolabd (2.2.1-20090304-1) experimental; urgency=low
+
+  * New beta release 2.2.1-beta-1 (20081212)
+    + Integrated patches (wow!):
+      - 10-dist_conf
+      - 50-postfix-hashes
+      - 60-kolabdcachetool-cachefiles
+      - 80-kolab_globals
+      - 85-slapd-2.4-compat
+      - 86-slapd-syncrepl-24
+    + Moved patch: 30-bootstrap to libkolab-perl 
+    + Moved patch: 40-disable-amavis to libkolab-perl 
+    + Updated patch: 55-no-distconf_kolabsrv
+      - depends on 2.2.1 version of libkolab-perl as binaries are now there
+    + several perl script are now in libkolab-perl
+    + kolabconf has been integrated in libkolab-perl, remove dependency 
+    + kolab.conf removed (kolab/issue2994)
+    + debian/kolabd.lintian-overrides: removed, as kolab.conf is removed
+    + replaces kolab-{freebusy,filter} by php-kolab-{freebusy,filter} in
+      depends
+  * New rc release 2.2.1-rc-1 (2.2.1-20090304)
+    + part of 10-dist_conf.diff integrated
+      - for graveyard path
+      - backups are now in /var/lib/kolab/backups instead of 
+        /var/lib/backups/kolab (Closes: #510210)
+      - kolabfilter is now in /usr/bin/
+    + 92-resmgr-template.diff integrated
+    + 93-freebusy-template.diff integrated
+    + 98-freebusy-ldap.diff integrated: freebusy.conf.template: ldap server can
+      be on another machine
+  * 10-dist_conf.diff is back (again):
+    - corrected shell syntax error in dist_conf/debian
+    - corrected sed regexp to allow comma in dist_conf/common
+    - added resmgr_locksdir and resmgr_localedir
+  * 90-slapd.template.diff updated:
+    - load module syncprov
+    - don't install horde schema anymore as horde now use flat files for
+      preferences
+  * 95-resmgr-issue1383-issue2499.diff from TRUNK: Prepare kolabd for
+    kolab/issue1382 (resmgr accepts concurrent overlapping invitations) and
+    kolab/issue2499 (Notification messages by the resource manager sould be
+    localized)
+  * debian/rules
+    - don't create manpage for undocumented (s)bin
+  * debian/control:
+    - suggests clamav, clamav-daemon, spamassassin 
+  * taken from kolab-freebusy:
+    - apache.conf (referenced path changed)
+    - prerm and postinst scripts
+    - freebusy cache directory
+    - conflicts/replaces kolab-freebusy and kolab-resource-handlers 
+  * debian/copyright: refers to versionned license version
+  * debian/uupdate-wrapper: updated to keep upsteam version
+  * updated Standards-Version to 3.8.1: no changes
+  * debian/compat: switching to compatibility-version 7:
+    - build-depends on debhelper 7
+    - replace 'dh_clean -k' by 'dh_prep'
+
+ -- Mathieu Parent <math.parent@gmail.com>  Fri, 27 Mar 2009 20:11:02 +0100
+
+kolabd (2.2.0-20080709.dfsg-3) UNRELEASED; urgency=low
+
+  * debian/uupdate-wrapper: corrected tarball name 
+
+ -- Mathieu Parent <math.parent@gmail.com>  Mon, 15 Dec 2008 23:54:44 +0100
+
 kolabd (2.2.0-20080709.dfsg-2) unstable; urgency=low
 
   * amavis-new (Closes: #499094):
