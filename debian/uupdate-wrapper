@@ -1,11 +1,12 @@
 #!/bin/sh
 
-package=kolabd
+upackage=kolabd
+dpackage=kolabd
 version=$2
 file=$3
 
 rpm2cpio "$file" | \
-cpio --extract --quiet --to-stdout "${package}-*.tar.bz2" | \
-bunzip2 --stdout | \
-gzip > "${package}_${version}.orig.tar.gz"
+cpio --extract --quiet --to-stdout "${upackage}-*.tar.bz2" | \
+bunzip2 --stdout | gzip \
+> "${dpackage}_${version}.orig.tar.gz"
 rm "$file"

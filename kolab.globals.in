@@ -51,7 +51,14 @@ webserver_usr: @webserver_usr@
 webserver_grp: @webserver_grp@
 horde_cookie_path: @horde_cookie_path@
 horde_confdir: @horde_confdir@
+dimp_confdir: @dimp_confdir@
+ingo_confdir: @ingo_confdir@
+imp_confdir: @imp_confdir@
 kronolith_confdir: @kronolith_confdir@
+mimp_confdir: @mimp_confdir@
+mnemo_confdir: @mnemo_confdir@
+nag_confdir: @nag_confdir@
+turba_confdir: @turba_confdir@
 kolab_statedir: @kolab_statedir@
 kolab_pidfile: @kolab_pidfile@
 kolab_mailboxuiddb: @kolab_mailboxuiddb@

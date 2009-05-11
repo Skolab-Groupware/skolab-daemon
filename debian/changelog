@@ -1,3 +1,18 @@
+kolabd (2.2.1-20090407-1) unstable; urgency=low
+
+  * Upload to unstable
+  * New upstream release (2.2.1-20090407)
+    - 10-dist_conf.diff: partially integrated 
+  * debian/watch:
+    - Use main download server files.kolab.org
+    - No more mangle
+  * debian/uupdate-wrapper: Updated
+  * debian/preinst:
+    - really remove unused conffile fbview.conf.template 
+    - also remove proftpd.conf.template
+
+ -- Mathieu Parent <math.parent@gmail.com>  Mon, 11 May 2009 19:09:12 +0200
+
 kolabd (2.2.1-20090304-1) experimental; urgency=low
 
   * New beta release 2.2.1-beta-1 (20081212)
@@ -50,6 +65,7 @@ kolabd (2.2.1-20090304-1) experimental; urgency=low
     - freebusy cache directory
     - conflicts/replaces kolab-freebusy and kolab-resource-handlers 
   * debian/copyright: refers to versionned license version
+  * debian/uupdate-wrapper: corrected tarball name 
   * debian/uupdate-wrapper: updated to keep upsteam version
   * updated Standards-Version to 3.8.1: no changes
   * debian/compat: switching to compatibility-version 7:
@@ -57,12 +73,6 @@ kolabd (2.2.1-20090304-1) experimental; urgency=low
     - replace 'dh_clean -k' by 'dh_prep'
 
  -- Mathieu Parent <math.parent@gmail.com>  Fri, 27 Mar 2009 20:11:02 +0100
-
-kolabd (2.2.0-20080709.dfsg-3) UNRELEASED; urgency=low
-
-  * debian/uupdate-wrapper: corrected tarball name 
-
- -- Mathieu Parent <math.parent@gmail.com>  Mon, 15 Dec 2008 23:54:44 +0100
 
 kolabd (2.2.0-20080709.dfsg-2) unstable; urgency=low
 

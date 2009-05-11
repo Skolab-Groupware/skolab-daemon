@@ -21,8 +21,9 @@ rm_conffile() {
 }
 case "$1" in
 install|upgrade)
-    if dpkg --compare-versions "$2" le "$LASTVERSION"; then
+    if dpkg --compare-versions "$2" le "2.2.1-20090407-1"; then
         rm_conffile kolabd "/etc/kolab/templates/fbview.conf.template"
+        rm_conffile kolabd "/etc/kolab/templates/proftpd.conf.template"
     fi
 esac
 

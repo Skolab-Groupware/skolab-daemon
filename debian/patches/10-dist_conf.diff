@@ -4,40 +4,11 @@ Author: Mathieu Parent <math.parent@gmail.com>
 
 Upstream status: Can be commited upstream
 
-Index: b/dist_conf/debian
-===================================================================
---- a/dist_conf/debian
-+++ b/dist_conf/debian
-@@ -148,12 +148,13 @@
- resmgr_conffile_usr=kolab
- resmgr_conffile_grp=root
- #resmgr_tmpdir=
-+resmgr_locksdir=${kolab_statedir}/filter/locks
-+resmgr_localedir=${libdir}/usr/share/php/data/Kolab_Filter/locale
- resmgr_scriptsdir=${bindir}
- resmgr_usr=root
- resmgr_grp=www-data
--resmgr_filterdir=${kolab_statedir}/resmgr/filter
- resmgr_log_type=syslog
--resmgr_log_name=cons, pid
-+resmgr_log_name='cons,pid'
- 
- fbview_logfile=${localstatedir}/log/fbview.log
- freebusy_logdir=${localstatedir}/log
-@@ -162,7 +163,7 @@
- freebusy_usr=root
- freebusy_grp=www-data
- freebusy_log_type=syslog
--freebusy_log_name=cons, pid
-+freebusy_log_name='cons,pid'
- 
- graveyard_uidcache=${kolab_statedir}/graveyard_uidcache.db
- graveyard_tscache=${kolab_statedir}/graveyard_tscache.db
 Index: b/dist_conf/common
 ===================================================================
 --- a/dist_conf/common
 +++ b/dist_conf/common
-@@ -1,152 +1,152 @@
+@@ -1,159 +1,159 @@
  do_subst = sed \
 -	-e 's,[@]sysconfdir[@],$(sysconfdir),g' \
 -	-e 's,[@]bindir[@],$(bindir),g' \
@@ -189,7 +160,14 @@ Index: b/dist_conf/common
 -	-e 's,[@]webserver_web_prefix[@],$(webserver_web_prefix),g' \
 -	-e 's,[@]horde_cookie_path[@],$(horde_cookie_path),g' \
 -	-e 's,[@]horde_confdir[@],$(horde_confdir),g' \
--	-e 's,[@]kronolith_confdir[@],$(kronolith_confdir),g'
+-	-e 's,[@]dimp_confdir[@],$(dimp_confdir),g' \
+-	-e 's,[@]imp_confdir[@],$(imp_confdir),g' \
+-	-e 's,[@]ingo_confdir[@],$(ingo_confdir),g' \
+-	-e 's,[@]kronolith_confdir[@],$(kronolith_confdir),g' \
+-	-e 's,[@]mimp_confdir[@],$(mimp_confdir),g' \
+-	-e 's,[@]mnemo_confdir[@],$(mnemo_confdir),g' \
+-	-e 's,[@]nag_confdir[@],$(nag_confdir),g' \
+-	-e 's,[@]turba_confdir[@],$(turba_confdir),g'
 +	-e 's=[@]sysconfdir[@]=$(sysconfdir)=g' \
 +	-e 's=[@]bindir[@]=$(bindir)=g' \
 +	-e 's=[@]sbindir[@]=$(sbindir)=g' \
@@ -340,4 +318,11 @@ Index: b/dist_conf/common
 +	-e 's=[@]webserver_web_prefix[@]=$(webserver_web_prefix)=g' \
 +	-e 's=[@]horde_cookie_path[@]=$(horde_cookie_path)=g' \
 +	-e 's=[@]horde_confdir[@]=$(horde_confdir)=g' \
-+	-e 's=[@]kronolith_confdir[@]=$(kronolith_confdir)=g'
++	-e 's=[@]dimp_confdir[@]=$(dimp_confdir)=g' \
++	-e 's=[@]imp_confdir[@]=$(imp_confdir)=g' \
++	-e 's=[@]ingo_confdir[@]=$(ingo_confdir)=g' \
++	-e 's=[@]kronolith_confdir[@]=$(kronolith_confdir)=g' \
++	-e 's=[@]mimp_confdir[@]=$(mimp_confdir)=g' \
++	-e 's=[@]mnemo_confdir[@]=$(mnemo_confdir)=g' \
++	-e 's=[@]nag_confdir[@]=$(nag_confdir)=g' \
++	-e 's=[@]turba_confdir[@]=$(turba_confdir)=g'

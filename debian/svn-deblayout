@@ -1,2 +1,2 @@
-origDir=../../upstream
-buildArea=../../build-area
+origDir=../upstream
+buildArea=../build-area

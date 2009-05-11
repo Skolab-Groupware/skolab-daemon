@@ -1,3 +1,36 @@
+2009-04-07  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* templates/amavisd.conf.template.in: Disable
+	$bad_header_quarantine_method since D_PASS is default policy.
+
+2009-04-06  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* templates/clamd.conf.template.in,
+	templates/freshclam.conf.template.in:
+	Updated templates for clamav-0.95-20090323 for
+	kolab/issue3513 (Clamav - new upstream version 0.95)
+
+2009-03-17  Mathieu Parent <math.parent@gmail.com>
+
+	* dist_conf/debian: Prepare kolabd for additional webclient
+	configuration templates.
+
+2009-03-27  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* templates/ldapvirtual.cf.template.in: Fix kolab/issue3096
+	(Address book aliases shouldn't redirect outgoing mails)
+
+2009-03-26  Gunnar Wrobel  <p@rdus.de>
+
+	* kolab.globals.in: Prepare kolabd for additional webclient
+	configuration templates.
+
+2009-03-17  Mathieu Parent <math.parent@gmail.com>
+
+	* dist_conf/debian: sync with dist_conf/kolab (resmgr_locksdir,
+	resmgr_localedir and LDAPD)
+	* dist_conf/kolabsrv.in: add debian flavour
+
 2009-03-03  Thomas Arendsen Hein  <thomas@intevation.de>
 
 	* templates/httpd.conf.template.in: "AllowOverride All" for /client to

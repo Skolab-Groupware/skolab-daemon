@@ -71,15 +71,15 @@ PidFile @clamav_pidfile@
 # Default: hardcoded (depends on installation options)
 DatabaseDirectory @clamav_datadir@
 
-# The daemon works in a local OR a network mode. Due to security reasons we
-# recommend the local mode.
+# The daemon can work in local mode, network mode or both. 
+# Due to security reasons we recommend the local mode.
 
 # Path to a local socket file the daemon will listen on.
 # Default: disabled (must be specified by a user)
 LocalSocket @clamav_socket@
 
 # Remove stale socket after unclean shutdown.
-# Default: no
+# Default: yes
 FixStaleSocket yes
 
 # TCP port address.
@@ -103,8 +103,8 @@ FixStaleSocket yes
 
 # Close the connection when the data size limit is exceeded.
 # The value should match your MTA's limit for a maximum attachment size.
-# Default: 10M
-#StreamMaxLength 20M
+# Default: 25M
+#StreamMaxLength 10M
 
 # Limit port range.
 # Default: 1024
@@ -124,6 +124,12 @@ FixStaleSocket yes
 # Waiting for a new job will timeout after this time (seconds).
 # Default: 30
 #IdleTimeout 60
+
+# Don't scan files and directories matching regex
+# This directive can be used multiple times
+# Default: scan all
+#ExcludePath ^/proc/
+#ExcludePath ^/sys/
 
 # Maximum depth directories are scanned at.
 # Default: 15
@@ -146,8 +152,7 @@ FixStaleSocket yes
 # Default: no
 #VirusEvent /usr/local/bin/send_sms 123456789 "VIRUS ALERT: %v"
 
-# Run as another user (clamd must be started by root to make this option
-# working).
+# Run as another user (clamd must be started by root for this option to work)
 # Default: don't drop privileges
 User @clamav_rusr@
 
@@ -170,11 +175,30 @@ User @clamav_rusr@
 # Default: no
 #LeaveTemporaryFiles yes
 
+# Detect Possibly Unwanted Applications.
+# Default: no
+#DetectPUA yes
+
+# Exclude a specific PUA category. This directive can be used multiple times.
+# See http://www.clamav.net/support/pua for the complete list of PUA
+# categories.
+# Default: Load all categories (if DetectPUA is activated)
+#ExcludePUA NetTool
+#ExcludePUA PWTool
+
+# Only include a specific PUA category. This directive can be used multiple
+# times.
+# Default: Load all categories (if DetectPUA is activated)
+#IncludePUA Spy
+#IncludePUA Scanner
+#IncludePUA RAT
+
 # In some cases (eg. complex malware, exploits in graphic files, and others),
 # ClamAV uses special algorithms to provide accurate detection. This option
 # controls the algorithmic detection.
 # Default: yes
 #AlgorithmicDetection yes
+
 
 ##
 ## Executable files
@@ -209,8 +233,9 @@ User @clamav_rusr@
 #ScanOLE2 yes
 
 # This option enables scanning within PDF files.
-# Default: no
+# Default: yes
 #ScanPDF yes
+
 
 ##
 ## Mail files
@@ -226,41 +251,79 @@ User @clamav_rusr@
 # Default: no
 #MailFollowURLs no
 
-# Recursion level limit for the mail scanner.
-# Default: 64
-#MailMaxRecursion 128
+# Scan RFC1341 messages split over many emails.
+# You will need to periodically clean up $TemporaryDirectory/clamav-partial directory.
+# WARNING: This option may open your system to a DoS attack.
+#	   Never use it on loaded servers.
+# Default: no
+#ScanPartialMessages yes
+
 
 # With this option enabled ClamAV will try to detect phishing attempts by using
 # signatures.
 # Default: yes
 #PhishingSignatures yes
 
-
-# Scan urls found in mails for phishing attempts.
-# (available in experimental builds only) 
+# Scan URLs found in mails for phishing attempts using heuristics.
 # Default: yes
 #PhishingScanURLs yes
 
-# Use phishing detection only for domains listed in the .pdb database. It is
-# not recommended to have this option turned off, because scanning of all
-# domains may lead to many false positives!
-# (available in experimental builds only)
-# Default: yes
-#PhishingRestrictedScan yes
-
 # Always block SSL mismatches in URLs, even if the URL isn't in the database.
 # This can lead to false positives.
-# (available in experimental builds only)
 #
 # Default: no
 #PhishingAlwaysBlockSSLMismatch no
 
 # Always block cloaked URLs, even if URL isn't in database.
 # This can lead to false positives.
-# (available in experimental builds only)
 #
 # Default: no
 #PhishingAlwaysBlockCloak no
+
+# Allow heuristic match to take precedence.
+# When enabled, if a heuristic scan (such as phishingScan) detects
+# a possible virus/phish it will stop scan immediately. Recommended, saves CPU
+# scan-time.
+# When disabled, virus/phish detected by heuristic scans will be reported only at
+# the end of a scan. If an archive contains both a heuristically detected
+# virus/phish, and a real malware, the real malware will be reported
+#
+# Keep this disabled if you intend to handle "*.Heuristics.*" viruses 
+# differently from "real" malware.
+# If a non-heuristically-detected virus (signature-based) is found first, 
+# the scan is interrupted immediately, regardless of this config option.
+#
+# Default: no
+#HeuristicScanPrecedence yes
+
+##
+## Data Loss Prevention (DLP)
+##
+
+# Enable the DLP module
+# Default: No
+#StructuredDataDetection yes
+
+# This option sets the lowest number of Credit Card numbers found in a file
+# to generate a detect.
+# Default: 3
+#StructuredMinCreditCardCount 5
+
+# This option sets the lowest number of Social Security Numbers found
+# in a file to generate a detect.
+# Default: 3
+#StructuredMinSSNCount 5
+
+# With this option enabled the DLP module will search for valid
+# SSNs formatted as xxx-yy-zzzz
+# Default: yes
+#StructuredSSNFormatNormal yes
+
+# With this option enabled the DLP module will search for valid
+# SSNs formatted as xxxyyzzzz
+# Default: no
+#StructuredSSNFormatStripped yes
+
 
 ##
 ## HTML
@@ -279,32 +342,6 @@ User @clamav_rusr@
 # Default: yes
 #ScanArchive yes
 
-# The options below protect your system against Denial of Service attacks
-# using archive bombs.
-
-# Files in archives larger than this limit won't be scanned.
-# Value of 0 disables the limit.
-# Default: 10M
-#ArchiveMaxFileSize 15M
-
-# Nested archives are scanned recursively, e.g. if a Zip archive contains a RAR
-# file, all files within it will also be scanned. This options specifies how
-# deeply the process should be continued.
-# Value of 0 disables the limit.
-# Default: 8
-#ArchiveMaxRecursion 10
-
-# Number of files to be scanned within an archive.
-# Value of 0 disables the limit.
-# Default: 1000
-#ArchiveMaxFiles 1500
-
-# If a file in an archive is compressed more than ArchiveMaxCompressionRatio
-# times it will be marked as a virus (Oversized.ArchiveType, e.g. Oversized.Zip)
-# Value of 0 disables the limit.
-# Default: 250
-#ArchiveMaxCompressionRatio 300
-
 # Use slower but memory efficient decompression algorithm.
 # only affects the bzip2 decompressor.
 # Default: no
@@ -314,15 +351,48 @@ User @clamav_rusr@
 # Default: no
 #ArchiveBlockEncrypted no
 
-# Mark archives as viruses (e.g. RAR.ExceededFileSize, Zip.ExceededFilesLimit)
-# if ArchiveMaxFiles, ArchiveMaxFileSize, or ArchiveMaxRecursion limit is
-# reached.
-# Default: no
-#ArchiveBlockMax no
 
-# Enable support for Sensory Networks' NodalCore hardware accelerator.
-# Default: no
-#NodalCoreAcceleration yes
+##
+## Limits
+##
+
+# The options below protect your system against Denial of Service attacks
+# using archive bombs.
+
+# This option sets the maximum amount of data to be scanned for each input file.
+# Archives and other containers are recursively extracted and scanned up to this
+# value.
+# Value of 0 disables the limit
+# Note: disabling this limit or setting it too high may result in severe damage
+# to the system.
+# Default: 100M
+#MaxScanSize 150M
+
+# Files larger than this limit won't be scanned. Affects the input file itself
+# as well as files contained inside it (when the input file is an archive, a
+# document or some other kind of container).
+# Value of 0 disables the limit.
+# Note: disabling this limit or setting it too high may result in severe damage
+# to the system.
+# Default: 25M
+#MaxFileSize 30M
+
+# Nested archives are scanned recursively, e.g. if a Zip archive contains a RAR
+# file, all files within it will also be scanned. This options specifies how
+# deeply the process should be continued.
+# Note: disabling this limit or setting it too high may result in severe damage
+# to the system.
+# Value of 0 disables the limit.
+# Default: 16
+#MaxRecursion 10
+
+# Number of files to be scanned within an archive, a document, or any other
+# container file.
+# Value of 0 disables the limit.
+# Note: disabling this limit or setting it too high may result in severe damage
+# to the system.
+# Default: 10000
+#MaxFiles 15000
 
 
 ##
