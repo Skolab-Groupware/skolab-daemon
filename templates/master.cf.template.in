@@ -48,7 +48,7 @@ scache    unix  -       -       n       -       1       scache
 #ifmail   unix  -       n       n       -       -       pipe flags=F user=ftn argv=@bindir@/ifmail -r $nexthop ($recipient)
 #bsmtp    unix  -       n       n       -       -       pipe flags=Fq. user=foo argv=@bindir@/bsmtp -f $sender $nexthop $recipient
 @@@bind_addr@@@:465       inet  n       -       n       -       -       smtpd -o smtpd_tls_wrappermode=yes -o smtpd_sasl_auth_enable=yes 
-post-cleanup unix  n    -       n       -       0       cleanup -o virtual_alias_maps=
+post-cleanup unix  n    -       n       -       0       cleanup -o virtual_alias_maps= -o masquerade_domains=
 smtp-amavis unix -	-	n	-	2       smtp
     -o smtp_data_done_timeout=1200
     -o smtp_send_xforward_command=yes

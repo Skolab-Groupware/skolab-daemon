@@ -33,8 +33,8 @@ Packager:     Klaraelvdalens Datakonsult AB
 Distribution: OpenPKG
 Group:        Mail
 License:      GPL
-Version:      2.2.1
-Release:      20090407
+Version:      2.2.2
+Release:      20090514
 
 #   list of sources
 Source0:      kolabd-%{version}.tar.bz2

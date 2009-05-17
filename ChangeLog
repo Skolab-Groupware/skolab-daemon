@@ -1,3 +1,23 @@
+2009-05-14  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* templates/main.cf.template.in, templates/master.cf.template.in:
+	Use append_dot_mydomain = no and remote_header_rewrite_domain =
+	domain.invalid and disable masquerade_domains for post-cleanup.
+	Fixes kolab/issue3549 (append_dot_mydomain allows circumventing
+	kolabfilter-verify-from-header)
+
+2009-05-13  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* templates/clamd.conf.template.in:
+	Updated templates for clamav-0.95.1-20090409 for
+	kolab/issue3513 (Clamav - new upstream version 0.95.1)
+
+2009-04-20  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* templates/slapd.conf.template.in: Make kolabAllowSMTPRecipient
+	readable for the nobody user, needed for kolab/issue1340 (RFC:
+	restrict users to sending mail only to internal recipients)
+
 2009-04-07  Thomas Arendsen Hein  <thomas@intevation.de>
 
 	* templates/amavisd.conf.template.in: Disable

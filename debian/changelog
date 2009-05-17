@@ -1,3 +1,9 @@
+kolabd (2.2.2-20090514-1) unstable; urgency=low
+
+  * New upstream release 2.2.2 (2.2.2-20090514)
+
+ -- Mathieu Parent <math.parent@gmail.com>  Sun, 17 May 2009 19:09:12 +0200
+
 kolabd (2.2.1-20090407-1) unstable; urgency=low
 
   * Upload to unstable

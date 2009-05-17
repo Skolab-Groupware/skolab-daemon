@@ -55,6 +55,10 @@ masquerade_domains = @@@postfix-mydestination|join( )@@@
 masquerade_classes = envelope_sender, envelope_recipient,
                      header_sender, header_recipient
 
+# See kolab/issue3549 (append_dot_mydomain allows circumventing kolabfilter-verify-from-header)
+append_dot_mydomain = no
+remote_header_rewrite_domain = domain.invalid
+
 #   smtp daemon
 #smtpd_banner = $myhostname ESMTP $mail_name
 @@@if bind_any@@@
