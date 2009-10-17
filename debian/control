@@ -2,12 +2,12 @@ Source: kolabd
 Section: mail
 Priority: extra
 Maintainer: Debian Kolab Maintainers <pkg-kolab-devel@lists.alioth.debian.org>
-Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Mathieu Parent <math.parent@gmail.com>
+Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Mathieu Parent <sathieu@debian.org>
 Build-Depends: debhelper (>= 7), quilt (>= 0.40)
-Standards-Version: 3.8.1
+Standards-Version: 3.8.3
 Homepage: http://www.kolab.org/
-Vcs-Browser: http://svn.debian.org/wsvn/pkg-kolab/kolabd/branches/2.2/
-Vcs-Svn: svn://svn.debian.org/pkg-kolab/kolabd/branches/2.2/
+Vcs-Browser: http://svn.debian.org/wsvn/pkg-kolab/kolabd/trunk/
+Vcs-Svn: svn://svn.debian.org/pkg-kolab/kolabd/trunk/
 
 Package: kolabd
 Architecture: all

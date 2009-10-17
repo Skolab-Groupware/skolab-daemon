@@ -1,3 +1,15 @@
+kolabd (2.2.2-20090514-2) unstable; urgency=low
+
+  * Correct Vcs-{Browser,Svn} to point to trunk
+  * Updated Standards-Version to 3.8.3: no changes
+  * Merge README.Debian with the version on wiki.kolab.org:
+    "Debian - Administrators - Kolab Installation"
+  * Add README.source as required by policy 4.14
+  * Change my email address, as I am now Debian developer
+  * apache.conf: freebusy is now in /usr/share/php/htdocs
+
+ -- Mathieu Parent <sathieu@debian.org>  Sat, 17 Oct 2009 19:45:34 +0200
+
 kolabd (2.2.2-20090514-1) unstable; urgency=low
 
   * New upstream release 2.2.2 (2.2.2-20090514)
