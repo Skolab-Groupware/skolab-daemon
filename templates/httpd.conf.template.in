@@ -191,6 +191,8 @@ ServerSignature On
 
 Alias /icons/ "@webserver_document_root@/icons/"
 
+Alias /public-cal/ics "@webserver_document_root@/client/kronolith/ics_kolab.php"
+
 <Directory "@webserver_document_root@/icons">
     Options Indexes MultiViews
     AllowOverride None

@@ -8,7 +8,7 @@ Index: b/Makefile.am
 ===================================================================
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -134,9 +134,9 @@
+@@ -127,9 +127,9 @@
  kolabdocdir = $(pkgdocdir)/@PACKAGE@
  kolabdoc_DATA = $(kolabdoc_FILES) $(kolabdoc_GENERATED)
  
@@ -21,7 +21,7 @@ Index: b/Makefile.am
  
  kolabsbindir = $(sbindir)/
  kolabsbin_DATA = $(kolabsbin_FILES)
-@@ -206,9 +206,9 @@
+@@ -199,9 +199,9 @@
  	chmod 444 $(DESTDIR)$(kolabconfdir)/kolab.globals
  	chmod 775 $(DESTDIR)$(kolabdir)$(kolab_FILES)
  	chmod 744 $(DESTDIR)$(kolabnamespacedir)/*
@@ -38,7 +38,7 @@ Index: b/Makefile.in
 ===================================================================
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -272,7 +272,7 @@
+@@ -268,7 +268,7 @@
  
  kolabdocdir = $(pkgdocdir)/@PACKAGE@
  kolabdoc_DATA = $(kolabdoc_FILES) $(kolabdoc_GENERATED)
@@ -47,7 +47,7 @@ Index: b/Makefile.in
  kolabsbindir = $(sbindir)/
  kolabsbin_DATA = $(kolabsbin_FILES)
  kolabbindir = $(bindir)
-@@ -875,7 +875,7 @@
+@@ -871,7 +871,7 @@
  	chmod 444 $(DESTDIR)$(kolabconfdir)/kolab.globals
  	chmod 775 $(DESTDIR)$(kolabdir)$(kolab_FILES)
  	chmod 744 $(DESTDIR)$(kolabnamespacedir)/*

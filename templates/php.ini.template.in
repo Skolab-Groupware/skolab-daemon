@@ -21,6 +21,11 @@ max_input_time     = 60     ; Maximum amount of time each script may spend parsi
 memory_limit       = 64M    ; Maximum amount of memory a script may consume
 post_max_size      = 8M     ; Maximum amount of POST data accepted
 
+magic_quotes_gpc   = 0      ; Automatically quote posted variables. Required to be "0" for the
+                            ; webadmin to work. Horde does not care and removes them anyway if
+                            ; the setting is "1". The setting will be removed in PHP 6 and "0"
+                            ; will be the default then.
+
 error_reporting    = E_ALL
 error_log          = @webserver_logdir@/php/php-errors.log
 upload_tmp_dir     = @webserver_tmpdir@

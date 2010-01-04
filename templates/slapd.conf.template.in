@@ -51,7 +51,7 @@ defaultsearchbase      "@@@base_dn@@@"
 #require 	none
 allow 		bind_v2
 
-loglevel	0
+loglevel	none
 
 database	bdb
 suffix		"@@@base_dn@@@"

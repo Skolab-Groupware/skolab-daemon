@@ -1,3 +1,11 @@
+kolabd (2.2.3-20091217-1) unstable; urgency=low
+
+  * Package snapshot
+  * New upstream release (2.2.3-20091217)
+  * Updated patches 
+
+ -- Mathieu Parent <sathieu@debian.org>  Mon, 04 Jan 2010 22:52:25 +0100
+
 kolabd (2.2.2-20090514-2) unstable; urgency=low
 
   * Correct Vcs-{Browser,Svn} to point to trunk

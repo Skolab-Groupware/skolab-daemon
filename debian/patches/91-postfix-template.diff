@@ -8,9 +8,9 @@ Index: b/templates/main.cf.template.in
 ===================================================================
 --- a/templates/main.cf.template.in
 +++ b/templates/main.cf.template.in
-@@ -19,16 +19,6 @@
- # we use 20 Mebibyte = 20*2^20 Byte 
+@@ -22,16 +22,6 @@
  message_size_limit = 20971520
+ @@@endif@@@
  
 -#   paths
 -command_directory = @sbindir@
@@ -47,8 +47,8 @@ Index: b/templates/transport.template.in
 -PERMISSIONS=0640
 +PERMISSIONS=0644
  OWNERSHIP=@emailserver_tables_usr@:@emailserver_grp@
+ RUNONCHANGE=@sbindir@/postmap -o @emailserver_confdir@/transport
  KOLAB_META_END
- # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 Index: b/templates/virtual.template.in
 ===================================================================
 --- a/templates/virtual.template.in
@@ -59,5 +59,5 @@ Index: b/templates/virtual.template.in
 -PERMISSIONS=0640
 +PERMISSIONS=0644
  OWNERSHIP=@emailserver_tables_usr@:@emailserver_grp@
- RUNONCHANGE=/usr/sbin/postmap -o @emailserver_confdir@/virtual
+ RUNONCHANGE=@sbindir@/postmap -o @emailserver_confdir@/virtual
  KOLAB_META_END

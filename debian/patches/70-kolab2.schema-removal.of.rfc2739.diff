@@ -11,7 +11,7 @@ Index: b/Makefile.am
 ===================================================================
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -98,8 +98,7 @@
+@@ -82,8 +82,7 @@
  
  
  ldapschema_FILES =  kolab2.schema \
@@ -25,7 +25,7 @@ Index: b/Makefile.in
 ===================================================================
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -243,8 +243,7 @@
+@@ -230,8 +230,7 @@
  kolabnamespacedir = $(libexecdir)/kolab
  kolabnamespace_DATA = $(kolabnamespace_FILES)
  ldapschema_FILES = kolab2.schema \

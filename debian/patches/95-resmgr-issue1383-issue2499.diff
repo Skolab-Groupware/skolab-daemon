@@ -12,18 +12,9 @@ Index: b/templates/resmgr.conf.template.in
 ===================================================================
 --- a/templates/resmgr.conf.template.in
 +++ b/templates/resmgr.conf.template.in
-@@ -29,7 +29,7 @@
-  *  along with this program; if not, write to the Free Software
-  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-  *
-- *  $Revision: 1.34 $
-+ *  $Revision: 1.35 $
-  *
-  *  ABOUT
-  *  -----
-@@ -157,6 +157,17 @@
- /* Temporary data storage for the scripts */
- $conf['kolab']['filter']['tempdir'] = '@resmgr_tmpdir@';
+@@ -184,6 +184,17 @@
+ //$conf['kolab']['filter']['locale_path'] = '@resmgr_localedir@';
+ //$conf['kolab']['filter']['locale'] = 'de_DE';
  
 +/* Uncomment if the resource manager should generate translated messages. */
 +//$conf['kolab']['filter']['locale_path'] = '@resmgr_localedir@';
@@ -43,12 +34,11 @@ Index: b/dist_conf/common
 ===================================================================
 --- a/dist_conf/common
 +++ b/dist_conf/common
-@@ -120,6 +120,8 @@
+@@ -120,6 +120,7 @@
  	-e 's=[@]resmgr_conffile_usr[@]=$(resmgr_conffile_usr)=g' \
  	-e 's=[@]resmgr_tmpdir[@]=$(resmgr_tmpdir)=g' \
  	-e 's=[@]resmgr_grp[@]=$(resmgr_grp)=g' \
 +	-e 's=[@]resmgr_locksdir[@]=$(resmgr_locksdir)=g' \
-+	-e 's=[@]resmgr_localedir[@]=$(resmgr_localedir)=g' \
+ 	-e 's=[@]resmgr_localedir[@]=$(resmgr_localedir)=g' \
  	-e 's=[@]resmgr_logdir[@]=$(resmgr_logdir)=g' \
  	-e 's=[@]resmgr_scriptsdir[@]=$(resmgr_scriptsdir)=g' \
- 	-e 's=[@]resmgr_usr[@]=$(resmgr_usr)=g' \
