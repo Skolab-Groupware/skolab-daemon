@@ -1,3 +1,15 @@
+kolabd (2.2.3-20091217-2) unstable; urgency=medium
+
+  * Urgency set to medium as it fixes a serious bug
+  * Add ${misc:Depends} to debian/control
+  * Updated Standards-Version to 3.8.4: no changes
+  * kolabd.init: Move slapd from Required-{Start,Stop} to Should-{Start,Stop}
+    as it is only a recommend. Fix "fails to install due to incorrect
+    dependencies in init.d LSB header" (Closes: #571946)
+  * (NB: previous upload was not a snapshot)
+
+ -- Mathieu Parent <sathieu@debian.org>  Wed, 10 Mar 2010 09:40:18 +0100
+
 kolabd (2.2.3-20091217-1) unstable; urgency=low
 
   * Package snapshot

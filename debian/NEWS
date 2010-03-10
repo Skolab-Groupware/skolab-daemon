@@ -3,3 +3,4 @@ kolabd (2.2.1-20090304-1) experimental; urgency=low
   backups are now in /var/lib/kolab/backups instead of /var/lib/backups/kolab. 
 
  -- Mathieu Parent <math.parent@gmail.com>  Fri, 27 Mar 2009 20:11:16 +0100
+

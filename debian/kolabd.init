@@ -2,8 +2,10 @@
 
 ### BEGIN INIT INFO
 # Provides:          kolabd
-# Required-Start:    $local_fs $remote_fs $network $syslog slapd postfix apache2 saslauthd kolab-cyrus-common
-# Required-Stop:     $local_fs $remote_fs $network $syslog slapd postfix apache2 saslauthd kolab-cyrus-common
+# Required-Start:    $local_fs $remote_fs $network $syslog postfix apache2 saslauthd kolab-cyrus-common
+# Required-Stop:     $local_fs $remote_fs $network $syslog postfix apache2 saslauthd kolab-cyrus-common
+# Should-Start:      slapd
+# Should-Stop:       slapd
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Start Kolab server
