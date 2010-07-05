@@ -1,0 +1,160 @@
+Goal: Adapt cyrus.conf to Debian
+
+Fix "I can't enable/disable pop3/s and imap/s"
+(http://bugs.debian.org/579933 and issue4374)
+
+Author: Mathieu Parent <math.parent@gmail.com>
+
+Upstream status: Parts can be commited
+
+Index: kolabd-2.2.3-20091217/templates/cyrus.conf.template.in
+===================================================================
+--- kolabd-2.2.3-20091217.orig/templates/cyrus.conf.template.in	2010-07-05 22:50:34.000000000 +0200
++++ kolabd-2.2.3-20091217/templates/cyrus.conf.template.in	2010-07-05 22:52:01.000000000 +0200
+@@ -3,66 +3,107 @@
+ PERMISSIONS=0640
+ OWNERSHIP=@imap_usr@:@imap_grp@
+ KOLAB_META_END
+-# (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
+-# (c) 2003 Martin Konold <martin.konold@erfrakon.de>
+-# (c) 2003 Achim Frank <achim.frank@erfrakon.de>
+-# This program is Free Software under the GNU General Public License (>=v2).
+-# Read the file COPYING that comes with this packages for details.
+-
+-# this file is automatically written by the Kolab config backend
+-# manual additions are lost unless made to the template in the Kolab config directory
+-
++# Debian defaults for Cyrus IMAP server/cluster implementation
++# see cyrus.conf(5) for more information
++#
++# All the tcp services are tcpd-wrapped. see hosts_access(5)
++# $Id: cyrus.conf 567 2006-08-14 18:19:32Z sven $
+ 
+ START {
+-  # do not delete this entry!
+-  recover	cmd="ctl_cyrusdb -r"
+-
+-  # this is only necessary if using idled for IMAP IDLE
+-  #idled		cmd="idled"
+-
+-  # Initial mupdate syncronisation
+-  #mupdatepush   cmd="ctl_mboxlist -m"
++	# do not delete this entry!
++	recover		cmd="ctl_cyrusdb -r"
++  
++	# this is only necessary if idlemethod is set to "idled" in imapd.conf
++	#idled		cmd="idled"
++
++	# this is useful on backend nodes of a Murder cluster
++	# it causes the backend to syncronize its mailbox list with
++	# the mupdate master upon startup
++	#mupdatepush   cmd="ctl_mboxlist -m"
++
++	# this is recommended if using duplicate delivery suppression
++	delprune	cmd="cyr_expire -E 3"
++	# this is recommended if caching TLS sessions
++	tlsprune	cmd="tls_prune"
+ }
+ 
+-# UNIX sockets start with a slash and are put into /openpkg/var/imapd/sockets
++# UNIX sockets start with a slash and are absolute paths
++# you can use a maxchild=# to limit the maximum number of forks of a service
++# you can use babysit=true and maxforkrate=# to keep tight tabs on the service
++# most services also accept -U (limit number of reuses) and -T (timeout)
+ SERVICES {
++	# --- Normal cyrus spool, or Murder backends ---
++	# add or remove based on preferences
+ @@@if cyrus-imap@@@
+-  imap cmd="imapd -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:143" prefork=0
++	imap		cmd="imapd -C @imap_confdir@/imapd.conf -U 30" listen="@@@bind_addr@@@:imap" prefork=0 maxchild=100
+ @@@else@@@
+-  imap cmd="imapd -C @imap_confdir@/imapd.conf" listen="@@@local_addr@@@:143" prefork=0
++	imap		cmd="imapd -C @imap_confdir@/imapd.conf -U 30" listen="@@@local_addr@@@:imap" prefork=0 maxchild=100
+ @@@endif@@@
+ @@@if cyrus-imaps@@@
+-  imaps cmd="imapd -s -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:993" prefork=0
++	imaps		cmd="imapd -s -C @imap_confdir@/imapd.conf -U 30" listen="@@@bind_addr@@@:imaps" prefork=0 maxchild=100
+ @@@endif@@@
+ @@@if cyrus-pop3@@@
+-  pop3 cmd="pop3d -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:110" prefork=0
++	pop3		cmd="pop3d -C @imap_confdir@/imapd.conf -U 30" listen="@@@bind_addr@@@:pop3" prefork=0 maxchild=50
+ @@@endif@@@
+ @@@if cyrus-pop3s@@@
+-  pop3s cmd="pop3d -s -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:995" prefork=0
++	pop3s		cmd="pop3d -s -C @imap_confdir@/imapd.conf -U 30" listen="@@@bind_addr@@@:pop3s" prefork=0 maxchild=50
+ @@@endif@@@
++	#nntp		cmd="nntpd -U 30" listen="nntp" prefork=0 maxchild=100
++	#nntps		cmd="nntpd -s -U 30" listen="nntps" prefork=0 maxchild=100
++
++	# At least one form of LMTP is required for delivery
++	# (you must keep the Unix socket name in sync with imap.conf)
++	lmtp		cmd="lmtpd -a" listen="@@@local_addr@@@:2003" prefork=0 maxchild=20
++	lmtpunix	cmd="lmtpd" listen="@emailserver_socket@" prefork=0 maxchild=20
++	# ----------------------------------------------
++
++	# useful if you need to give users remote access to sieve
++	# by default, we limit this to localhost in Debian
+ @@@if cyrus-sieve@@@
+-  sieve cmd="timsieved -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:2000" prefork=0
++  	sieve		cmd="timsieved -C @imap_confdir@/imapd.conf" listen="@@@bind_addr@@@:sieve" prefork=0 maxchild=100
+ @@@endif@@@
+ 
+-#@@@if is-master@@@
+-#  mupdate       cmd="mupdate -m" listen=3905 prefork=1
+-#@@@endif@@@
+-
+-  # LMTP is required for delivery
+-  lmtpunix	cmd="lmtpd" listen="@emailserver_socket@" prefork=0
+-  lmtp          cmd="lmtpd -a" listen="@@@local_addr@@@:2003"
++	# this one is needed for the notification services
++	notify		cmd="notifyd" listen="@imap_notify_socket@" proto="udp" prefork=1
+ 
+-  # this is only necessary if using notifications
+-  notifyd	cmd="notifyd" listen="@imap_notify_socket@" proto="udp" prefork=1
++	# --- Murder frontends -------------------------
++	# enable these and disable the matching services above, 
++	# except for sieve (which deals automatically with Murder)
++
++	# mupdate database service - must prefork at least 1
++	#@@@if is-master@@@
++	# (mupdate master, only one in the entire cluster)
++	#mupdate       cmd="mupdate -m" listen=3905 prefork=1
++	#@@@else@@@
++	# (mupdate slaves)
++	#mupdate       cmd="mupdate" listen=3905 prefork=1
++	#@@@endif@@@
++
++	# proxies that will connect to the backends
++	#imap		cmd="proxyd" listen="imap" prefork=0 maxchild=100
++	#imaps		cmd="proxyd -s" listen="imaps" prefork=0 maxchild=100
++	#pop3		cmd="pop3proxyd" listen="pop3" prefork=0 maxchild=50
++	#pop3s		cmd="pop3proxyd -s" listen="pop3s" prefork=0 maxchild=50
++	#lmtp		cmd="lmtpproxyd" listen="lmtp" prefork=1 maxchild=20
++	# ----------------------------------------------
+ }
+ 
+ EVENTS {
+-  # this is required
+-  checkpoint	cmd="ctl_cyrusdb -c" period=30
++	# this is required
++	checkpoint	cmd="ctl_cyrusdb -c" period=30
++
++	# this is only necessary if using duplicate delivery suppression
++	delprune	cmd="cyr_expire -E 3" at=0401
+ 
+-  # this is only necessary if using duplicate delivery suppression
+-  delprune	cmd="cyr_expire -E 3" at=0400
++	# this is only necessary if caching TLS sessions
++	tlsprune	cmd="tls_prune" at=0401
++	
++	# indexing of mailboxs for server side fulltext searches
+ 
+-  # this is only necessary if caching TLS sessions
+-  tlsprune	cmd="tls_prune" period=1440
++	# reindex changed mailboxes (fulltext) approximately every other hour
++	#squatter_1	cmd="/usr/bin/nice -n 19 /usr/sbin/squatter -s" period=120
++
++	# reindex all mailboxes (fulltext) daily
++	#squatter_a	cmd="/usr/sbin/squatter" at=0517
+ }
++

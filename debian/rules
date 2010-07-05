@@ -1,8 +1,6 @@
 #!/usr/bin/make -f
 
-include /usr/share/quilt/quilt.make
-
-config.status: configure patch
+config.status: configure
 	dh_testdir
 	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib --with-dist=debian --without-openpkg
 
@@ -12,8 +10,7 @@ build-stamp:  config.status
 	$(MAKE)
 	touch build-stamp
 
-clean: clean-patched unpatch
-clean-patched:
+clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp
@@ -41,7 +38,7 @@ install: build
 
 	# Kolab bootstrapping templates
 	for i in templates/*.template ; do install -D -m 644 $$i debian/kolabd/etc/kolab/$$i ; done
-	rm $(addprefix debian/kolabd/etc/kolab/templates/,clamd.* cyrus.* freshclam.* httpd.* session_vars.* local.cf.template)
+	rm $(addprefix debian/kolabd/etc/kolab/templates/,clamd.* freshclam.* httpd.* session_vars.* local.cf.template)
 
 	# LDAP schemas
 	install -D -m 644 debian/rfc2739.schema debian/kolabd/etc/ldap/schema/rfc2739.schema

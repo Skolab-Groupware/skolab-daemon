@@ -1,3 +1,19 @@
+kolabd (2.2.4-20100624-1) unstable; urgency=low
+
+  * New upstream release (2.2.4-20100624)
+  * Change cyrus user and group in templates. Fix "Permissions on
+    /etc/imapd.group are wrong" (Closes: #581757) and chmod as upstream
+    does (640) instead of 644
+  * Switch to dpkg-source 3.0 (quilt) format and move templates to patches
+    (amavisd.conf.template.in and templates/imapd.conf.template.in)
+  * Fix "I can't enable/disable pop3/s and imap/s" by providing a brand new
+    cyrus.conf.template. Thanks to Matthias Geerdsen's initial patch
+    (Closes: #579933 and issue4374)
+  * Updated Standards-Version to 3.9.0: use Breaks instead of Conflicts
+    with kolab-resource-handlers and kolab-freebusy as suggested by lintian
+
+ -- Mathieu Parent <sathieu@debian.org>  Mon, 05 Jul 2010 23:18:15 +0200
+
 kolabd (2.2.3-20091217-2) unstable; urgency=medium
 
   * Urgency set to medium as it fixes a serious bug

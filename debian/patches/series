@@ -1,6 +1,10 @@
 10-dist_conf.diff
-55-no-distconf_kolabsrv.diff 
-70-kolab2.schema-removal.of.rfc2739.diff 
-90-slapd-template.diff 
-91-postfix-template.diff 
+55-no-distconf_kolabsrv.diff
+70-kolab2.schema-removal.of.rfc2739.diff
+90-slapd-template.diff
+91-postfix-template.diff
+92-cyrus-template.diff
+93-amavisd-template.diff
+94-cyrus-template.diff
 95-resmgr-issue1383-issue2499.diff
+96-imap-user-group.diff
