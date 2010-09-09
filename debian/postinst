@@ -49,12 +49,29 @@ configure_apache() {
 	fi
 }
 
+slapd_no_runtime_conf() {
+	# Disable runtime configuration only if kolab manages slapd
+	if [ -e "/etc/kolab/templates/slapd.conf.template" ]; then
+		grep -q 'SLAPD_CONF=""' /etc/default/slapd  || {
+			# TODO: Now we are doing something that is not allowed
+			# by policy but it has to be done. Actually, this is
+			# slapd's fault (see #595539).
+			echo "Disabling slapd runtime configuration"
+			sed -i -e "s|^SLAPD_CONF=.*|SLAPD_CONF=\"\"|" /etc/default/slapd
+			# Only run kolabconf if system is already bootstrapped
+			if [ -e /etc/kolab/kolab.conf ]; then
+				kolabconf
+			fi
+		}
+	fi
+}
 if [ "$1" = configure ]; then
 	add_kolab_system_users
 	adduser_postfix_in_sasl
 	adduser_cyrus_in_kolab
 	fixperms
 	configure_apache
+	slapd_no_runtime_conf
 fi
 
 #DEBHELPER#
