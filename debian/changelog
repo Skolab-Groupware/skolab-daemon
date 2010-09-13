@@ -1,3 +1,9 @@
+kolabd (2.2.4-20100624-3) unstable; urgency=low
+
+  * Revert "disabling slapd runtime configuration"
+
+ -- Mathieu Parent <sathieu@debian.org>  Mon, 13 Sep 2010 18:18:40 +0200
+
 kolabd (2.2.4-20100624-2) unstable; urgency=low
 
   * Fix "kolab_bootstrap no longer works with slapd (version 2.4.23)"
