@@ -1,3 +1,12 @@
+kolabd (2.2.4-20100624-4) unstable; urgency=low
+
+  * 94-cyrus-template.diff: use absolute path to ensure that the binaries
+    are found (Closes: #597822: Some cyrus commands are not found by cyrus
+    master)
+  * updated Standards-Version to 3.9.1: no changes
+
+ -- Mathieu Parent <sathieu@debian.org>  Thu, 23 Sep 2010 15:41:25 +0200
+
 kolabd (2.2.4-20100624-3) unstable; urgency=low
 
   * Revert "disabling slapd runtime configuration"

@@ -7,10 +7,10 @@ Author: Mathieu Parent <math.parent@gmail.com>
 
 Upstream status: Parts can be commited
 
-Index: kolabd-2.2.3-20091217/templates/cyrus.conf.template.in
+Index: kolabd-2.2.4-20100624/templates/cyrus.conf.template.in
 ===================================================================
---- kolabd-2.2.3-20091217.orig/templates/cyrus.conf.template.in	2010-07-05 22:50:34.000000000 +0200
-+++ kolabd-2.2.3-20091217/templates/cyrus.conf.template.in	2010-07-05 22:52:01.000000000 +0200
+--- kolabd-2.2.4-20100624.orig/templates/cyrus.conf.template.in	2010-09-23 12:25:28.000000000 +0200
++++ kolabd-2.2.4-20100624/templates/cyrus.conf.template.in	2010-09-23 12:27:51.000000000 +0200
 @@ -3,66 +3,107 @@
  PERMISSIONS=0640
  OWNERSHIP=@imap_usr@:@imap_grp@
@@ -33,27 +33,25 @@ Index: kolabd-2.2.3-20091217/templates/cyrus.conf.template.in
  START {
 -  # do not delete this entry!
 -  recover	cmd="ctl_cyrusdb -r"
--
++	# do not delete this entry!
++	recover		cmd="/usr/sbin/ctl_cyrusdb -r"
+ 
 -  # this is only necessary if using idled for IMAP IDLE
 -  #idled		cmd="idled"
--
--  # Initial mupdate syncronisation
--  #mupdatepush   cmd="ctl_mboxlist -m"
-+	# do not delete this entry!
-+	recover		cmd="ctl_cyrusdb -r"
-+  
 +	# this is only necessary if idlemethod is set to "idled" in imapd.conf
 +	#idled		cmd="idled"
-+
+ 
+-  # Initial mupdate syncronisation
+-  #mupdatepush   cmd="ctl_mboxlist -m"
 +	# this is useful on backend nodes of a Murder cluster
 +	# it causes the backend to syncronize its mailbox list with
 +	# the mupdate master upon startup
-+	#mupdatepush   cmd="ctl_mboxlist -m"
++	#mupdatepush   cmd="/usr/sbin/ctl_mboxlist -m"
 +
 +	# this is recommended if using duplicate delivery suppression
-+	delprune	cmd="cyr_expire -E 3"
++	delprune	cmd="/usr/sbin/cyr_expire -E 3"
 +	# this is recommended if caching TLS sessions
-+	tlsprune	cmd="tls_prune"
++	tlsprune	cmd="/usr/sbin/tls_prune"
  }
  
 -# UNIX sockets start with a slash and are put into /openpkg/var/imapd/sockets
@@ -112,7 +110,7 @@ Index: kolabd-2.2.3-20091217/templates/cyrus.conf.template.in
 -  # this is only necessary if using notifications
 -  notifyd	cmd="notifyd" listen="@imap_notify_socket@" proto="udp" prefork=1
 +	# --- Murder frontends -------------------------
-+	# enable these and disable the matching services above, 
++	# enable these and disable the matching services above,
 +	# except for sieve (which deals automatically with Murder)
 +
 +	# mupdate database service - must prefork at least 1
@@ -137,20 +135,20 @@ Index: kolabd-2.2.3-20091217/templates/cyrus.conf.template.in
 -  # this is required
 -  checkpoint	cmd="ctl_cyrusdb -c" period=30
 +	# this is required
-+	checkpoint	cmd="ctl_cyrusdb -c" period=30
-+
-+	# this is only necessary if using duplicate delivery suppression
-+	delprune	cmd="cyr_expire -E 3" at=0401
++	checkpoint	cmd="/usr/sbin/ctl_cyrusdb -c" period=30
  
 -  # this is only necessary if using duplicate delivery suppression
 -  delprune	cmd="cyr_expire -E 3" at=0400
-+	# this is only necessary if caching TLS sessions
-+	tlsprune	cmd="tls_prune" at=0401
-+	
-+	# indexing of mailboxs for server side fulltext searches
++	# this is only necessary if using duplicate delivery suppression
++	delprune	cmd="/usr/sbin/cyr_expire -E 3" at=0401
  
 -  # this is only necessary if caching TLS sessions
 -  tlsprune	cmd="tls_prune" period=1440
++	# this is only necessary if caching TLS sessions
++	tlsprune	cmd="/usr/sbin/tls_prune" at=0401
++
++	# indexing of mailboxs for server side fulltext searches
++
 +	# reindex changed mailboxes (fulltext) approximately every other hour
 +	#squatter_1	cmd="/usr/bin/nice -n 19 /usr/sbin/squatter -s" period=120
 +
