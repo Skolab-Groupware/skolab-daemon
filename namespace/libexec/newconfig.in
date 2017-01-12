@@ -13,13 +13,12 @@
 ##  You can view the  GNU General Public License, online, at the GNU
 ##  Project's homepage; see <http://www.gnu.org/licenses/gpl.html>.
 ##
-PATH=/kolab/bin:$PATH
+PATH=@sbindir@
 
 if [ ".$1" = ".--help" ]; then
-	echo "Stop the server"
+	echo "Propogate changes made to Kolab templates"
 	exit 0
 	HASHELP
 fi
 
-openpkg rc all stop
-
+kolabconf

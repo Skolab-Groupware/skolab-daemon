@@ -1,0 +1,27 @@
+KOLAB_META_START
+TARGET=@sysconfdir@/rc.conf
+PERMISSIONS=0644
+OWNERSHIP=@kolab_musr@:@kolab_mgrp@
+KOLAB_META_END
+# (c) 2004 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
+#
+# This program is Free Software under the GNU General Public License (>=v2).
+# Read the file COPYING that comes with this packages for details.
+
+# this file is automatically written by the Kolab config backend
+# manual additions are lost unless made to the template in the Kolab config directory
+
+# Logfile corrections
+apache_log_files="@webserver_accesslogfile@"
+apache_err_files="@webserver_errorlogfile@"
+imapd_master_file="@imap_masterlogfile@"
+imapd_misc_file="@imap_misclogfile@"
+
+openldap_url="ldap:// ldaps://"
+sasl_authmech="ldap"
+
+@@@if proftpd-ftp@@@
+proftpd_enable="yes"
+@@@else@@@
+proftpd_enable="no"
+@@@endif@@@

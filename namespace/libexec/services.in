@@ -13,13 +13,16 @@
 ##  You can view the  GNU General Public License, online, at the GNU
 ##  Project's homepage; see <http://www.gnu.org/licenses/gpl.html>.
 ##
-PATH=/kolab/bin:$PATH
+PATH=@bindir@:$PATH
 
 if [ ".$1" = ".--help" ]; then
-	echo "Stop the server"
+	echo "Display a list of services"
 	exit 0
 	HASHELP
 fi
 
-openpkg rc all stop
+
+services=`ls @kolab_rcdir@/`
+echo "${services}" | sed -e 's/rc\.//'
+
 

@@ -1,0 +1,93 @@
+KOLAB_META_START
+TARGET=@imap_confdir@/imapd.conf
+PERMISSIONS=0640
+OWNERSHIP=@imap_usr@:@imap_grp@
+KOLAB_META_END
+# (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
+# (c) 2003-2006 Martin Konold <martin.konold@erfrakon.de>
+# (c) 2003 Achim Frank <achim.frank@erfrakon.de>
+# This program is Free Software under the GNU General Public License (>=v2).
+# Read the file COPYING that comes with this packages for details.
+
+# This file is automatically written by the Kolab config backend.
+# Manual additions are lost unless made to the template in the Kolab config directory.
+# The template is @sysconfdir@/kolab/templates/imapd.conf.template
+
+
+#   Warning: Do not use a trailing slash in paths!
+configdirectory:        @imap_statedir@
+partition-default:      @imap_spool@
+
+allowusermoves:         0
+admins:                 @@@cyrus-admins@@@
+sasl_pwcheck_method:    saslauthd
+sasl_mech_list: 	plain
+sendmail:               @sbindir@/sendmail
+allowanonymouslogin:    no
+allowplaintext:         yes
+servername:             @@@fqdnhostname@@@
+autocreatequota:        @@@cyrus-autocreatequota@@@
+reject8bit:             no
+munge8bit: 		no
+quotawarn:              @@@cyrus-quotawarn@@@
+lmtp_over_quota_perm_failure: 1
+timeout:                30
+sievedir:		@imap_sievedir@
+lmtpsocket: 		@emailserver_socket@
+
+allowapop:              no
+
+#tls_ca_file: 		@sysconfdir@/kolab/server.pem
+tls_cert_file: 		@sysconfdir@/kolab/cert.pem
+tls_key_file: 		@sysconfdir@/kolab/key.pem
+
+altnamespace:           0
+unixhierarchysep:       yes
+lmtp_downcase_rcpt:	yes
+username_tolower:       1
+
+hashimapspool:          yes
+#the fulldirhash optimization requires the rehash utility and the compile time switch --enable-fulldirhash
+#fulldirhash:           yes
+
+##virtdomains:            userid
+
+loginrealms:		@@@postfix-mydomain@@@ @@@postfix-mydestination|join( )@@@
+
+# support for lookup of mailbox name from local LDAP server
+ldap_uri:               @@@user_ldap_uri@@@
+ldap_base:              @@@base_dn@@@ 
+ldap_bind_dn:           @@@php_dn@@@
+ldap_password:          @@@php_pw@@@
+ldap_time_limit:        15
+
+virtdomains:            ldap
+
+## Murder slave setup
+#mupdate_server:         XXX
+#mupdate_port:           3905
+#mupdate_authname:       manager
+#mupdate_password:       xxx
+
+# add support for posting to shared folders
+postuser: kolab
+userprefix: user
+sharedprefix: shared
+
+# add support for sieve based notifications
+notifysocket: @imap_notify_socket@
+sievenotifier: mailto
+mailnotifier: mailto
+
+# use berkeley db backend instead of skiplist
+annotation_db: berkeley
+mboxlist_db: berkeley
+
+# Don't discard emails with identical message-id header (enabled by default):
+duplicatesuppression: 0
+
+# The interval (in seconds) for polling the mailbox for changes while running the IDLE command.
+# This option is used when  idled  can not be contacted or when polling is used exclusively.
+# The minimum value is 1.  A value of 0 will disable polling (and disable IDLE if polling is
+# the only method available).
+imapidlepoll: 5

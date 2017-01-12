@@ -1,0 +1,73 @@
+##  Copyright (c) 2004  Code Fusion cc
+##
+##  This  program is free  software; you can redistribute  it and/or
+##  modify it  under the terms of the GNU  General Public License as
+##  published by the  Free Software Foundation; either version 2, or
+##  (at your option) any later version.
+##
+##  This program is  distributed in the hope that it will be useful,
+##  but WITHOUT  ANY WARRANTY; without even the  implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+##  General Public License for more details.
+##
+##  You can view the  GNU General Public License, online, at the GNU
+##  Project's homepage; see <http://www.gnu.org/licenses/gpl.html>.
+##
+PATH=@bindir@:$PATH
+
+if [ ".$1" = ".--help" ]; then
+	echo "Display the Kolab server logs"
+	exit 0
+	HASHELP
+fi
+
+#list of logfiles, maintainers please update
+logfiles="
+@ftpserver_logfile@
+@amavisd_logfile@
+@fsl_logfile@
+@sasl_logfile@
+@resmgr_logfile@
+@freebusy_logfile@
+@clamav_logfile@
+@imap_masterlogfile@
+@imap_misclogfile@
+@webserver_errorlogfile@
+@webserver_accesslogfile@
+@ldapserver_logfile@
+@emailserver_logfile@
+"
+
+if [ ".$PAGER" = "." ]; then
+	PAGER=less
+fi
+
+
+if [ ".$1" = "." ]; then
+	for log in $logfiles; do
+		echo $log 
+	done
+	echo
+	echo "To view a log please specify the <logname> or \"-t <logname>\""
+	echo "It is also possible to abbreviate the logname, for example:"
+	echo "\"showlog postfix\" will display the postfix log."
+else 
+	if [ ".$1" = ".-t" ]; then
+		PAGER="tail -f "
+		if [ ".$2" = "." ]; then
+			exit 0;
+		else
+			showme=$2
+		fi
+	else 
+		showme=$1
+	fi
+		
+	for log in $logfiles; do
+		match=`echo $log | grep $showme`
+		if [ ".$match" != "." ]; then
+			$PAGER $log
+		fi
+	done
+fi
+

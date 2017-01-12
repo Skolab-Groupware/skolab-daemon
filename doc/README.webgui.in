@@ -25,7 +25,7 @@ user classes
         user. The right are the same as "admin".
 
 By default all classes can use the webgui. By changing
-/kolab/etc/kolab/templates/session_vars.php this can be
+@sysconfdir@/kolab/templates/session_vars.php this can be
 configured. The user-classes that should have access to the webgui
 are listed in the $params['allow_user_classes'] array:
 
@@ -37,7 +37,7 @@ $params['allow_user_classes'] =
 user's account object. It is possible to change which LDAP attributes
 are shown to users on the user page. For each attribute in the user
 form, an entry in the array $params['attribute_access'] in
-/kolab/etc/kolab/templates/session_vars.php can be made. The key
+@sysconfdir@/kolab/templates/session_vars.php can be made. The key
 of the entry is the attribute's name and the value is one of 
 
   "ro": Readonly.

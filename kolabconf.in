@@ -1,0 +1,100 @@
+#!@PERL@
+
+##
+##  Copyright (c) 2003  Code Fusion cc
+##
+##    Written by Stuart Binge  <s.binge@codefusion.co.za>
+##    Portions based on work by the following people:
+##
+##      (c) 2004  Klaraelvdalens Datakonsult AB
+##	(c) 2003  Tassilo Erlewein  <tassilo.erlewein@erfrakon.de>
+##      (c) 2003  Martin Konold     <martin.konold@erfrakon.de>
+##      (c) 2003  Achim Frank       <achim.frank@erfrakon.de>
+##
+##
+##  This program is free software; you can redistribute it and/or modify
+##  it under the terms of the GNU General Public License as published by
+##  the Free Software Foundation; either version 2 of the License, or
+##  (at your option) any later version.
+##
+##  This program is distributed in the hope that it will be useful,
+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##  GNU General Public License for more details.
+##
+##  You should have received a copy of the GNU General Public License
+##  along with this program; if not, write to the Free Software
+##  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+##
+
+use strict;
+use Getopt::Std;
+use Sys::Syslog;
+use IO::File;
+use Kolab;
+use Kolab::Util;
+use Kolab::Conf;
+use Kolab::LDAP;
+use vars qw($opt_d $opt_n $opt_h);
+
+openlog('kolabconf', 'cons, pid', 'user');
+
+getopts('dnh');
+if ($opt_h) {
+  print <<'EOS';
+Usage: kolabconf [-d] [-n] [-h]
+
+Option d (debug) to print out the current config.
+Option n (noreload) to skip reloading services after changing configuration.
+Option h (help) to get this text.
+EOS
+exit 0;
+}
+if ($opt_d) {
+    foreach my $key (sort keys %Kolab::config) {
+		my $value;
+		if( ref($Kolab::config{$key}) eq "ARRAY" ) {
+			$value = join( ", ", @{$Kolab::config{$key}});
+		} else {
+			$value = $Kolab::config{$key};
+		}
+        print "$key : " . $value . "\n";
+    }
+    exit 0;
+}
+my $do_reload = 1;
+if($opt_n) {
+  $do_reload = 0;
+}
+
+print 'kolabconf - Kolab Configuration Generator
+
+  Version: @VERSION@
+
+  Copyright (c) 2004  Klaraelvdalens Datakonsult AB
+  Copyright (c) 2003  Code Fusion cc
+  Copyright (c) 2003  Tassilo Erlewein, Martin Konold, Achim Frank, erfrakon
+
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+';
+
+if( !$Kolab::reloadOk ) {
+  my $msg = "Error loading configuration. Maybe the LDAP server is not running. Please check the system log for errors.";
+  print STDERR "$msg\n";
+  Kolab::log('KC', $msg);
+  exit(-1);
+}
+Kolab::log('KC', 'Rebuilding templates');
+Kolab::Conf::rebuildTemplates;
+Kolab::log('KC', 'Reloading kolab components');
+if( $do_reload ) {
+  Kolab::reload;
+}
+#if ($pid) {
+#    Kolab::log('KC', "Refreshing the kolab daemon (w/ PID $pid)");
+#    kill('HUP', $pid);
+#} else {
+#    Kolab::log('KC', "Unable to determine the PID of the kolab daemon; skipping refresh", KOLAB_WARN);
+#}
+Kolab::log('KC', 'Finished');

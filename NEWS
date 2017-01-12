@@ -1,0 +1,22 @@
+2.0.99-20051215
+
+      * The documentation has been moved from /kolab/share/kolabd/doc to
+        /kolab/share/doc/kolabd
+
+      * Patches:
+          Issue1017 (Autoconfiscation patch by Richard Bos)
+          Issue1021 (Autoconfiscation patch by Richard Bos)
+          Issue1027 (Fix for a problem introduced by autoconfiscation)
+          Issue1028 (kolabd/namespace/libexec improvements)
+
+2.0.99-20051130
+
+      * More autoconfiscation patches from Richard Bos
+
+      * The kolab_smtpdpolicy makes use of the smtp authentication
+        credentials used by the sender now.
+
+      * Fixing:
+          Issue1002 (Documented path to template is wrong in some files)
+          Issue1004 (insuffient access for admins and maintainers)
+          Issue1009 (Preparation patch for the autoconfiscated krh module)

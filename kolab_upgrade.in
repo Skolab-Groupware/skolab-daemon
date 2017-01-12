@@ -1,0 +1,96 @@
+#!@PERL@ -w
+
+# (c) 2005 Steffen Hansen <steffen@klaralvdalens-datakonsult.se>
+#
+# This program is Free Software under the GNU General Public License (>=v2).
+# Read the file COPYING that comes with this packages for details.
+
+use Term::ReadKey;
+use Kolab;
+use Kolab::Util;
+use Kolab::LDAP;
+
+Kolab::LDAP::startup;
+
+# Utility functions
+sub getLdapEntry {
+  my $ldap = shift;
+  my $dn = shift;
+  my $mesg = $ldap->search( base => $dn, scope => 'exact', filter => '(objectClass=*)' );
+  if( $mesg && $mesg->count() > 0 ) {
+    return $mesg->entry(0);
+  }
+}
+sub newOrExistingLDAPEntry {
+  my $ldap = shift;
+  my $dn = shift;
+
+  my $mesg = $ldap->search( base => $dn, scope => 'exact', filter => '(objectClass=*)' );
+  if( $mesg && $mesg->count() > 0 ) {
+    return $mesg->entry(0);
+  } else {
+    return Net::LDAP::Entry->new;
+  }
+}
+
+sub newkolabgroupofnames {
+  my $ldap = shift;
+  my $basedn = shift;
+  my $cn = shift;
+
+  if( scalar(@_) < 1 ) {
+    warn "kolabgroupofnames must contain at least one member";
+  }
+
+  my $ldapobject = newOrExistingLDAPEntry($ldap,"cn=$cn,$basedn");
+  $ldapobject->replace('cn' => $cn, 'objectclass' => ['top','kolabgroupofnames'],
+                       'member' => @_);
+  $ldapobject->dn("cn=$cn,$basedn");
+  my $mesg = $ldapobject->update($ldap);
+  $mesg && $mesg->code && warn "failed to write entry: ", $mesg->error;
+  return $ldapobject;
+}
+
+
+print "Kolab Upgrade script from 2.0 to 2.1\n";
+print "------------------------------------\n\n";
+print "This will upgrade your Kolab LDAP database from version 2.0 to 2.1.\n";
+print "Please back up everything before continuing\n\n";
+print "Continue? [N/y]: ";
+my $tmp = ReadLine;
+chomp $tmp;
+print "$tmp\n";
+exit unless $tmp eq 'y';
+
+# Connect to LDAP server
+my $ldap_uri = $Kolab::config{'ldap_uri'};
+my $ldap = Net::LDAP->new($ldap_uri, verify => 'none' ) || die "Could not connect ldap server $ldap_uri";
+$ldap->bind($Kolab::config{'bind_dn'}, password=> $Kolab::config{'bind_pw'}) 
+  || die "could not bind to ldap server $ldap_uri";
+
+print "Fixing k=kolab object:\n";
+my $kolab_object = getLdapEntry($ldap, 'k=kolab'.$Kolab::config{'base_dn'}) || die "Could not read Kolab LDAP object";
+my $mydom = $kolab_object->get_value('postfix-mydomain');
+my @mydest = @{$kolab_object->get_value('postfix-mydestination')};
+foreach( @mydest ){
+  if( $_ eq "\$mydomain" ) {
+    print "Replacing postfix-mydestination: $_ with postfix-mydestination: $mydom\n";
+    $_ = $mydom;
+  }
+}
+$kolab_object->replace( 'postfix-mydestination' => \@mydest );
+$kolab_object->update( $ldap );
+
+print "Creating additional entries:\n";
+
+# create domain groups topnode
+print "Creating cn=domains,cn=internal,$base_dn\n";
+my $ldapobject = newOrExistingLDAPEntry( $ldap, "cn=domains,cn=internal,$base_dn" );
+$ldapobject->replace('cn' => 'domains', 'objectclass' => ['top','kolabnamedobject']);
+$ldapobject->dn("cn=domains,cn=internal,$base_dn");
+$mesg = $ldapobject->update($ldap);
+$mesg && $mesg->code && warn "failed to write entry: ", $mesg->error;
+
+# create domain-mainainter group
+print "Creating cn=domain-maintainers,cn=internal,$base_dn\n";
+newkolabgroupofnames( $ldap, "cn=internal,$base_dn", 'domain-maintainer', $Kolab::config{'bind_dn'} );

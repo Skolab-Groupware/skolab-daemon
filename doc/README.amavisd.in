@@ -26,7 +26,7 @@ the local user who would have been the recipient of the email
 containing the virus if it had not been infected.
 
 Any infected email that is blocked from reaching it's recipient is
-archived to /kolab/var/amavisd/virusmails on the server.
+archived to @localstatedir@/amavisd/virusmails on the server.
 
 Spam-handling is different: Spam is not blocked by the filter, but
 instead email potentially is spam is marked with the
@@ -50,7 +50,7 @@ $viruses_that_fake_sender_re = new_RE();
 @viruses_that_fake_sender_maps = ();
 $warnvirusrecip = 1;    # (defaults to false (undef))
 $warnbannedrecip = 1;   # (defaults to false (undef))
-$QUARANTINEDIR = '/kolab/var/amavisd/virusmails';
+$QUARANTINEDIR = '@localstatedir@/amavisd/virusmails';
 $virus_quarantine_to  = 'virus-quarantine';
 @mynetworks = qw( @@@postfix-mynetworks@@@ );
 

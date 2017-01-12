@@ -10,6 +10,7 @@ directory_mode : slurpd
 gyard_deletion_period : 10080
 ldap_uri : ldap://127.0.0.1:389
 log_level : 2
+debug : 0
 postfix-mydestination : $mydomain
 proftpd-ftp : FALSE
 proftpd-userPassword :

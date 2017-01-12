@@ -1,4 +1,4 @@
-#!/kolab/bin/perl
+#!@PERL@
 
 # (c) 2004 Klaralvdalens Datakonsult AB
 #

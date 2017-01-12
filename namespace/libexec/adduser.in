@@ -1,0 +1,114 @@
+##  Copyright (c) 2004  Code Fusion cc
+##
+##  This  program is free  software; you can redistribute  it and/or
+##  modify it  under the terms of the GNU  General Public License as
+##  published by the  Free Software Foundation; either version 2, or
+##  (at your option) any later version.
+##
+##  This program is  distributed in the hope that it will be useful,
+##  but WITHOUT  ANY WARRANTY; without even the  implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+##  General Public License for more details.
+##
+##  You can view the  GNU General Public License, online, at the GNU
+##  Project's homepage; see <http://www.gnu.org/licenses/gpl.html>.
+##
+PATH=@bindir@:$PATH
+
+if [ ".$1" = ".--help" ]; then
+	echo "Add a user mailbox"
+	exit 0
+	HASHELP
+fi
+
+#Collect some vitals
+SERVER=127.0.0.1
+
+BINDDN=`sed -n 's;bind_dn : ;;p' @sysconfdir@/kolab/kolab.conf`
+BINDPW=`sed -n 's;bind_pw : ;;p' @sysconfdir@/kolab/kolab.conf`
+BASEDN=`sed -n 's;base_dn : ;;p' @sysconfdir@/kolab/kolab.conf`
+HOMESERV=`sed -n 's;fqdnhostname : ;;p' @sysconfdir@/kolab/kolab.conf`
+
+echo "Please specify the firstname:"
+read FIRSTNAME
+echo "Please specify the lastname:"
+read LASTNAME
+echo "Please specify the email address:"
+read EMAIL
+echo "Please specify the password:"
+read PASSWORD
+echo "Please specify the quota (kb):"
+read QUOTA
+
+CN="$FIRSTNAME $LASTNAME"
+SN="$LASTNAME"
+
+#Sanity checks
+if test "$FIRSTNAME" = ""; then
+echo "You must specify a firstname"
+exit 255
+fi
+if test "$LASTNAME" = ""; then
+echo "You must specify a lastname"
+exit 255
+fi
+if test "$EMAIL" = ""; then
+echo "You must specify a valid mail address"
+exit 255
+fi
+if test "$PASSWORD" = ""; then
+echo "You must specify a password"
+exit 255
+fi
+
+#Echo to user - last chance
+echo "--"
+echo "About to add the following user:"
+echo "Name: $CN"
+echo "Mail: $EMAIL"
+echo "Password: $PASSWORD"
+if test "$QUOTA" != ""; then
+echo "Quota: ${QUOTA}kb"
+fi
+echo "--"
+
+#Check if the user already exists
+DN=`kolab showuser $EMAIL | grep dn`
+if test "$DN" != ""; then
+echo User already found! Or other error occurred.
+exit 255
+fi
+
+echo "Are you sure you want to proceed? (y/n)"
+read ANS
+if test "$ANS" != "y"; then
+echo Aborted
+exit 255
+fi
+
+
+
+#Create the ldif
+LDIFFILE="/tmp/cfadduser.ldif"
+trap "rm $LDIFFILE" 0 1 2 3 15
+
+cat <<LDIF > $LDIFFILE
+dn: cn=$CN,$BASEDN
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: kolabInetOrgPerson
+mail: $EMAIL
+uid: $EMAIL
+sn: $LASTNAME
+givenName: $FIRSTNAME
+cn: $CN
+userPassword: $PASSWORD
+kolabHomeServer: $HOMESERV
+LDIF
+
+if test "$QUOTA" != ""; then
+echo "cyrus-userquota: $QUOTA" >> $LDIFFILE
+fi
+
+ldapadd -x -D "$BINDDN" -w $BINDPW -h $SERVER -f $LDIFFILE
+
