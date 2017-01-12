@@ -23,6 +23,18 @@ DatabaseDirectory @clamav_datadir@
 # Default: disabled
 UpdateLogFile @freshclam_logfile@
 
+# Maximum size of the log file.
+# Value of 0 disables the limit.
+# You may use 'M' or 'm' for megabytes (1M = 1m = 1048576 bytes)
+# and 'K' or 'k' for kilobytes (1K = 1k = 1024 bytes).
+# in bytes just don't use modifiers.
+# Default: 1M
+#LogFileMaxSize 2M
+
+# Log time with each message.
+# Default: no
+#LogTime yes
+
 # Enable verbose logging.
 # Default: no
 #LogVerbose yes
@@ -73,7 +85,14 @@ DatabaseMirror database.clamav.net
 
 # With this option you can control scripted updates. It's highly recommended
 # to keep it enabled.
+# Default: yes
 #ScriptedUpdates yes
+
+# By default freshclam will keep the local databases (.cld) uncompressed to
+# make their handling faster. With this option you can enable the compression;
+# the change will take effect with the next database update.
+# Default: no
+#CompressLocalDatabase no
 
 # Number of database checks per day.
 # Default: 12 (every two hours)
@@ -129,3 +148,35 @@ NotifyClamd @clamav_confdir@/clamd.conf
 # Timeout in seconds when reading from database server.
 # Default: 30
 #ReceiveTimeout 60
+
+# When enabled freshclam will submit statistics to the ClamAV Project about
+# the latest virus detections in your environment. The ClamAV maintainers
+# will then use this data to determine what types of malware are the most
+# detected in the field and in what geographic area they are.
+# This feature requires LogTime and LogFile to be enabled in clamd.conf.
+# Default: no
+#SubmitDetectionStats /path/to/clamd.conf
+
+# Country of origin of malware/detection statistics (for statistical
+# purposes only). The statistics collector at ClamAV.net will look up
+# your IP address to determine the geographical origin of the malware
+# reported by your installation. If this installation is mainly used to
+# scan data which comes from a different location, please enable this
+# option and enter a two-letter code (see http://www.iana.org/domains/root/db/)
+# of the country of origin.
+# Default: disabled
+#DetectionStatsCountry country-code
+
+# This option enables support for Google Safe Browsing. When activated for
+# the first time, freshclam will download a new database file (safebrowsing.cvd)
+# which will be automatically loaded by clamd and clamscan during the next
+# reload, provided that the heuristic phishing detection is turned on. This
+# database includes information about websites that may be phishing sites or
+# possible sources of malware. When using this option, it's mandatory to run
+# freshclam at least every 30 minutes.
+# Freshclam uses the ClamAV's mirror infrastructure to distribute the
+# database and its updates but all the contents are provided under Google's
+# terms of use. See http://code.google.com/support/bin/answer.py?answer=70015
+# and http://safebrowsing.clamav.net for more information.
+# Default: disabled
+#SafeBrowsing yes

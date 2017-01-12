@@ -17,7 +17,7 @@ KOLAB_META_END
 
 server_host = @@@ldap_uri@@@
 search_base = @@@user_dn_list@@@
-query_filter = (&(!(kolabDeleteFlag=*))(|(alias=%s)(mail=%s)))
+query_filter = (&(!(kolabDeleteFlag=*))(|(alias=%s)(mail=%s))(!(cn:dn:=external)))
 result_attribute = mail
 result_filter = %s
 search_timeout = 15

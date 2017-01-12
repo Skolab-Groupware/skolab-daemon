@@ -535,6 +535,7 @@ $QUARANTINEDIR = '@amavisd_home@/virusmails';
 
 #$virus_quarantine_method = "local:virus-%i-%n";    # default
 #$spam_quarantine_method  = "local:spam-%b-%i-%n";  # default
+$bad_header_quarantine_method = undef;              # default: 'local:badh-%m';
 #
 #use the new 'bsmtp:' method as an alternative to the default 'local:'
 #$virus_quarantine_method = "bsmtp:$QUARANTINEDIR/virus-%i-%n.bsmtp";

@@ -34,7 +34,7 @@ Distribution: OpenPKG
 Group:        Mail
 License:      GPL
 Version:      2.2.1
-Release:      20090304
+Release:      20090407
 
 #   list of sources
 Source0:      kolabd-%{version}.tar.bz2
