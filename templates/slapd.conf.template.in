@@ -159,6 +159,7 @@ access to attrs=kolabHomeMTA
 access to attrs=kolabAllowSMTPRecipient
        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+       by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
        by self read stop
 
 access to dn="cn=nobody,@@@base_dn@@@"
