@@ -33,19 +33,6 @@ my %kolab_config;
 
 ##### Utility Functions
 
-# Shell double-quote a string
-# Borrored from Sysadm::Install
-sub qquote {
-  my($str, $metas) = @_;
-  $str =~ s/([\\"])/\\$1/g;
-  if(defined $metas) {
-    $metas = '!$`' if $metas eq ":shell";
-    $metas =~ s/\]/\\]/g;
-    $str =~ s/([$metas])/\\$1/g;
-  }
-  return "\"$str\"";
-}
-
 # Try to get fqdn
 sub myhostname {
   my $host = '';
@@ -97,7 +84,7 @@ sub checkPort {
 # Hash a password
 sub hashPassword {
   my $pw = shift;
-  my $hashcmd = $kolab_prefix."/sbin/slappasswd -s ".qquote($pw,":shell");
+  my $hashcmd = $kolab_prefix."/sbin/slappasswd -s '".$pw."'";
   (my $hashpw = `$hashcmd`) or die $@;
   chomp($hashpw);
   return $hashpw;

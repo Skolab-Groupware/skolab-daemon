@@ -26,9 +26,6 @@ use Net::LDAP qw(LDAP_NO_SUCH_OBJECT);
 use Net::LDAP::Entry;
 use Net::hostent;
 use Socket;
-use Kolab::Util;
-
-my %conf;
 
 #
 # Usage: kolab_smtpd_policy.pl [-v]
@@ -124,13 +121,13 @@ sub contains {
 }
 
 sub ldap_connect {
-    my $ldapuri = URI->new($conf_ldapuri) || fatal_exit("error: could not parse given uri $conf_ldapuri");
-    $ldap = Net::LDAP->new($conf_ldapuri) || fatal_exit("could not connect to ldap server $conf_ldapuri: $@");
+    my $ldapuri = URI->new($conf_ldapuri) || fatal_exit("error: could not parse given uri");
+    $ldap = Net::LDAP->new($conf_ldapuri) || fatal_exit("could not connect ldap server");
     if ($ldap) {
 	if( $conf_binddn ) {
-	    $ldap->bind( $conf_binddn, password => $conf_bindpw ) || fatal_exit( "could not bind as $conf_binddn: $@" );
+	    $ldap->bind( $conf_binddn, password => $conf_bindpw ) || fatal_exit( "could not bind as $conf_binddn" );
 	} else {
-	    $ldap->bind || fatal_exit("could not bind: $@");
+	    $ldap->bind || fatal_exit("could not bind");
 	}
     } else {
 	fatal_exit( "Could not contact LDAP server" );
@@ -305,21 +302,9 @@ setlogsock $syslog_socktype;
 openlog $0, $syslog_options, $syslog_facility;
 
 #
-# Read options from config-file
+# We don't need getopt() for now.
 #
 $conf_allowunauth = 0;
-%conf = readConfig( %conf, "@l_prefix@/etc/kolab/kolab_smtpdpolicy.conf" );
-$conf_ldapuri = $conf{'ldap_uri'};
-$conf_basedn  = $conf{'basedn'};
-$conf_binddn  = $conf{'binddn'};
-$conf_bindpw  = $conf{'bindpw'};
-$conf_domain  = $conf{'domain'};
-$conf_allowunauth = 1 if( $conf{'allow_unauth'} );
-@conf_permithosts = split /\s*,\s*/, $conf{'permithosts'};
-
-#
-# Allow user to override on commandline
-#
 while ($option = shift(@ARGV)) {
   if ($option eq "-v") {
     $verbose = 1;
@@ -336,7 +321,6 @@ while ($option = shift(@ARGV)) {
   } elsif ($option eq '-allow-unauth') {
     $conf_allowunauth = 1;
   } elsif ($option eq '-permithosts') {
-    @conf_permithosts = ();
     for my $h (split /\s*,\s*/, shift(@ARGV)) {
       push @conf_permithosts, $h;
     }
