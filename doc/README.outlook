@@ -1,0 +1,37 @@
+Outlook specific issues
+=======================
+
+Last edited $Id: README.outlook,v 1.3 2005/05/09 17:39:40 bernhard Exp $
+
+Invitation Forwarding
+---------------------
+
+Microsoft Outlook acts a little peculiar when forwarding iCal
+invitation messages. Such messages are just passed on to the new
+recipient without having headers modified. This causes such messages
+to be rejected by the Kolab server.
+
+As a solution to this problem the mail filter on the server can
+capture such messages and embed them as an attachment to an email
+message with valid headers and a short description that the message is
+forwarded.
+
+Because some Outlook versions delete the Organizer attribute,
+this attribute will be added again with the value from the "from" value
+that Outlook had passed unmodified and thus should contain the email
+of the event's organizer.
+
+Additionally, some versions of Outlook are incapable of recognizing
+non-ascii charaters in such forwarded messages, so the filter rewrites
+common non-ascii characters to ascii (for example ? oe).
+
+resmgr.conf.template has an option for allowing or disallowing
+"Outlook forwarding". Set
+
+$params['allow_outlook_ical_forward']  = true;
+
+to enable (default) or
+
+$params['allow_outlook_ical_forward']  = false;
+
+to disable.

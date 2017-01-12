@@ -1,0 +1,60 @@
+# (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
+# (c) 2003 Martin Konold <martin.konold@erfrakon.de>
+# (c) 2003 Achim Frank <achim.frank@erfrakon.de>
+# This program is Free Software under the GNU General Public License (>=v2).
+# Read the file COPYING that comes with this packages for details.
+
+# this file is automatically written by the Kolab config backend
+# manual additions are lost unless made to the template in the Kolab config directory
+
+#   Warning: Do not use a trailing slash in paths!
+configdirectory:        @l_prefix@/var/imapd
+partition-default:      @l_prefix@/var/imapd/spool
+
+admins:                 @@@cyrus-admins@@@
+sasl_pwcheck_method:    saslauthd
+sasl_mech_list: 	plain
+sendmail:               @l_prefix@/sbin/sendmail
+allowanonymouslogin:    no
+allowplaintext:         yes
+servername:             @@@fqdnhostname@@@
+autocreatequota:        @@@cyrus-autocreatequota@@@
+reject8bit:             no
+munge8bit: 		no
+quotawarn:              @@@cyrus-quotawarn@@@
+lmtp_over_quota_perm_failure: 1
+timeout:                30
+sievedir:		@l_prefix@/var/imapd/sieve
+lmtpsocket: 		@l_prefix@/var/kolab/lmtp
+
+#tls_ca_file: 		@l_prefix@/etc/kolab/server.pem
+tls_cert_file: 		@l_prefix@/etc/kolab/cert.pem
+tls_key_file: 		@l_prefix@/etc/kolab/key.pem
+
+#altnamespace
+unixhierarchysep:       yes
+lmtp_downcase_rcpt:	yes
+username_tolower:       1
+##virtdomains:            userid
+
+loginrealms:		@@@postfix-mydomain@@@
+
+# support for lookup of mailbox name from local LDAP server
+ldap_uri:               @@@user_ldap_uri@@@
+ldap_base:              @@@base_dn@@@ 
+ldap_bind_dn:           @@@php_dn@@@
+ldap_password:          @@@php_pw@@@
+ldap_time_limit:        15
+virtdomains:            ldap
+
+## Murder slave setup
+#mupdate_server:         XXX
+#mupdate_port:           3905
+#mupdate_authname:       manager
+#mupdate_password:       xxx
+
+# add support for posting to shared folders
+postuser: kolab
+userprefix: user
+sharedprefix: shared
+

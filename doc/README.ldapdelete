@@ -1,0 +1,26 @@
+Removal of LDAP objects
+=======================
+
+Last edited $Id: README.ldapdelete,v 1.1 2005/04/22 01:45:33 steffen Exp $
+
+Normally, kolabd will remove an account object from the LDAP database
+that has been marked for deletion after kolabd has performed a
+cleanup-phase (like deleting the corresponding imap account etc.).
+
+If this is not desired, kolabd can instead only remove the
+Kolab-related objectClasses from a deleted object and leave in
+non-Kolab-related part of the object in the database after cleanup.
+
+This feature can be enabled by setting
+
+kolab_remove_objectclass : 1
+
+in kolab.conf. If additional attributes should be removed, they can be
+listed separated by spaces in kolab_remove_attributes, like for
+example:
+
+kolab_remove_attributes : mail ou
+
+Word of warning: Currently, the logic for weeding out the Kolab-parts
+of an object is quite simplistic -- _all_ attributes in the
+Kolab-related objectClass are removed.

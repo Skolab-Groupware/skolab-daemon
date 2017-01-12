@@ -1,0 +1,27 @@
+#
+# =============================================================================
+# This is a template for SPAM SENDER NOTIFICATIONS.
+# For syntax and customization instructions see README.customize.
+# Note that only valid header fields are allowed;
+# non-standard header field heads must begin with "X-" .
+# The From, To and Date header fields will be provided automatically.
+#
+Subject: Considered UNSOLICITED BULK EMAIL from you
+[? %m  |#|In-Reply-To: %m]
+Message-ID: <SS%n@%h>
+
+Your message to:[
+-> %R]
+
+was considered unsolicited bulk e-mail (UBE).
+[? %#X |#|\n[%X\n]]
+Subject: %j
+Return-Path: %s
+Our internal reference code for your message is %n.
+
+[? %#D |Delivery of the email was stopped!
+]#
+#
+# SpamAssassin report:
+# [%A
+# ]\

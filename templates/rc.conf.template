@@ -1,0 +1,22 @@
+# (c) 2004 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
+#
+# This program is Free Software under the GNU General Public License (>=v2).
+# Read the file COPYING that comes with this packages for details.
+
+# this file is automatically written by the Kolab config backend
+# manual additions are lost unless made to the template in the Kolab config directory
+
+# Logfile corrections
+apache_log_files="@l_prefix@/var/apache/log/apache-access.log"
+apache_err_files="@l_prefix@/var/apache/log/apache-error.log"
+imapd_master_file="@l_prefix@/var/imapd/log/master.log"
+imapd_misc_file="@l_prefix@/var/imapd/log/misc.log"
+
+openldap_url="ldap:// ldaps://"
+sasl_authmech="ldap"
+
+@@@if proftpd-ftp@@@
+proftpd_enable="yes"
+@@@else@@@
+proftpd_enable="no"
+@@@endif@@@

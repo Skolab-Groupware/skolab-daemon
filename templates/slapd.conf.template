@@ -1,0 +1,164 @@
+# (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
+# (c) 2003-2005 Martin Konold <martin.konold@erfrakon.de>
+# (c) 2003 Achim Frank <achim.frank@erfrakon.de>
+# This program is Free Software under the GNU General Public License (>=v2).
+# Read the file COPYING that comes with this packages for details.
+
+
+# this file is automatically written by the Kolab config backend and should have the 
+# file mode 0640
+
+# manual additions are lost unless made to the template in the Kolab config directory
+# the template is  @l_prefix@/etc/kolab/slapd.conf.template
+
+include @l_prefix@/etc/openldap/schema/core.schema
+include @l_prefix@/etc/openldap/schema/cosine.schema
+include @l_prefix@/etc/openldap/schema/inetorgperson.schema
+include @l_prefix@/etc/openldap/schema/rfc2739.schema
+include @l_prefix@/etc/openldap/schema/kolab2.schema
+
+pidfile		@l_prefix@/var/openldap/run/slapd.pid
+replica-pidfile	@l_prefix@/var/openldap/run/slurpd.pid
+argsfile	@l_prefix@/var/openldap/slapd.args
+replogfile      @l_prefix@/var/openldap/replog
+replicationinterval 5
+
+schemacheck 	       on
+
+TLSCertificateFile     @l_prefix@/etc/kolab/cert.pem
+TLSCertificateKeyFile  @l_prefix@/etc/kolab/key.pem
+
+rootDSE                @l_prefix@/etc/kolab/rootDSE.ldif
+
+defaultsearchbase      "@@@base_dn@@@"
+
+require 	none
+allow 		bind_v2
+
+loglevel	0
+
+database        monitor
+
+database	bdb
+cachesize       2000
+checkpoint 	512 10
+idlcachesize    10000
+idletimeout     10 # The value can be increased if some clients develop problems.
+                   # Please report to kolab-devel@kolab.org if you encounter such a client.
+
+suffix		"@@@base_dn@@@"
+directory	@l_prefix@/var/openldap/openldap-data
+
+rootdn          "@@@bind_dn@@@"
+rootpw          "@@@bind_pw_hash@@@"
+
+replica uri=ldap://127.0.0.1:9999
+        binddn="cn=replicator"
+        bindmethod=simple 
+	credentials=secret
+
+index   objectClass     pres,eq
+index   uid             approx,sub,pres,eq
+index   mail            approx,sub,pres,eq
+index   alias           approx,sub,pres,eq
+index   cn              approx,sub,pres,eq
+index   sn              approx,sub,pres,eq
+index   givenName       approx,sub,pres,eq
+index   kolabHomeServer pres,eq
+index   member          pres,eq
+
+access to dn.subtree="cn=Monitor"
+        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by * none stop
+
+access to attr=userPassword
+   	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" =wx
+        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" =wx
+        by self =wx
+        by anonymous =x
+        by * none stop
+
+access to attr=mail
+        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by * read stop
+
+access to attr=alias
+        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by * read stop
+
+access to attr=uid
+        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by * read stop
+
+access to attr=cyrus-userquota
+        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+	by self read stop
+
+access to attr=kolabHomeServer
+        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by * read stop
+
+access to attr=kolabHomeMTA
+        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by * read stop
+
+access to dn="cn=nobody,@@@base_dn@@@"
+        by anonymous auth stop
+
+access to dn="cn=manager,cn=internal,@@@base_dn@@@"
+        by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
+        by self write
+        by anonymous auth stop
+
+access to dn="cn=admin,cn=internal,@@@base_dn@@@"
+        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
+        by self write
+        by anonymous auth stop
+
+access to dn="cn=maintainer,cn=internal,@@@base_dn@@@"
+        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" read
+        by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
+        by self write
+        by anonymous auth stop
+
+access to dn.regex="(.*,)?cn=internal,@@@base_dn@@@"
+ 	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by self write
+	by dn="cn=nobody,cn=internal,@@@base_dn@@@" read 
+	by anonymous auth stop
+
+access to dn.regex="(.*,)?cn=external,@@@base_dn@@@"
+        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+	by * read stop
+
+access to dn="cn=external,@@@base_dn@@@"
+	by dn="cn=nobody,cn=internal,@@@base_dn@@@" read 
+	by * search stop
+
+access to dn="cn=internal,@@@base_dn@@@"
+	by dn="cn=nobody,cn=internal,@@@base_dn@@@" read 
+        by * search stop
+
+access to dn="k=kolab,@@@base_dn@@@"
+	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+	by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" read
+	by dn="cn=nobody,cn=internal,@@@base_dn@@@" read 
+	by * none stop
+
+access to * 
+        by self write
+	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+ 	by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+	by * read stop
+
+include @l_prefix@/etc/openldap/slapd.replicas

@@ -1,0 +1,55 @@
+##  Copyright (c) 2004  Code Fusion cc
+##
+##  This  program is free  software; you can redistribute  it and/or
+##  modify it  under the terms of the GNU  General Public License as
+##  published by the  Free Software Foundation; either version 2, or
+##  (at your option) any later version.
+##
+##  This program is  distributed in the hope that it will be useful,
+##  but WITHOUT  ANY WARRANTY; without even the  implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+##  General Public License for more details.
+##
+##  You can view the  GNU General Public License, online, at the GNU
+##  Project's homepage; see <http://www.gnu.org/licenses/gpl.html>.
+##
+
+
+if [ ".$1" = ".--showhelp" ]; then
+	echo "Delete a user mailbox"
+	exit 0
+	HASHELP
+fi
+
+#Collect some vitals
+SERVER=127.0.0.1
+PREFIX=@l_prefix@
+BINDDN=`cat $PREFIX/etc/kolab/kolab.conf | grep "bind_dn :" | sed -e "s;bind_dn : ;;"`
+BINDPW=`cat $PREFIX/etc/kolab/kolab.conf | grep "bind_pw :" | sed -e "s;bind_pw : ;;"`
+BASEDN=`cat $PREFIX/etc/kolab/kolab.conf | grep "base_dn :" | sed -e "s;base_dn : ;;"`
+HOMESERV=`cat $PREFIX/etc/kolab/kolab.conf | grep "fqdnhostname :" | sed -e "s;fqdnhostname : ;;"`
+
+DN=`$PREFIX/bin/kolab showuser $1 | grep dn`
+if test "$DN" = ""; then
+echo User not found! 
+exit 255
+else
+	echo $DN
+	echo Are you sure you want to delete this user?
+	read ANS
+	if test "$ANS" != "y"; then
+		exit 0
+	fi
+fi
+
+
+LDIFFILE="/tmp/cfdeluser.ldif"
+trap "rm $LDIFFILE" 0 1 2 3 15
+
+cat <<LDIF > $LDIFFILE
+$DN
+add: kolabdeleteflag
+kolabdeleteflag: $HOMESERV
+LDIF
+
+$PREFIX/bin/ldapmodify -x -D "$BINDDN" -w $BINDPW -h $SERVER -f $LDIFFILE 

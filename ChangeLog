@@ -1,0 +1,17 @@
+2006-02-07  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* templates/amavisd.conf.template: Use amavisd.log instead of
+	  amavis.log as log file to fix logrotate (Issue1015).
+
+2004-07-12  Martin Konold <martin.konold@erfrakon.de>
+        * Added multiple sanity checks (running services etc.)
+
+2004-03-18  Steffen Hansen  <steffen@klaralvdalens-datakonsult.se>
+
+	* Added template files for amavids and clamav
+
+2004-02-16  Stephan Buys  <s.buys@codefusion.co.za>
+	* OpenPKG 2.0 Prep
+	* Fix saslauthd login problems
+	* Fix imapd virtual domain settings
+	* Fix deprecated postfix settings

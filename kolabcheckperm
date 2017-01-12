@@ -1,0 +1,15 @@
+#!@l_prefix@/bin/perl
+
+# (c) 2004 Klaralvdalens Datakonsult AB
+#
+# Written by Steffen Hansen <steffen@klaralvdalens-datakonsult.se>
+#
+# This program is Free Software under the GNU General Public License (>=v2).
+# Read the file COPYING that comes with this packages for details.
+
+use strict;
+use Kolab;
+use Kolab::Util;
+use Kolab::Conf;
+
+exit( Kolab::Conf::checkPermissions>0?0:-1 );

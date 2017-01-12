@@ -1,0 +1,28 @@
+# (c) 2004 Martin Konold <martin.konold@erfrakon.de>
+# This program is Free Software under the GNU General Public License (>=v2).
+# Read the file COPYING that comes with this packages for details.
+
+
+# this file is initially automatically written by the Kolab config backend
+# manualy additions are kept between rpm updates
+
+# The purpose of this file is to add local non Kolab specific extensions to 
+# the Apache installation. This file gets included at the end of the Apache
+# configuration file (apache.conf)
+
+# e.g.
+# ScriptAlias /nagios/cgi-bin/ /usr/lib/nagios/cgi/
+#<Directory "/usr/lib/nagios/cgi/">
+#    AllowOverride AuthConfig
+#    Options ExecCGI
+#    Order allow,deny
+#    Allow from all
+#</Directory>
+#
+#Alias /nagios/ /usr/share/nagios/
+#<Directory "/usr/share/nagios/">
+#    Options None
+#    AllowOverride AuthConfig
+#    Order allow,deny
+#    Allow from all
+#</Directory>
