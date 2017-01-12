@@ -7,7 +7,7 @@ cyrus-imaps : TRUE
 cyrus-pop3 : FALSE
 cyrus-pop3s : TRUE
 cyrus-sieve : TRUE
-directory_mode : slurpd
+directory_mode : @directory_mode@
 gyard_deletion_period : 10080
 ldap_uri : ldap://127.0.0.1:389
 log_level : 2
@@ -36,16 +36,47 @@ kolab_rusr: @kolab_rusr@
 kolab_rgrp: @kolab_rgrp@
 kolab_musr: @kolab_musr@
 kolab_mgrp: @kolab_mgrp@
+kolab_quotawarning: @kolab_quotawarning@
 hashmethod: @sbindir@/slappasswd -s
 templatedir: @sysconfdir@/kolab/templates
 kolabdir: @sysconfdir@/kolab/
+kolab_cafile: @sysconfdir@/kolab/kolabserver-ca.crt
 postmapping: @sbindir@/postmap -o @emailserver_confdir@
 KOLABRC: @KOLABRC@
+bindir: @bindir@
 sbindir: @sbindir@
 webserver_logdir: @webserver_logdir@
 webserver_document_root: @webserver_document_root@
+webserver_usr: @webserver_usr@
+webserver_grp: @webserver_grp@
+horde_cookie_path: @horde_cookie_path@
+horde_confdir: @horde_confdir@
+kronolith_confdir: @kronolith_confdir@
+kolab_statedir: @kolab_statedir@
+kolab_pidfile: @kolab_pidfile@
+kolab_mailboxuiddb: @kolab_mailboxuiddb@
+graveyard_uidcache: @graveyard_uidcache@
+graveyard_tscache: @graveyard_tscache@
 local_addr : 127.0.0.1
 bind_any : TRUE
 bind_addr : 0.0.0.0
 calendar_id : calendar
-syslog_facility : user
+syslog_facility : @syslog_facility@
+backupfiles : @backupfiles@
+backupdir : @backupdir@
+sysconfdir : @sysconfdir@
+sasl_smtpconffile : @sasl_smtpconffile@
+ldapserver_dir : @ldapserver_dir@
+ldapserver_confdir : @ldapserver_confdir@
+ldapserver_statedir : @ldapserver_statedir@
+ldapserver_rusr : @ldapserver_rusr@
+ldapserver_grp : @ldapserver_grp@
+ldapserver_rgrp : @ldapserver_rgrp@
+libexecdir : @libexecdir@
+WITHOPENPKG : @WITHOPENPKG@
+LDAPD : @LDAPD@
+kolab_scriptsdir : @kolab_scriptsdir@
+pki_grp : @pki_grp@
+TAR : @TAR@
+kolab_wui : @kolab_wui@
+syncrepl_cookie_file : @kolab_statedir@/syncrepl_cookie

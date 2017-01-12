@@ -146,8 +146,8 @@ AccessFileName .htaccess
 <Location "@kolab_wui@">
     SSLRequireSSL
 </Location>
-<Location "@webserver_web_prefix@/horde">
-    ErrorDocument 403 https://@@@fqdnhostname@@@@webserver_web_prefix@/horde/
+<Location "@webserver_web_prefix@/client">
+    ErrorDocument 403 https://@@@fqdnhostname@@@@webserver_web_prefix@/client/
     SSLRequireSSL
 </Location>
 <Location "@webserver_web_prefix@/fbview">
@@ -160,6 +160,10 @@ AccessFileName .htaccess
     SSLRequireSSL
 </Location>
 @@@endif@@@
+
+# Redirect from the old Kolab web client location (Kolab-Server-2.2.0)
+# to the new one (Kolab-Server >= 2.2.1)
+Redirect /horde /client
 
 <Files ~ "^\.ht">
     Order allow,deny
@@ -233,6 +237,11 @@ ScriptAlias /cgi-bin/ "@webserver_document_root@/cgi-bin/"
    AuthBasicProvider ldap-mail ldap-uid
 @@@endif@@@
    AddDefaultCharset Off  
+</Directory>
+
+<Directory "@webserver_document_root@/client">
+    AllowOverride All
+    Allow from all
 </Directory>
 
 <Directory "@webserver_document_root@/fbview">

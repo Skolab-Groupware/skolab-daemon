@@ -29,7 +29,7 @@ KOLAB_META_END
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- *  $Revision: 1.14 $
+ *  $Revision: 1.21 $
  *
  *  ABOUT
  *  -----
@@ -44,8 +44,8 @@ $conf = array();
 /* Horde::Log configuration */
 $conf['log']['enabled']          = true;
 $conf['log']['priority']         = PEAR_LOG_DEBUG; // Leave this on DEBUG for now. We just restructured the package...
-$conf['log']['type']             = 'file';
-$conf['log']['name']             = '@freebusy_logdir@/freebusy.log';
+$conf['log']['type']             = '@freebusy_log_type@';
+$conf['log']['name']             = '@freebusy_log_name@';
 $conf['log']['ident']            = 'Kolab Free/Busy';
 $conf['log']['params']['append'] = true;
 
@@ -53,7 +53,7 @@ $conf['log']['params']['append'] = true;
 ini_set('error_log', '@freebusy_logdir@/php-error.log');
 
 /* Horde::Kolab::LDAP configuration */
-$conf['kolab']['ldap']['server'] = '@@@fqdnhostname@@@';
+$conf['kolab']['ldap']['server'] = '@@@ldap_uri@@@';
 $conf['kolab']['ldap']['basedn'] = '@@@base_dn@@@';
 $conf['kolab']['ldap']['phpdn']  = '@@@php_dn@@@';
 $conf['kolab']['ldap']['phppw']  = '@@@php_pw@@@';
@@ -68,6 +68,12 @@ $conf['auth']['params']['login_block'] = 0;
 $conf['auth']['checkbrowser']          = false;
 $conf['auth']['checkip']               = false;
 
+/* Allow special users to log into the system */
+$conf['kolab']['imap']['allow_special_users'] = true;
+
+/* Do not record login attempts */
+$conf['auth']['params']['login_block'] = false;
+
 /* Kolab::Freebusy configuration */
 
 /* Should we redirect using a Location header, if the user is not local? If this
@@ -76,10 +82,9 @@ $conf['auth']['checkip']               = false;
  */
 $conf['fb']['redirect']     = false;
 
-/* What is the address of the current server where the calendar data is stored?
- * This is also used as the LDAP server address where user objects reside.
+/* What is the address of the current server where the free/busy data can be accessed?
  */
-$conf['fb']['server']       = '@@@fqdnhostname@@@';
+$conf['kolab']['freebusy']['server']  = 'https://@@@fqdnhostname@@@/freebusy';
 
 /* What is our default mail domain? This is used if any users do not have
  * '@domain' specified after their username as part of their email address.
@@ -107,6 +112,13 @@ $conf['fb']['send_content_length'] = false;
  */
 $conf['fb']['send_content_disposition'] = false;
 
+/* Should we use ACLs or does everybody get full rights? DO NOT set
+ * this to false if you don't know what you are doing. Your free/busy
+ * service should not be visible to any outside networks when
+ * disabling the use of ACL settings.
+ */
+$conf['fb']['use_acls'] = true;
+
 /* Are there remote servers on which users have additional (shared)
  * folders? In that case free/busy information should also be fetched
  * from these servers.
@@ -117,15 +129,18 @@ $conf['fb']['send_content_disposition'] = false;
  */
 $conf['fb']['remote_servers'] = array();
 
+/**
+ * Ensure we use the Kolab group driver when handling groups.
+ */
+$conf['group']['driver'] = 'kolab';
+$conf['group']['cache'] = false;
+
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //
-// If you modify this file, please do not forget to modify both the
-// template in kolabd and the source file in kolab-freebusy
-//
-// In order to check if both are in sync:
-//
-// cd server
-// diff -Nau kolab-freebusy/freebusy/config.php kolabd/kolabd/templates/freebusy.conf.template.in
+// If you modify this file, please do not forget to ping upstream
+// about synchronizing this file with 
+// 
+// http://cvs.horde.org/framework/Kolab_FreeBusy/www/Horde/Kolab/FreeBusy/config.php
 //
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

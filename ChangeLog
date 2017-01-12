@@ -1,3 +1,291 @@
+2009-03-03  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* templates/httpd.conf.template.in: "AllowOverride All" for /client to
+	fix kolab/issue3447 (Heavy information leak from webclient directories)
+
+2009-03-02  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* doc/README.amavisd.in: Adjusted foot notes for removed text.
+
+2009-03-01 Richard Bos <richard@radoeka.nl>
+
+	* doc/README.amavisd.in: removed the reference to MYUSERS.patch
+
+2009-02-25 Richard Bos <richard@radoeka.nl>
+
+	* dist_conf/kolabsrv.in: stop the services backwards compared with the
+	  start sequence
+
+2009-02-24  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* doc/README.outlook: Updated for Kolab Server 2.2.1 (and corrected
+	typo and lost umlaut)
+	* dist_conf/suse: make syncrepl the default ldap server replication
+	mode
+
+2009-02-22 Richard Bos <richard@radoeka.nl>
+
+	* Makefile.am: always distribute the template file
+	  template/rc.config.template.in, see kolab/issue3408
+	* dist_conf/suse: change the directory value of
+          smarty_compiledir to ${localstatedir}/cache/kolab-webadmin
+
+2009-02-21 Richard Bos <richard@radoeka.nl>
+
+	* dist_conf/kolabsrv.in: added argument checks, source in the file
+	  /etc/kolab/profile.sh if it exists
+	* dist_conf/suse: assigned a value to kolab_quotawarning
+
+2009-02-18  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* kolab.globals.in: Add kolab_cafile to specify filename for
+	kolab_bootstrap to copy the generated CA certificate.
+	* Makefile.am, workaround.sh.in: Removed file, fixes kolab/issue1001
+	(/kolab/etc/kolab/workaround.sh expects manager password on command
+	line)
+
+2009-02-15 Richard Bos <richard@radoeka.nl>
+
+	* dist_conf/suse: kolab_pkgs updated to reflect the currently installed
+	  packages on openSUSE
+
+2009-02-14 Richard Bos <richard@radoeka.nl>
+
+	* dist_conf/kolabsrv.in: corrected typo
+
+2009-02-10  Mathieu Parent <math.parent@gmail.com>
+
+	* dist_conf/centos-clarkconnect, dist_conf/common, dist_conf/debian,
+	  dist_conf/kolab, dist_conf/mandriva, dist_conf/suse,
+	  templates/freebusy.conf.template.in, templates/resmgr.conf.template.in:
+	  allow to configure resmgr and freebusy logging via dist_conf
+
+2009-02-10  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* kolab.globals.in: Add ldapserver_statedir, needed since
+	kolab_bootstrap.in got moved into perl-kolab.
+
+2009-02-09  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* kolab2.schema: Add postfix-message-size-limit as MAY to kolab object.
+	* kolab2.schema: Add user attribute kolabHomeServerOnly to create user
+	mailbox on the kolabHomeServer only.
+
+2008-02-07  Mathieu Parent <math.parent@gmail.com>
+
+	* kolab.globals.in, dist_conf/centos-clarkconnect, dist_conf/common, 
+	  dist_conf/debian, dist_conf/kolab, dist_conf/mandriva, dist_conf/suse:
+	  dist_conf configuration in kolab webclient templates (kolab/issue3387)
+
+2009-01-30  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* kolab2.schema, templates/main.cf.template.in: Renamed LDAP attribute
+	postfix-message_size_limit to postfix-message-size-limit.
+
+2009-01-14  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/httpd.conf.template.in: Add a redirection for the
+	newer horde install location.
+
+2009-01-07  Martin Konold <martin.konold@erfrakon.de>
+
+	* kolab2.schema, templates/main.cf.template.in: Made postfix message
+	size limit configurable via LDAP while remaining backwards compatible.
+
+2008-01-06  Mathieu Parent <math.parent@gmail.com>
+
+	* dist_conf/debian: update to current debian dist_conf
+
+2008-12-30  Mathieu Parent <math.parent@gmail.com>
+
+	* templates/freebusy.conf.template.in: freebusy.conf.template: ldap server
+	can be on another machine (kolab/issue3322)
+
+2008-12-19  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/resmgr.conf.template.in: kolab/issue3331 (kolabfilter
+	uses incorrect delivery backend)
+
+2008-12-12  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* dist_conf/common, dist_conf/kolab, dist_conf/suse: Folded
+	@amavisd_pkg@, @emailserver_pkg@, @imap_pkg@, @webserver_pkg@,
+	@kolab_pkg@, @kolab_webadmin_pkg@, @kolab_filter_pkg@,
+	@kolab_freebusy_pkg@, @perl_kolabconf_pkg@, @perl_kolab_pkg@ and
+	@php_kolab_pkg@ into @kolab_pkgs@, and rename @pear_horde_pkg@ to
+	@pear_horde_pkgs@ for consistency. List is not yet updated for new
+	package names.
+	* dist_conf/kolab: Update @kolab_pkgs@ and @pear_horde_pkgs@.
+	Fixes kolab/issue3262 (web admin: versions page needs to be updated
+	for CVS HEAD)
+
+2008-12-11  /kolab OpenPKG (non-privileged)  <kolab@burlywood1>
+
+	* kolabd.spec.in, templates/slapd.conf.template.in: Removed
+	"with_horde" option: Always disable the horde schema (since prefs
+	are stored in files now), but compile php/apache-php with all
+	dependencies needed by horde. This will fix kolab/issue2440
+	(Installing binary packages of 2.2-beta3 fails without -H), too.
+
+2008-11-21  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* kolabd.spec.in: Adjust crontab entry for new location.
+	* kolabd.spec.in, rc.kolabd.in: Use OpenPKG mechanism to execute
+	kolabquotawarn, fixes kolab/issue936 (kolabquotawarn: system cron
+	used, and firing when server stopped)
+
+2008-11-18  Mathieu Parent <math.parent@gmail.com>
+
+	* kolab.globals.in, dist_conf/{centos-clarkconnect,common,debian,kolab,
+	  mandriva,suse}: kolab/issue2446 (Make the used syslog facility
+	  configureable (kolabd, kolabconf)): configurable using dist_conf.
+	
+2008-11-17  Mathieu Parent <math.parent@gmail.com>
+
+	* templates/{transport.template.in,virtual.template.in}: postfix
+	lookup tables need to be updated on change.
+	
+	* templates/{access.template.in,canonical.template.in,
+	relocated.template.in}, Makefile.am: added access, canonical and
+	relocated postfix maps (kolab/issue2550).
+	
+2008-11-12  Gunnar Wrobel  <p@rdus.de>
+
+	* dist_conf/kolab:  kolab/issue2351 (horde doesn't present
+	attachment stuff while compose a message)
+
+2008-11-08  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/freebusy.conf.template.in (OWNERSHIP): Fixed allowing
+	special IMAP users for the newest Kolab_FreeBusy package.
+	(OWNERSHIP): Fixed free/busy server address for the newest
+	Kolab_FreeBusy package.
+
+	* templates/resmgr.conf.template.in (OWNERSHIP): Fixed allowing
+	special IMAP users for the newest Kolab_Filter package.
+
+	* templates/master.cf.template.in (OWNERSHIP): kolab_smtpdpolicy
+	has been moved to @bindir@.
+
+	* kolab.globals.in (kolab_quotawarning): Added kolab_quotawarning
+	  to replace a hardcoded path in perl-kolab.
+
+2008-11-06  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* kolabd.spec.in: Removed kolabconf dependency.
+
+2008-11-02 Richard Bos <richard@radoeka.nl>
+
+	* namespace/libexec/{adduser.in,deluser.in,listusers.in,newconfig.in,
+	  services.in,showlog.in,showuser.in,start.in,stop.in}: add specific
+	  reference to the shell to be used (#!@BASH@")
+
+2008-10-19 Richard Bos <richard@radoeka.nl>
+
+	* kolab.globals.in: added syncrepl_cookie_file (kolab/issue3152)
+
+2008-10-03  Gunnar Wrobel  <p@rdus.de>
+
+	* kolab_upgrade.in: Moved script from kolabd package into
+	perl-kolab.
+
+	* kolabquotawarn.in: Moved script from kolabd package into
+	perl-kolab.
+
+	* kolabpasswd.in: Moved script from kolabd package into
+	perl-kolab.
+
+	* kolab_bootstrap.in: Moved script from kolabd package into
+	perl-kolab.
+
+	* kolabd.in: Moved script from kolabd package into
+	perl-kolab.
+
+	* kolabdcachetool.in: Moved script from kolabd package into
+	perl-kolab.
+
+	* kolabcheckperm.in: Moved script from kolabd package into
+	perl-kolab.
+
+	* kolabquotareport.in: Moved script from kolabd package into
+	perl-kolab.
+
+	* kolab_smtpdpolicy.in: Moved script from kolabd package into
+	perl-kolab.
+
+2008-09-23  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/master.cf.template.in: Updated the configuration
+	template for the new Kolab_Filter version.
+
+	* templates/resmgr.conf.template.in: Updated the configuration
+	template for the new Kolab_Filter version.
+
+2008-09-19  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/master.cf.template.in: Modified the filter calls for
+	the new Kolab_Filter version.
+
+	* templates/resmgr.conf.template.in: Updated the configuration
+	template for the new Kolab_Filter version.
+
+	* dist_conf/kolab: Adapted to the newer Kolab_Filter version.
+
+2008-09-10 Richard Bos <richard@radoeka.nl>
+
+	* templates/slapd.conf.template.in: always include the horde.schema
+	  kolab/issue3006
+	* horde.schema: updated to the latest version available in horde cvs
+	  kolab/issue3006
+	* templates/slapd.conf.template.in: reshuffled the configuration a
+	  bit, otherwise slapd won't start if directory_mode : syncrepl
+	  is set in kolab.conf.  See kolab/issue1755
+
+2008-09-06 Richard Bos <richard@radoeka.nl>
+
+	* Makefile.am: Make kolab.globals readonly as it should never be
+	  changed, after installing a package kolab/issue3031.
+
+2008-08-27 Richard Bos <richard@radoeka.nl>
+
+	* templates/slapd.conf.template.in: added @@@if conditional aroud
+	  the TLSCertificate variable assignments.  See kolab/issue3005
+	* kolab_bootstrap.in: read the config file kolab.conf with a function
+	  from Kolab::Conf
+
+2008-08-26 Richard Bos <richard@radoeka.nl>
+
+	* kolab.conf: removed, see issue2994
+	* Makefile.am: updated to reflect change above
+
+2008-08-20 Richard Bos <richard@radoeka.nl>
+
+	* kolab_bootstrap.in: added syncrepl support, see kolab/issue1755
+
+2008-08-14 Richard Bos <richard@radoeka.nl>
+
+	* templates/slapd.conf.template.in: added syncrepl support,
+	see kolab/issue1755
+
+2008-08-11 Richard Bos <richard@radoeka.nl>
+
+	* kolab_bootstrap.in: added syncrepl support, see kolab/issue1755
+
+2008-08-04 Richard Bos <richard@radoeka.nl>
+
+	* templates/slapd.conf.template.in: removed obsolete variable
+	  schemacheck, see kolab/issue29110
+
+2008-08-04 Richard Bos <richard@radoeka.nl>
+
+	* templates/slapd.conf.template.in: changed the comment around
+	  idletimeout, see kolab/issue2911
+
+2008-07-19  Thomas Arendsen Hein <thomas@intevation.de>
+
+	* kolab_bootstrap.in: Quote s[l]urpd to prevent being expanded by the
+	shell.
+
 2008-07-09  Thomas Arendsen Hein <thomas@intevation.de>
 
 	* templates/imapd.conf.template.in: kolab/issue2855 (Can create folder

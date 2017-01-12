@@ -1,4 +1,4 @@
-# $Horde: horde/scripts/ldap/horde.schema,v 1.28 2006/06/05 18:10:03 chuck Exp $
+# $Horde: horde/scripts/ldap/horde.schema,v 1.29 2007/01/29 16:46:55 chuck Exp $
 #
 # The offical horde OID assigned by IANA is 13040.
 #
@@ -14,11 +14,9 @@
 # Gollem attribute branch 1.3.6.1.4.1.13040.7.1.*
 # Chora attribute branch 1.3.6.1.4.1.13040.8.1.*
 # Mnemo attribute branch 1.3.6.1.4.1.13040.9.1.*
-# Troll attribute branch 1.3.6.1.4.1.13040.10.1.*
 # Klutz attribute branch 1.3.6.1.4.1.13040.11.1.*
 # Jonah attribute branch 1.3.6.1.4.1.13040.12.1.*
 # Hermes attribute branch 1.3.6.1.4.1.13040.13.1.*
-# Juno attribute branch 1.3.6.1.4.1.13040.14.1.*
 # Trean attribute branch 1.3.6.1.4.1.13040.15.1.*
 # Whups attribute branch 1.3.6.1.4.1.13040.16.1.*
 # Ingo attribute branch 1.3.6.1.4.1.13040.17.1.*
@@ -29,32 +27,29 @@
 # Agora attribute branch 1.3.6.1.4.1.13040.22.1.*
 # Goops attribute branch 1.3.6.1.4.1.13040.24.1.*
 # Merk attribute branch 1.3.6.1.4.1.13040.25.1.*
-# Mimp attribute branch 1.3.6.1.4.1.13040.26.1.*
+# MIMP attribute branch 1.3.6.1.4.1.13040.26.1.*
 # Mottle attribute branch 1.3.6.1.4.1.13040.27.1.*
 # Nic attribute branch 1.3.6.1.4.1.13040.28.1.*
 # Occam attribute branch 1.3.6.1.4.1.13040.29.1.*
-# Odin attribute branch 1.3.6.1.4.1.13040.30.1.*
 # Rakim attribute branch 1.3.6.1.4.1.13040.31.1.*
 # Sesha attribute branch 1.3.6.1.4.1.13040.32.1.*
 # Swoosh attribute branch 1.3.6.1.4.1.13040.33.1.*
-# Thor attribute branch 1.3.6.1.4.1.13040.34.1.*
 # Ulaform attribute branch 1.3.6.1.4.1.13040.35.1.*
 # Volos attribute branch 1.3.6.1.4.1.13040.36.1.*
 # Jeta attribute branch 1.3.6.1.4.1.13040.37.1.*
+# DIMP attribute branch 1.3.6.1.4.1.13040.38.1.*
 #
 # Horde objectclass branch 1.3.6.1.4.1.13040.2.2.*
 # IMP objectclass branch 1.3.6.1.4.1.13040.3.2.*
 # Turba objectclass branch 1.3.6.1.4.1.13040.4.2.*
 # Kronolith objectclass branch 1.3.6.1.4.1.13040.5.2.*
-# NAG objectclass branch 1.3.6.1.4.1.13040.6.2.*
+# Nag objectclass branch 1.3.6.1.4.1.13040.6.2.*
 # Gollem objectclass branch 1.3.6.1.4.1.13040.7.2.*
 # Chora objectclass branch 1.3.6.1.4.1.13040.8.2.*
 # Mnemo objectclass branch 1.3.6.1.4.1.13040.9.2.*
-# Troll objectclass branch 1.3.6.1.4.1.13040.10.2.*
 # Klutz objectclass branch 1.3.6.1.4.1.13040.11.2.*
 # Jonah objectclass branch 1.3.6.1.4.1.13040.12.2.*
 # Hermes objectclass branch 1.3.6.1.4.1.13040.13.2.*
-# Juno objectclass branch 1.3.6.1.4.1.13040.14.2.*
 # Trean objectclass branch 1.3.6.1.4.1.13040.15.2.*
 # Whups objectclass branch 1.3.6.1.4.1.13040.16.2.*
 # Ingo objectclass branch 1.3.6.1.4.1.13040.17.2.*
@@ -65,18 +60,17 @@
 # Agora objectclass branch 1.3.6.1.4.1.13040.22.2.*
 # Goops objectclass branch 1.3.6.1.4.1.13040.24.2.*
 # Merk objectclass branch 1.3.6.1.4.1.13040.25.2.*
-# Mimp objectclass branch 1.3.6.1.4.1.13040.26.2.*
+# MIMP objectclass branch 1.3.6.1.4.1.13040.26.2.*
 # Mottle objectclass branch 1.3.6.1.4.1.13040.27.2.*
 # Nic objectclass branch 1.3.6.1.4.1.13040.28.2.*
 # Occam objectclass branch 1.3.6.1.4.1.13040.29.2.*
-# Odin objectclass branch 1.3.6.1.4.1.13040.30.2.*
 # Rakim objectclass branch 1.3.6.1.4.1.13040.31.2.*
 # Sesha objectclass branch 1.3.6.1.4.1.13040.32.2.*
 # Swoosh objectclass branch 1.3.6.1.4.1.13040.33.2.*
-# Thor objectclass branch 1.3.6.1.4.1.13040.34.2.*
 # Ulaform objectclass branch 1.3.6.1.4.1.13040.35.2.*
 # Volos objectclass branch 1.3.6.1.4.1.13040.36.2.*
 # Jeta objectclass branch 1.3.6.1.4.1.13040.37.2.*
+# DIMP objectclass branch 1.3.6.1.4.1.13040.38.2.*
 
 #
 # Horde attribute branch 1.3.6.1.4.1.13040.2.1.*
@@ -169,15 +163,6 @@ attributetype ( 1.3.6.1.4.1.13040.9.1.1
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
 
 #
-# Troll attribute branch 1.3.6.1.4.1.13040.10.1.*
-#
-attributetype ( 1.3.6.1.4.1.13040.10.1.1
-	NAME 'trollPrefs'
-	DESC 'Troll Preferences'
-	EQUALITY caseIgnoreIA5Match
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
-
-#
 # Klutz attribute branch 1.3.6.1.4.1.13040.11.1.*
 #
 attributetype ( 1.3.6.1.4.1.13040.11.1.1
@@ -201,15 +186,6 @@ attributetype ( 1.3.6.1.4.1.13040.12.1.1
 attributetype ( 1.3.6.1.4.1.13040.13.1.1
 	NAME 'hermesPrefs'
 	DESC 'Hermes Preferences'
-	EQUALITY caseIgnoreIA5Match
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
-
-#
-# Juno attribute branch 1.3.6.1.4.1.13040.14.1.*
-#
-attributetype ( 1.3.6.1.4.1.13040.14.1.1
-	NAME 'junoPrefs'
-	DESC 'Juno Preferences'
 	EQUALITY caseIgnoreIA5Match
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
 
@@ -304,7 +280,7 @@ attributetype ( 1.3.6.1.4.1.13040.25.1.1
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
 
 #
-# Mimp attribute branch 1.3.6.1.4.1.13040.26.1.*
+# MIMP attribute branch 1.3.6.1.4.1.13040.26.1.*
 #
 attributetype ( 1.3.6.1.4.1.13040.26.1.1
         NAME 'mimpPrefs'
@@ -340,15 +316,6 @@ attributetype ( 1.3.6.1.4.1.13040.29.1.1
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
 
 #
-# Odin attribute branch 1.3.6.1.4.1.13040.30.1.*
-#
-attributetype ( 1.3.6.1.4.1.13040.30.1.1
-        NAME 'odinPrefs'
-        DESC 'Odin Preferences'
-        EQUALITY caseIgnoreIA5Match
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
-
-#
 # Rakim attribute branch 1.3.6.1.4.1.13040.31.1.*
 #
 attributetype ( 1.3.6.1.4.1.13040.31.1.1
@@ -372,15 +339,6 @@ attributetype ( 1.3.6.1.4.1.13040.32.1.1
 attributetype ( 1.3.6.1.4.1.13040.33.1.1
         NAME 'swooshPrefs'
         DESC 'Swoosh Preferences'
-        EQUALITY caseIgnoreIA5Match
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
-
-#
-# Thor attribute branch 1.3.6.1.4.1.13040.34.1.*
-#
-attributetype ( 1.3.6.1.4.1.13040.34.1.1
-        NAME 'thorPrefs'
-        DESC 'Thor Preferences'
         EQUALITY caseIgnoreIA5Match
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
 
@@ -412,6 +370,15 @@ attributetype ( 1.3.6.1.4.1.13040.37.1.1
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
 
 #
+# DIMP attribute branch 1.3.6.1.4.1.13040.38.1.*
+#
+attributetype ( 1.3.6.1.4.1.13040.38.1.1
+        NAME 'dimpPrefs'
+        DESC 'DIMP Preferences'
+        EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024} )
+
+#
 # Horde objectclass branch 1.3.6.1.4.1.13040.2.2.*
 #
 objectclass ( 1.3.6.1.4.1.13040.2.2.1
@@ -421,16 +388,15 @@ objectclass ( 1.3.6.1.4.1.13040.2.2.1
     AUXILIARY
     MAY ( mail $ hordePrefs $ impPrefs $ turbaPrefs $
         gollemPrefs $ kronolithPrefs $ mnemoPrefs $
-        trollPrefs $ nagPrefs $ klutzPrefs $
-        jonahPrefs $ hermesPrefs $ junoPrefs $
-        treanPrefs $ whupsPrefs $ ingoPrefs $
-        geniePrefs $ scryPrefs $ anselPrefs $
-        wickedPrefs $ choraPrefs $ agoraPrefs $
-        goopsPrefs $ merkPrefs $ volosPrefs $
-        mimpPrefs $ mottlePrefs $ nicPrefs $
-        occamPrefs $ odinPrefs $ rakimPrefs $
-        seshaPrefs $ swooshPrefs $ thorPrefs $
-        ulaformPrefs
+        nagPrefs $ klutzPrefs $ jonahPrefs $
+        hermesPrefs $ treanPrefs $ whupsPrefs $
+        ingoPrefs $ geniePrefs $ scryPrefs $
+        anselPrefs $ wickedPrefs $ choraPrefs $
+        agoraPrefs $ goopsPrefs $ merkPrefs $
+        volosPrefs $ mimpPrefs $ mottlePrefs $
+        nicPrefs $ occamPrefs $ rakimPrefs $
+        seshaPrefs $ swooshPrefs $ ulaformPrefs $
+        jetaPrefs $ dimpPrefs
     ) )
 
 objectclass ( 1.3.6.1.4.1.13040.2.2.2
@@ -474,10 +440,6 @@ objectclass ( 1.3.6.1.4.1.13040.4.2.1
 #
 
 #
-# Troll objectclass branch 1.3.6.1.4.1.13040.10.2.*
-#
-
-#
 # Klutz objectclass branch 1.3.6.1.4.1.13040.11.2.*
 #
 
@@ -487,10 +449,6 @@ objectclass ( 1.3.6.1.4.1.13040.4.2.1
 
 #
 # Hermes objectclass branch 1.3.6.1.4.1.13040.13.2.*
-#
-
-#
-# Juno objectclass branch 1.3.6.1.4.1.13040.14.2.*
 #
 
 #
@@ -534,7 +492,7 @@ objectclass ( 1.3.6.1.4.1.13040.4.2.1
 #
 
 #
-# Mimp objectclass branch 1.3.6.1.4.1.13040.26.2.*
+# MIMP objectclass branch 1.3.6.1.4.1.13040.26.2.*
 #
 
 #
@@ -550,10 +508,6 @@ objectclass ( 1.3.6.1.4.1.13040.4.2.1
 #
 
 #
-# Odin objectclass branch 1.3.6.1.4.1.13040.30.2.*
-#
-
-#
 # Rakim objectclass branch 1.3.6.1.4.1.13040.31.2.*
 #
 
@@ -566,10 +520,6 @@ objectclass ( 1.3.6.1.4.1.13040.4.2.1
 #
 
 #
-# Thor objectclass branch 1.3.6.1.4.1.13040.34.2.*
-#
-
-#
 # Ulaform objectclass branch 1.3.6.1.4.1.13040.35.2.*
 #
 
@@ -579,4 +529,8 @@ objectclass ( 1.3.6.1.4.1.13040.4.2.1
 
 #
 # Jeta objectclass branch 1.3.6.1.4.1.13040.37.2.*
+#
+
+#
+# DIMP objectclass branch 1.3.6.1.4.1.13040.38.2.*
 #

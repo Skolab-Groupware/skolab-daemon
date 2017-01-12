@@ -1,7 +1,7 @@
 Outlook specific issues
 =======================
 
-Last edited $Id: README.outlook,v 1.3 2005/05/09 17:39:40 bernhard Exp $
+Last edited $Id: README.outlook,v 1.4 2009/02/24 11:29:33 thomas Exp $
 
 Invitation Forwarding
 ---------------------
@@ -22,16 +22,16 @@ that Outlook had passed unmodified and thus should contain the email
 of the event's organizer.
 
 Additionally, some versions of Outlook are incapable of recognizing
-non-ascii charaters in such forwarded messages, so the filter rewrites
-common non-ascii characters to ascii (for example ? oe).
+non-ascii characters in such forwarded messages, so the filter rewrites
+common non-ascii characters to ascii (for example "o-umlaut" to "oe").
 
 resmgr.conf.template has an option for allowing or disallowing
 "Outlook forwarding". Set
 
-$params['allow_outlook_ical_forward']  = true;
+$conf['kolab']['filter']['allow_outlook_ical_forward']  = true;
 
 to enable (default) or
 
-$params['allow_outlook_ical_forward']  = false;
+$conf['kolab']['filter']['allow_outlook_ical_forward']  = false;
 
 to disable.

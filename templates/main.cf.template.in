@@ -5,7 +5,7 @@ OWNERSHIP=@emailserver_usr@:@emailserver_grp@
 KOLAB_META_END
 # (c) 2004 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
-# (c) 2003 Martin Konold <martin.konold@erfrakon.de>
+# (c) 2003-2008 Martin Konold <martin.konold@erfrakon.de>
 # (c) 2003 Achim Frank <achim.frank@erfrakon.de>
 # This program is Free Software under the GNU General Public License (>=v2).
 # Read the file COPYING that comes with this packages for details.
@@ -14,10 +14,13 @@ KOLAB_META_END
 # this file is automatically written by the Kolab config backend
 # manual additions are lost unless made to the template in the Kolab config directory
 
-
 # postfix default is 10 240 000 Byte = 10.24 Megabyte, 
-# we use 20 Mebibyte = 20*2^20 Byte 
+# we use 20 Megabyte = 20*2^20 Byte as Kolab default
+@@@if postfix-message-size-limit@@@
+message_size_limit = @@@postfix-message-size-limit@@@
+@@@else@@@
 message_size_limit = 20971520
+@@@endif@@@
 
 #   paths
 command_directory = @sbindir@
@@ -169,5 +172,8 @@ smtpd_sasl_security_options = noanonymous
 
 # Support broken clients like Microsoft Outlook Express 4.x which expect AUTH=LOGIN instead of AUTH LOGIN
 broken_sasl_auth_clients = yes
+
+# useful for checking authentication status esp. when using dynamic IPs for the sending client and doing authorization
+smtpd_sasl_authenticated_header = yes
 
 content_filter = kolabfilter

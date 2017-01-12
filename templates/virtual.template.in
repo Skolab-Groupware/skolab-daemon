@@ -2,6 +2,7 @@ KOLAB_META_START
 TARGET=@emailserver_confdir@/virtual
 PERMISSIONS=0640
 OWNERSHIP=@emailserver_tables_usr@:@emailserver_grp@
+RUNONCHANGE=@sbindir@/postmap -o @emailserver_confdir@/virtual
 KOLAB_META_END
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003 Martin Konold <martin.konold@erfrakon.de>

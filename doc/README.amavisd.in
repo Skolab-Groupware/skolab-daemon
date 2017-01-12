@@ -1,17 +1,14 @@
 Virus- and spam-filter setup for Kolab
 ======================================
 
-Last edited: $Id: README.amavisd.in,v 1.2 2005/12/10 21:57:11 richard Exp $
+Last edited: $Id: README.amavisd.in,v 1.4 2009/03/02 08:27:15 thomas Exp $
 
 Introduction
 ------------
 
 The Kolab server uses amavisd[1] in conjunction with clamav[2] and
-spamassassin[3] to filter email for spam and virus. The clamav and
-spamassassin versions are unpatched, but amavisd requires the
-amavisd.MYUSERS.patch found in the Kolab cvs[4] to work with
-Kolab. The patch adds functionality to amavisd to allow for different
-configurations for local and non-local users[5].
+spamassassin[3] to filter email for spam and virus.
+
 
 Goal
 ----
@@ -55,7 +52,7 @@ $virus_quarantine_to  = 'virus-quarantine';
 @mynetworks = qw( @@@postfix-mynetworks@@@ );
 
 In addition to that, a policy bank is defined that overrides some of
-the above configuration in the case where the sender is a a local user
+the above configuration in the case where the sender is a a local user[4]
 who is using his legitimate address:
 
 $policy_bank{'MYUSERS'} = {  # mail from authenticated users on this system
@@ -88,6 +85,5 @@ Notes
 [1] http://www.ijs.si/software/amavisd/
 [2] http://www.clamav.net/
 [3] http://spamassassin.apache.org/
-[4] See http://www.kolab.org/
-[5] A "local user" is a user with an email-account on the kolab
-server, a "non-local user" is everyone else.
+[4] A "local user" is a user with an email-account on the kolab
+    server, a "non-local user" is everyone else.
