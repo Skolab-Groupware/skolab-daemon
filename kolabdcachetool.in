@@ -1,0 +1,47 @@
+#!@PERL@ -w
+
+use strict;
+use Getopt::Long;
+use DB_File;
+use POSIX qw(strftime);
+
+my $progname = `basename $0`;
+chomp($progname);
+
+sub usage
+{
+    print "Usage: $progname CACHE FUNCTION
+  where CACHE is one of `mbox' or `gyard' (i.e. the cache to operate
+  on) and FUNCION is one of `list', `delete' or `flush' (i.e. the
+  function to perform on CACHE)\n";
+    exit(1);
+    1;
+}
+
+my $cache = shift || usage;
+my $func = shift || usage;
+my (%db, %db2, %sorted);
+
+usage if ($func !~ /list/i && $func !~ /del/i && $func !~ /flush/i);
+
+if ($cache =~ /mbox/i) {
+    dbmopen(%db, '@kolab_mailboxuiddb@', 0666)
+        || die "Unable to open mail uid cache";
+} elsif ($cache =~ /gyard/i) {
+    dbmopen(%db, '@graveyard_uidcache@', 0666)
+        || die "Unable to open graveyard uid cache";
+
+    dbmopen(%db2, '@graveyard_tscache@', 0666)
+        || die "Unable to open graveyard timestamp cache";
+} else { usage; }
+
+my ($guid, $ts);
+foreach $guid (keys %db) {
+    #$sorted{
+    $ts = "";
+    $ts = ", deleted " . strftime("%F %T", localtime($db2{$guid})) if exists($db2{$guid});
+    print "GUID: `$guid', mailbox: `" . $db{$guid} . "'$ts\n";
+}
+
+dbmclose(%db);
+dbmclose(%db2);

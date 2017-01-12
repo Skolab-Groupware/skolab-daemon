@@ -54,7 +54,10 @@ masquerade_classes = envelope_sender, envelope_recipient,
 
 #   smtp daemon
 #smtpd_banner = $myhostname ESMTP $mail_name
-#inet_interfaces = 127.0.0.1
+@@@if bind_any@@@
+@@@else@@@
+inet_interfaces = @@@local_addr@@@, @@@bind_addr@@@
+@@@endif@@@
 
 #   relaying
 mynetworks = @@@postfix-mynetworks|join( )@@@
@@ -69,18 +72,25 @@ recipient_delimiter = +
 
 #   maps
 canonical_maps = hash:@emailserver_confdir@/canonical
-virtual_maps =  hash:@emailserver_confdir@/virtual, 
+virtual_alias_maps =  hash:@emailserver_confdir@/virtual, 
 	ldap:@emailserver_confdir@/ldapdistlist.cf, 
 	ldap:@emailserver_confdir@/ldapvirtual.cf
 relocated_maps = hash:@emailserver_confdir@/relocated
 transport_maps = hash:@emailserver_confdir@/transport, ldap:@emailserver_confdir@/ldaptransport.cf
 alias_maps = hash:@aliases_file@
 alias_database = hash:@aliases_file@
-#virtual_mailbox_maps = $virtual_maps
-local_recipient_maps = $virtual_maps, $alias_maps
+#virtual_mailbox_maps = $virtual_alias_maps
+local_recipient_maps = $virtual_alias_maps, $alias_maps
 
 # Don't parse and modify headers of message/rfc822 attachments
 disable_mime_input_processing = yes
+
+# enable header_checks (not for attachment headers):
+header_checks = regexp:@emailserver_confdir@/header_checks
+# disable_mime_input_processing = yes already implies that attachment headers
+# are not being checked, but just to be sure:
+mime_header_checks =
+nested_header_checks =
 
 ## only use local_transport or a higher recipent_limit if issue825 is fixed
 #   local delivery, not using postfix local(8)

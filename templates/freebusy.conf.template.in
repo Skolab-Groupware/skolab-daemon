@@ -1,104 +1,142 @@
 KOLAB_META_START
-TARGET=@resmgr_confdir@/freebusy.conf
+TARGET=@freebusy_confdir@/config.php
 PERMISSIONS=0640
 OWNERSHIP=@freebusy_usr@:@freebusy_grp@
 KOLAB_META_END
 <?php
 
-// Kolab prefix
-$params['kolab_prefix'] = '@prefix@';
+/*  
+ *  COPYRIGHT
+ *  ---------
+ *
+ *  See docs/AUTHORS file
+ *
+ *
+ *  LICENSE
+ *  -------
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  $Revision: 1.14 $
+ *
+ *  ABOUT
+ *  -----
+ *
+ *  This file provides configuration settings for both the
+ *  freebusy.php and the pfb.php scripts.
+ *
+ */
 
-// The name of _this_ server
-$params['server'] = '@@@fqdnhostname@@@';
+$conf = array();
 
-// What is the address of the LDAP server address where user objects reside
-$params['ldap_uri'] = '@@@ldap_uri@@@';
+/* Horde::Log configuration */
+$conf['log']['enabled']          = true;
+$conf['log']['priority']         = PEAR_LOG_DEBUG; // Leave this on DEBUG for now. We just restructured the package...
+$conf['log']['type']             = 'file';
+$conf['log']['name']             = '@freebusy_logdir@/freebusy.log';
+$conf['log']['ident']            = 'Kolab Free/Busy';
+$conf['log']['params']['append'] = true;
 
-// What is the Base DN of our LDAP database?
-$params['base_dn'] = '@@@base_dn@@@';
+/* PHP error logging */
+ini_set('error_log', '@freebusy_logdir@/php-error.log');
 
-// DN and pw to use for LDAP access
-$params['bind_dn'] = '@@@php_dn@@@';
-$params['bind_pw'] = '@@@php_pw@@@';
+/* Horde::Kolab::LDAP configuration */
+$conf['kolab']['ldap']['server'] = '@@@fqdnhostname@@@';
+$conf['kolab']['ldap']['basedn'] = '@@@base_dn@@@';
+$conf['kolab']['ldap']['phpdn']  = '@@@php_dn@@@';
+$conf['kolab']['ldap']['phppw']  = '@@@php_pw@@@';
 
-// Are we using a multi-location setup? If this is true, we check the users'
-// LDAP object for the next attribute - if it is different than $params['server']
-// we get the free/busy information from the script running on the other box
-$params['multi_location'] = true;
+/* Horde::Kolab::IMAP configuration */
+$conf['kolab']['imap']['server']   = '@@@fqdnhostname@@@';
+$conf['kolab']['imap']['port']     = 143;
+$conf['kolab']['imap']['protocol'] = 'notls/readonly';
 
-// What LDAP attribute is used to store the users' home server address?
-$params['home_server'] = 'kolabhomeserver';
+/* Horde::Auth configuration */
+$conf['auth']['params']['login_block'] = 0;
+$conf['auth']['checkbrowser']          = false;
+$conf['auth']['checkip']               = false;
 
-// What is our default mail domain? This is used if any users do not have
-// '@domain' specified after their username as part of their email address.
-$params['email_domain'] = '@@@postfix-mydomain@@@';
+/* Kolab::Freebusy configuration */
 
-// Are we using virtual domains with Cyrus?
-$params['virtual_domains'] = true;
+/* Should we redirect using a Location header, if the user is not local? If this
+ * is false we silently download the file ourselves and output it so that it
+ * looks as though the free/busy information is coming from us.
+ */
+$conf['fb']['redirect']     = false;
 
-// Should we append domains to mailbox URIs? This only applies when
-// virtual_domains is true, and when using manager accounts.
-$params['append_domains'] = false;
+/* What is the address of the current server where the calendar data is stored?
+ * This is also used as the LDAP server address where user objects reside.
+ */
+$conf['fb']['server']       = '@@@fqdnhostname@@@';
 
-// What account should we use to read in calendar data in the case the user
-// does not supply credentials? This account should
-// have access to the calendar mailbox of all the users for which free/busy
-// information is to be retrieved.
-//$params['calendar_user'] = '@ @@cyrus-admins@@@';
+/* What is our default mail domain? This is used if any users do not have
+ * '@domain' specified after their username as part of their email address.
+ */
+$conf['fb']['email_domain'] = '@@@fqdnhostname@@@';
 
-// What password should we use with the above account?
-//$params['calendar_pass'] = '@ @@bind_pw@@@';
+/* Location of the cache files */
+$conf['fb']['cache_dir']    = '@freebusy_cachedir@';
 
-// What is the name of the users' calendar mailbox?
-$params['calendar_store'] = 'Calendar';
+/* What db type to use for the freebusy caches */
+$conf['fb']['dbformat']     = 'db4';
 
-// How many days of free/busy data should we generate?
-$params['freebusy_days'] = 56;
+/* Should we send a Content-Type header, indicating what the mime type of the
+ * resulting VFB file is?
+ */
+$conf['fb']['send_content_type'] = false;
 
-// Should we generate extended free/busy information? This can be overridden by
-// the URL parameter "x" (= 0 or 1).
-$params['extended'] = false;
+/* Should we send a Content-Length header, indicating how large the resulting
+ * VFB file is?
+ */
+$conf['fb']['send_content_length'] = false;
 
-// Should we use the caching mechanism, which avoids having to always re-read
-// all the events? This can be overridden by the URL parameter "c" (= 0 or 1).
-$params['cache'] = true;
+/* Should we send a Content-Disposition header, indicating what the name of the
+ * resulting VFB file should be?
+ */
+$conf['fb']['send_content_disposition'] = false;
 
-// Should we redirect using a Location header, if the user is not local? If this
-// is false we silently download the file ourselves and output it so that it
-// looks as though the free/busy information is coming from us.
-$params['redirect'] = false;
+/* Are there remote servers on which users have additional (shared)
+ * folders? In that case free/busy information should also be fetched
+ * from these servers.
+ *
+ * Add them like this:
+ *
+ * array('remote1.example.com', 'remote2.example.com')
+ */
+$conf['fb']['remote_servers'] = array();
 
-// Should we send a Content-Type header, indicating what the mime type of the
-// resulting VFB file is?
-$params['send_content_type'] = false;
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//
+// If you modify this file, please do not forget to modify both the
+// template in kolabd and the source file in kolab-freebusy
+//
+// In order to check if both are in sync:
+//
+// cd server
+// diff -Nau kolab-freebusy/freebusy/config.php kolabd/kolabd/templates/freebusy.conf.template.in
+//
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-// Should we send a Content-Length header, indicating how large the resulting
-// VFB file is?
-$params['send_content_length'] = false;
-
-// Should we send a Content-Disposition header, indicating what the name of the
-// resulting VFB file should be?
-$params['send_content_disposition'] = false;
-
-// Where are we logging to?
-$params['log'] = 'file:@freebusy_logfile@';                // File...
-// $params['log'] = 'syslog:cons, pid';            // Or syslog...
-
-// What level of output should we log? Higher levels give more verbose output.
-// One of: 0 (RM_LOG_SILENT); 1 (RM_LOG_ERROR); 2 (RM_LOG_WARN); 3 (RM_LOG_INFO) or 4 (RM_LOG_DEBUG).
-$params['log_level'] = 4;
-
-// What db type to use for freebusy caches
-$params['dbtype'] = 'db4';
-
-// IMAP options passed to imap_open
-//$params['imap_options'] = "/notls/secure/readonly";
-$params['imap_options'] = "/notls/readonly";
-
-$params['pfb_dbformat'] = 'db4';
-
-// Location of the cache files
-$params['cache_dir'] = '@freebusy_cachedir@';
-
-// don't change this if you don't have to
-//$params['ldap_classname_suffix'] = "_dummy";
+// DEBUGGING
+// =========
+//
+// Activate this to see the log messages on the screen
+// $conf['log']['type'] = 'display';
+//
+// Activate this to see the php messages on the screen
+// ini_set('display_errors', 1);
+//
+// Both setting will disrupt header delivery (which should not cause a
+// problem).

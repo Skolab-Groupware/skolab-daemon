@@ -42,7 +42,9 @@ use Kolab::LDAP;
 use File::Basename;
 use vars qw($opt_d);
 
-Kolab::LDAP::startup;
+Kolab::reloadConfig("@sysconfdir@/kolab/kolab.globals");
+
+Kolab::LDAP::startup("@kolab_statedir@");
 
 getopts('d');
 if ($opt_d) {
@@ -107,7 +109,7 @@ if( defined($warnh) ) {
   fatal_exit( "Can't open quotawarning.txt" );
 }
 
-dbmopen( %quotawarn_db, '@localstatedir@/kolab/quotawarn.db', 0666 )
+dbmopen( %quotawarn_db, '@kolab_statedir@/quotawarn.db', 0666 )
   || fatal_exit ('Unable to open quotawarn db');
 
 if( $opt_d ) {
@@ -191,7 +193,7 @@ sub kolablistquotas {
 mylog( $syslog_priority, "starting up") if $verbose;
 
 ### Connect to Cyrus
-my $cyrus = Cyrus::IMAP::Admin->new('localhost');
+my $cyrus = Cyrus::IMAP::Admin->new($Kolab::config{'connect_addr'});
 $cyrus || fatal_exit( 'Unable to connect to local Cyrus admin interface' );
 $cyrus->authenticate(
 					 'User'          => $Kolab::config{'cyrus_admin'},

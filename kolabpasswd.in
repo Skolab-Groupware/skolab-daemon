@@ -70,7 +70,7 @@ my $account_dn = $config{'bind_dn'};
 if( $#ARGV == 0 ) {
     $account = $ARGV[0];
     if( $account ne 'calendar' and $account ne 'nobody' and $account ne 'manager' ) {
-	die("$^X can only change the passwod for manager, nobody and calendar");
+	die("$^X can only change the password for manager, nobody and calendar");
     }
     $account_dn =~ s/cn=manager/cn=$account/;
 }

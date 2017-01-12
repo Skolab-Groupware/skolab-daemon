@@ -19,14 +19,13 @@ configdirectory:        @imap_statedir@
 partition-default:      @imap_spool@
 
 allowusermoves:         0
-admins:                 @@@cyrus-admins@@@
+admins:                 @@@cyrus-admins|join( )@@@
 sasl_pwcheck_method:    saslauthd
 sasl_mech_list: 	plain
 sendmail:               @sbindir@/sendmail
 allowanonymouslogin:    no
 allowplaintext:         yes
 servername:             @@@fqdnhostname@@@
-autocreatequota:        @@@cyrus-autocreatequota@@@
 reject8bit:             no
 munge8bit: 		no
 quotawarn:              @@@cyrus-quotawarn@@@
@@ -52,7 +51,7 @@ hashimapspool:          yes
 
 ##virtdomains:            userid
 
-loginrealms:		@@@postfix-mydomain@@@ @@@postfix-mydestination|join( )@@@
+loginrealms:		@@@postfix-mydestination|join( )@@@
 
 # support for lookup of mailbox name from local LDAP server
 ldap_uri:               @@@user_ldap_uri@@@
@@ -79,6 +78,9 @@ notifysocket: @imap_notify_socket@
 sievenotifier: mailto
 mailnotifier: mailto
 
+# the sieve extensions that should be enabled on the server
+sieve_extensions: fileinto reject vacation imapflags notify include envelope body relational regex subaddress copy
+
 # use berkeley db backend instead of skiplist
 annotation_db: berkeley
 mboxlist_db: berkeley
@@ -91,3 +93,6 @@ duplicatesuppression: 0
 # The minimum value is 1.  A value of 0 will disable polling (and disable IDLE if polling is
 # the only method available).
 imapidlepoll: 5
+
+# Load definitions for vendor annotations
+annotation_definitions: @imap_confdir@/imapd.annotation_definitions

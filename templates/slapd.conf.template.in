@@ -48,8 +48,10 @@ suffix		"@@@base_dn@@@"
 cachesize       10000
 checkpoint 	512 5
 idlcachesize    10000
-idletimeout     80 # The value can be increased if some clients develop problems.
-                   # Please report to kolab-devel@kolab.org if you encounter such a client.
+idletimeout	300
+		# The idletimeout can be increased if some clients develop
+		# problems. Please report to kolab-devel@kolab.org
+		# if you encounter such a client.
 dirtyread
 
 directory	@ldapserver_dir@
@@ -57,7 +59,7 @@ directory	@ldapserver_dir@
 rootdn          "@@@bind_dn@@@"
 rootpw          "@@@bind_pw_hash@@@"
 
-replica uri=ldap://127.0.0.1:9999
+replica uri=ldap://@@@slurpd_addr@@@:@@@slurpd_port@@@
         binddn="cn=replicator"
         bindmethod=simple 
 	credentials=secret
@@ -132,6 +134,11 @@ access to attrs=kolabHomeMTA
         by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
         by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
         by * read stop
+
+access to attrs=kolabAllowSMTPRecipient
+       by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+       by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+       by self read stop
 
 access to dn="cn=nobody,@@@base_dn@@@"
         by anonymous auth stop

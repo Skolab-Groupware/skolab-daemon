@@ -1,5 +1,5 @@
 KOLAB_META_START
-TARGET=@phplibdir2@/@kolab_php_module_prefix@admin/include/session_vars.php
+TARGET=@sysconfdir@/kolab/session_vars.php
 PERMISSIONS=0640
 OWNERSHIP=@webserver_musr@:@kolab_grp@
 KOLAB_META_END

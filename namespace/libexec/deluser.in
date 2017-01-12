@@ -13,7 +13,7 @@
 ##  You can view the  GNU General Public License, online, at the GNU
 ##  Project's homepage; see <http://www.gnu.org/licenses/gpl.html>.
 ##
-PATH=@bindir:$PATH
+PATH=@bindir@:$PATH
 
 if [ ".$1" = ".--help" ]; then
 	echo "Delete a user mailbox"

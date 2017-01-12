@@ -35,7 +35,6 @@
 #    Y: Cyrus
 #    B: Backend
 #    KC: kolabconf
-#    DS: DirServ
 #    Anything else: the various backends
 #
 
@@ -44,12 +43,13 @@ use Sys::Syslog;
 use IO::File;
 use Kolab;
 use Kolab::Util;
-use Kolab::DirServ;
 use Kolab::LDAP;
 use Kolab::LDAP::Backend;
 use vars qw(%pids);
 
-openlog('kolabd', 'cons, pid', 'user');
+Kolab::reloadConfig("@sysconfdir@/kolab/kolab.globals");
+
+openlog('kolabd', 'cons, pid', ($Kolab::config{'syslog_facility'} || 'user'));
 
 # won't be needed now (i think)
 # my $prefix = $Kolab::config{'prefix'};
@@ -84,11 +84,10 @@ sub sigHup
         waitpid($pid, 0);
     }
     %pids = ();
-    Kolab::reloadConfig;
+    Kolab::reloadConfig("@sysconfdir@/kolab/kolab.globals");
     Kolab::log('K', 'Synchronising');
     Kolab::LDAP::sync;
     Kolab::log('K', 'Reloading addressbook.peers');
-    Kolab::DirServ::reloadPeers;
     Kolab::log('K', 'Finished refresh');
     &run;
 }
@@ -152,13 +151,12 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Kolab::Util::superLog('Kolab is starting up');
 
 eval {
-  Kolab::LDAP::startup;
+  Kolab::LDAP::startup("@kolab_statedir@");
 
   Kolab::log('K', 'Loading backends');
   Kolab::LDAP::Backend::load;
   Kolab::LDAP::Backend::load('user');
   Kolab::LDAP::Backend::load('sf');
-  Kolab::LDAP::Backend::load('dirservd',1);
   
   Kolab::log('K', 'Performing backend startup');
   &Kolab::LDAP::Backend::startup;

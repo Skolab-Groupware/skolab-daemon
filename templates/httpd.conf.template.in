@@ -36,8 +36,7 @@ RewriteRule ^/freebusy/([^/]+)\.vfb %{DOCUMENT_ROOT}/freebusy/freebusy.php?uid=$
 RewriteRule ^/freebusy/([^/]+)\.xfb %{DOCUMENT_ROOT}/freebusy/freebusy.php?uid=$1&extended=1
 RewriteRule ^/freebusy/trigger/(.+)\.pfb %{DOCUMENT_ROOT}/freebusy/pfb.php?folder=$1&cache=0
 RewriteRule ^/freebusy/(.+)\.pfb %{DOCUMENT_ROOT}/freebusy/pfb.php?folder=$1&cache=1
-RewriteRule ^/freebusy/trigger/(.+)\.xpfb %{DOCUMENT_ROOT}/freebusy/pfb.php?folder=$1&cache=0&extended=1
-RewriteRule ^/freebusy/(.+)\.xpfb %{DOCUMENT_ROOT}/freebusy/pfb.php?folder=$1&cache=1&extended=1
+RewriteRule ^/freebusy/(.+)\.pxfb %{DOCUMENT_ROOT}/freebusy/pfb.php?folder=$1&cache=1&extended=1
 
 <VirtualHost _default_:443>
 SSLEngine               on
@@ -82,7 +81,8 @@ KeepAlive On
 MaxKeepAliveRequests 100
 KeepAliveTimeout 15
 
-<IfModule prefork.c>
+<IfModule mpm_prefork_module>
+PidFile              @webserver_pidfile@
 StartServers         5
 MinSpareServers      5
 MaxSpareServers     10
@@ -90,16 +90,17 @@ MaxClients         150
 MaxRequestsPerChild  0
 </IfModule>
 
-<IfModule worker.c>
+<IfModule mpm_worker_module>
 StartServers         2
 MaxClients         150
 MinSpareThreads     25
 MaxSpareThreads     75 
 ThreadsPerChild     25
 MaxRequestsPerChild  0
+ServerLimit         16
 </IfModule>
 
-<IfModule perchild.c>
+<IfModule mpm_perchild_module>
 NumServers           5
 StartThreads         5
 MinSpareThreads      5
@@ -108,8 +109,13 @@ MaxThreadsPerChild  20
 MaxRequestsPerChild  0
 </IfModule>
 
+@@@if bind_any@@@
 Listen 80
 Listen 443
+@@@else@@@
+Listen @@@bind_addr@@@:80
+Listen @@@bind_addr@@@:443
+@@@endif@@@
 
 
 ### Section 2: 'Main' server configuration
@@ -134,25 +140,26 @@ DocumentRoot "@webserver_document_root@"
 #DirectoryIndex index.html 
 AccessFileName .htaccess
 
-<Location @webserver_web_prefix@/>
-  ErrorDocument 403 https://@@@fqdnhostname@@@@webserver_web_prefix@/admin/
+<Location "@webserver_web_prefix@/">
+    ErrorDocument 403 https://@@@fqdnhostname@@@@kolab_wui@/
+</Location>
+<Location "@kolab_wui@">
+    SSLRequireSSL
+</Location>
+<Location "@webserver_web_prefix@/horde">
+    ErrorDocument 403 https://@@@fqdnhostname@@@@webserver_web_prefix@/horde/
+    SSLRequireSSL
 </Location>
 <Location "@webserver_web_prefix@/fbview">
-    Deny from all
     ErrorDocument 403 https://@@@fqdnhostname@@@@webserver_web_prefix@/fbview/
+    SSLRequireSSL
 </Location>
-<Location ~ "@webserver_web_prefix@/fbview/(index.php|login.php)?$">
-    Order allow,deny
-    Allow from all
+@@@if apache-http@@@
+@@@else@@@
+<Location "@webserver_web_prefix@/freebusy">
+    SSLRequireSSL
 </Location>
-<Location ~ "@webserver_web_prefix@/fbview/services/(javascript.php|css.php)$">
-    Order allow,deny
-    Allow from all
-</Location>
-<Location ~ "@webserver_web_prefix@/fbview/(kronolith|graphics)/">
-    Order allow,deny
-    Allow from all
-</Location>
+@@@endif@@@
 
 <Files ~ "^\.ht">
     Order allow,deny
@@ -162,7 +169,7 @@ AccessFileName .htaccess
 # FIXME: not autoconfigured - still hardcoded
 TypesConfig etc/apache/mime.types
 DefaultType text/plain
-<IfModule mod_mime_magic.c>
+<IfModule mime_magic_module>
     MIMEMagicFile @webserver_confdir@/mime.magic
 </IfModule>
 
@@ -196,113 +203,48 @@ ScriptAlias /cgi-bin/ "@webserver_document_root@/cgi-bin/"
     Allow from all
 </Directory>
 
-DavLockDB @webserver_document_root@/locks/DAVlock
-
-<Location /admin>
-	SSLRequireSSL
-</Location>
-@@@if apache-http@@@
-@@@else@@@
-<Location /fbview>
-	SSLRequireSSL
-</Location>
-<Location /freebusy>
-	SSLRequireSSL
-</Location>
-@@@endif@@@
-
-#<Location /freebusy>
-#  SSLVerifyClient require
-#  SSLVerifyDepth 1
-#ForceType application/x-httpd-php
-#</Location>
+<AuthnProviderAlias ldap ldap-mail>
+  AuthLDAPURL ldap://@@@ldap_ip@@@:@@@ldap_port@@@/@@@base_dn@@@?mail
+  AuthLDAPBindDN "@@@php_dn@@@"
+  AuthLDAPBindPassword "@@@php_pw@@@"
+  AuthzLDAPAuthoritative off
+</AuthnProviderAlias>
+<AuthnProviderAlias ldap ldap-uid>
+  AuthLDAPURL ldap://@@@ldap_ip@@@:@@@ldap_port@@@/@@@base_dn@@@?uid
+  AuthLDAPBindDN "@@@php_dn@@@"
+  AuthLDAPBindPassword "@@@php_pw@@@"
+  AuthzLDAPAuthoritative off
+</AuthnProviderAlias>
 
 <Directory "@webserver_document_root@/freebusy">
-   #Dav On
-   #Script PUT /freebusy/freebusy.php
    AllowOverride None
    Options None
    # Disallow for everyone as default
    Order allow,deny
-   <Limit GET PUT LOCK UNLOCK PROPFIND HEAD OPTIONS>
-       Allow from all
+   Allow from all
 @@@if apache-allow-unauthenticated-fb@@@
 @@@else@@@
-       Require valid-user
-@@@endif@@@
-   </Limit>
-@@@if apache-allow-unauthenticated-fb@@@
-@@@else@@@
+   Require valid-user
    AuthType Basic
    AuthName "Kolab Freebusy"
 
-   LDAP_Server @@@ldap_ip@@@
-   LDAP_Port @@@ldap_port@@@
-   Base_DN "@@@base_dn@@@"
-   # temporary : openldap changed from 2.1.9 to 2.1.12
-   # anonymous bind with dn is nolonger allowed
-   # unfortunately mod_auth_ldap seems to exactly do so
-   # need to investigate ...
-   Bind_DN "@@@php_dn@@@"
-   Bind_Pass "@@@php_pw@@@"
-   UID_Filter "(|(uid=%u)(mail=%u))"
+   AuthBasicAuthoritative off
+   AuthUserFile /dev/null
+   AuthBasicProvider ldap-mail ldap-uid
 @@@endif@@@
-   DavMinTimeout 600
    AddDefaultCharset Off  
-   php_value include_path ".:@phplibdir2@:@phppeardir@:/php/include:@phplibdir@"
-   #php_admin_flag safe_mode on
-</Directory>
-
-<Directory "@webserver_document_root@/webcalendar">
-   Dav On
-   AllowOverride None
-   Options None
-   # Disallow for everyone as default
-   Order allow,deny
-   <Limit GET PUT LOCK UNLOCK PROPFIND HEAD OPTIONS>
-       Allow from all
-       Require valid-user
-   </Limit>
-   AuthType Basic
-   AuthName "Kolab Freebusy (webdav)"
-   LDAP_Server @@@ldap_ip@@@
-   LDAP_Port @@@ldap_port@@@
-   Base_DN "@@@base_dn@@@"
-   # temporary : openldap changed from 2.1.9 to 2.1.12
-   # anonymous bind with dn is nolonger allowed
-   # unfortunately mod_auth_ldap seems to exactly do so
-   # need to investigate ...
-   Bind_DN "@@@php_dn@@@"
-   Bind_Pass "@@@php_pw@@@"
-   UID_Filter "(|(uid=%u)(mail=%u))"
-   DavMinTimeout 600
-   AddDefaultCharset Off
 </Directory>
 
 <Directory "@webserver_document_root@/fbview">
     AllowOverride All
     Allow from all
-    php_value include_path ".:@phplibdir2@:@phppeardir@:/php/include:@phplibdir@"
 </Directory>
 
-<Directory "@webserver_document_root@/admin">
+<Directory "@webserver_document_root@@kolab_wui@">
    AllowOverride None
    Options None
    Order allow,deny
    Allow from all
-   #AuthName "Kolab Admin Area"
-   #AuthType Basic
-   #LDAP_Server @@@ldap_ip@@@
-   #LDAP_Port @@@ldap_port@@@
-   # temporary : openldap changed from 2.1.9 to 2.1.12
-   # anonymous bind with dn is nolonger allowed
-   # unfortunately mod_auth_ldap seems to exactly do so
-   # need to investigate ...
-   #Bind_DN "@@@php_dn@@@"
-   #Bind_Pass "@@@php_pw@@@"
-   #Base_DN "@@@base_dn@@@"
-   #UID_Attr uid
-   #require valid-user
 </Directory>
 
 AddIconByEncoding (CMP,/icons/compressed.gif) x-compress x-gzip
@@ -403,6 +345,7 @@ AddCharset EUC-JP      .euc-jp
 AddCharset EUC-KR      .euc-kr
 AddCharset shift_jis   .sjis
 
+LoadModule php5_module @libexecdir@/apache/mod_php.so
 AddType application/x-tar .tgz
 AddType application/x-httpd-php .php .php4 .php3 .html
 AddType image/x-icon .ico
@@ -420,3 +363,4 @@ BrowserMatch "^WebDAVFS/1.[012]" redirect-carefully
 
 # used for local non Kolab extension
 Include @webserver_confdir@/apache.local
+Include @webserver_confdir@/*.include

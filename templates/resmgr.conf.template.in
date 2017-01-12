@@ -1,103 +1,185 @@
 KOLAB_META_START
-TARGET=@resmgr_confdir@/resmgr.conf
+TARGET=@resmgr_confdir@/config.php
 PERMISSIONS=0640
 OWNERSHIP=@resmgr_conffile_usr@:@resmgr_conffile_grp@
 KOLAB_META_END
 <?php
 
-// What is the root directory of our Horde instance?
-@define('HORDE_BASE', '@webserver_document_root@@webserver_web_prefix@/fbview');
+/*  
+ *  COPYRIGHT
+ *  ---------
+ *
+ *  See docs/AUTHORS file
+ *
+ *
+ *  LICENSE
+ *  -------
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  $Revision: 1.24 $
+ *
+ *  ABOUT
+ *  -----
+ *
+ *  This file provides configuration settings for both the
+ *  kolabfilter.php and the kolabmailboxfilter.php scripts.
+ *
+ */
 
-// What is the address of the Cyrus server where the calendar data is stored?
-$params['server'] = 'localhost';
+$conf = array();
 
-// What is our default mail domain? This is used if any users do not have
-// '@domain' specified after their username as part of their email address.
-$params['email_domain'] = '@@@postfix-mydomain@@@';
+/* Cyrus server connection string */
+@@@if cyrus-imap@@@
+$conf['filter']['imap_server'] = '@@@connect_addr@@@';
+@@@else@@@
+$conf['filter']['imap_server'] = '@@@local_addr@@@';
+@@@endif@@@
 
-// List of kolab hosts that are privileged
-$params['kolabhosts'] = '@@@kolabhost|join(,)@@@';
+/* LMTP settings (Cyrus IMAPd usually offers LMTP on port 2003) */
+$conf['filter']['lmtp_host'] = '@@@local_addr@@@';
+$conf['filter']['lmtp_port'] = 2003;
 
-// Are we using virtual domains with Cyrus?
-$params['virtual_domains'] = true;
+/* SMTP settings (Kolab Postfix usually offers reinjection port on
+ * 10025)
+ */
+$conf['filter']['smtp_host'] = '@@@local_addr@@@';
+$conf['filter']['smtp_port'] = 10025;
 
-// Should we append domains to mailbox URIs? This only applies when
-// virtual_domains is true, and when using manager accounts.
-$params['append_domains'] = false;
+/* Local IP address of the mailserver for bypassing content filters */
+$conf['filter']['local_addr'] = '@@@local_addr@@@';
 
-// Should we make sure that the sender and From header match for mail
-// that origins on this server?
+/* What is our default mail domain? This is used if any users do not
+ * have '@domain' specified after their username as part of their
+ * email address.
+ */
+$conf['filter']['email_domain'] = '@@@postfix-mydomain@@@';
+
+/* List of kolab hosts that are privileged */
+$conf['filter']['kolabhosts'] = '@@@kolabhost|join(,)@@@';
+
+/* List privileged networks */
+$conf['filter']['privileged_networks'] = '@@@postfix-mynetworks|join(,)@@@';
+
+/* Are we using virtual domains with Cyrus? */
+$conf['filter']['virtual_domains'] = true;
+
+/* Should we append domains to mailbox URIs? This only applies when
+ * virtual_domains is true, and when using manager accounts.
+ */
+$conf['filter']['append_domains'] = false;
+
+/* Should we make sure that the sender and From header match for mail
+ * that origins on this server?
+ */
 @@@if kolabfilter-verify-from-header@@@
-$params['verify_from_header'] = ('@@@kolabfilter-verify-from-header@@@'=='TRUE');
+$conf['filter']['verify_from_header'] = ('@@@kolabfilter-verify-from-header@@@'=='TRUE');
 @@@else@@@
-$params['verify_from_header'] = false;
+$conf['filter']['verify_from_header'] = false;
 @@@endif@@@
 
-// Should we perform this check on mail from our
-// subdomains too?
-$params['verify_subdomains'] = true;
+/* Should we perform this check on mail from our
+ * subdomains too?
+ */
+$conf['filter']['verify_subdomains'] = true;
 
-// Should the Sender: header be used over From: if present?
+/* Should the Sender: header be used over From: if present? */
 @@@if kolabfilter-allow-sender-header@@@
-$params['allow_sender_header'] = ('@@@kolabfilter-allow-sender-header@@@'=='TRUE');
+$conf['filter']['allow_sender_header'] = ('@@@kolabfilter-allow-sender-header@@@'=='TRUE');
 @@@else@@@
-$params['allow_sender_header'] = false;
+$conf['filter']['allow_sender_header'] = false;
 @@@endif@@@
 
-// Should reject messages with From headers that dont match
-// the envelope? Default is to rewrite the header
+/* Should reject messages with From headers that dont match
+ * the envelope? Default is to rewrite the header
+ */
 @@@if kolabfilter-reject-forged-from-header@@@
-$params['reject_forged_from_header'] = ('@@@kolabfilter-reject-forged-from-header@@@'=='TRUE');
+$conf['filter']['reject_forged_from_header'] = ('@@@kolabfilter-reject-forged-from-header@@@'=='TRUE');
 @@@else@@@
-$params['reject_forged_from_header'] = false;
+$conf['filter']['reject_forged_from_header'] = false;
 @@@endif@@@
 
-// Text to be inserted in From: when rewriting untrusted mails
-$params['untrusted_subject_insert'] = "(UNTRUSTED, sender is <%s>)";
-$params['unauthenticated_subject_insert'] = "(UNTRUSTED, sender <%s> is not authenticated)";
+/* Text to be inserted in From: when rewriting untrusted mails */
+// $conf['filter']['untrusted_subject_insert'] = "(UNTRUSTED, sender is <%s>)";
+// $conf['filter']['unauthenticated_subject_insert'] = "(UNTRUSTED, sender <%s> is not authenticated)";
 
-// Should we allow forwarded ical messages from Outlook
-// by encapsulating them in a MIME multipart
-$params['allow_outlook_ical_forward']  = true;
+/* Should we allow forwarded ical messages from Outlook
+ * by encapsulating them in a MIME multipart
+ */
+$conf['filter']['allow_outlook_ical_forward']  = true;
 
-// LDAP data
-// What is the address of the LDAP server address where user objects reside
-$params['ldap_uri'] = '@@@ldap_uri@@@';
+/* What is the address of the LDAP server address where user objects
+ * reside
+ */
+$conf['filter']['ldap_uri'] = '@@@ldap_uri@@@';
 
-// What is the Base DN of our LDAP database?
-$params['base_dn'] = '@@@base_dn@@@';
+/* What is the Base DN of our LDAP database? */
+$conf['filter']['base_dn'] = '@@@base_dn@@@';
 
-// What DN should we use to bind to the LDAP server?
-$params['bind_dn'] = '@@@php_dn@@@';
+/* What DN should we use to bind to the LDAP server? */
+$conf['filter']['bind_dn'] = '@@@php_dn@@@';
 
-// What password should we use with the above DN when binding?
-$params['bind_pw'] = '@@@php_pw@@@';
+/* What password should we use with the above DN when binding? */
+$conf['filter']['bind_pw'] = '@@@php_pw@@@';
 
+/* What account should we use to read/write calendar data? This
+ * account should have access to the calendar mailbox of all
+ * resource/group mailboxes.
+ */
+$conf['filter']['calendar_id'] = '@@@calendar_id@@@';
+$conf['filter']['calendar_pass'] = '@@@calendar_pw@@@';
 
-// What account should we use to read/write calendar data? This account should
-// have access to the calendar mailbox of all resource/group mailboxes.
-$params['calendar_user'] = 'calendar@'.$params['email_domain'];
-$params['calendar_pass'] = '@@@calendar_pw@@@';
+/* What is the name of the users' calendar mailbox?  This is only used
+ * when the user does not already have a primary calendar folder
+ * (search via Kolab annotation)
+ */
+$conf['filter']['calendar_store'] = 'Calendar';
 
-// Filename of private key used to decrypt password from LDAP
-$params['priv_key_file'] = '@sysconfdir@/kolab/res_priv.pem';
-
-// What is the name of the users' calendar mailbox?
-// This is only used when the user does not already have
-// a primary calendar folder (search via Kolab annotation)
-$params['calendar_store'] = 'Calendar';
-
-// Where can we get free/busy information from?
-$params['freebusy_url'] = 'https://@@@fqdnhostname@@@@webserver_web_prefix@/freebusy/${USER}.xfb';
+/* Where can we get free/busy information from? */
+$conf['filter']['freebusy_url'] = 'https://@@@fqdnhostname@@@@webserver_web_prefix@/freebusy/${USER}.xfb';
  
-// PFB url to trigger creation of pfb
-$params['pfb_trigger_url'] = 'https://@@@fqdnhostname@@@@webserver_web_prefix@/freebusy/trigger/${USER}/${FOLDER}.xpfb';
+/* PFB url to trigger creation of pfb */
+$conf['filter']['pfb_trigger_url'] = 'https://@@@fqdnhostname@@@@webserver_web_prefix@/freebusy/trigger/${USER}/${FOLDER}.pfb';
 
-// Where are we logging to?
-$params['log'] = 'file:@resmgr_logfile@';                // File...
-// $params['log'] = 'syslog:cons, pid';            // Or syslog...
+/* Temporary data storage for the scripts */
+$conf['filter']['tempdir'] = '@resmgr_tmpdir@';
 
-// What level of output should we log? Higher levels give more verbose output.
-// One of: RM_LOG_SILENT; RM_LOG_ERROR; RM_LOG_WARN; RM_LOG_INFO or RM_LOG_DEBUG.
-$params['log_level'] = RM_LOG_DEBUG;
+/* PHP error logging */
+$conf['filter']['error_log'] = '@resmgr_logdir@/fatal.log';
+
+/* Horde::Log configuration
+ *
+ * PEAR_LOG_INFO is the suggested setting for tracking what happens to
+ * your mails in the filters.
+ */
+$conf['log']['enabled']          = true;
+$conf['log']['priority']         = PEAR_LOG_DEBUG; // Leave this on DEBUG for now. We just restructured the package...
+$conf['log']['type']             = 'file';
+$conf['log']['name']             = '@resmgr_logdir@/filter.log';
+$conf['log']['ident']            = 'Kolab Filter';
+$conf['log']['params']['append'] = true;
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//
+// If you modify this file, please do not forget to modify both the
+// template in kolabd and the source file in kolab-freebusy
+//
+// In order to check if both are in sync:
+//
+// cd server
+// diff -Nau kolab-filter/filter/config.php kolabd/kolabd/templates/resmgr.conf.template.in
+//
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ?>
