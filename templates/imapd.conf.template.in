@@ -81,9 +81,9 @@ mailnotifier: mailto
 # the sieve extensions that should be enabled on the server
 sieve_extensions: fileinto reject vacation imapflags notify include envelope body relational regex subaddress copy
 
-# use berkeley db backend instead of skiplist
-annotation_db: berkeley
-mboxlist_db: berkeley
+# Uncomment to use berkeley db backend instead of skiplist:
+#annotation_db: berkeley
+#mboxlist_db: berkeley
 
 # Don't discard emails with identical message-id header (enabled by default):
 duplicatesuppression: 0

@@ -1,3 +1,36 @@
+2009-11-27  Sascha Wilde  <wilde@intevation.de>
+
+	* templates/slapd.conf.template.in: loglevel none, see
+	kolab/issue3895 (Openldap: loglevel should be set to none in
+	slapd.conf)
+
+2009-11-26  Sascha Wilde  <wilde@intevation.de>
+
+	* templates/main.cf.template.in: Added `message_reject_characters'
+	directive, see kolab/issue3594 (Mail containing NUL byte not
+	delivered, Kolab Filter does not report lmtp error)
+
+2009-11-25  Sascha Wilde  <wilde@intevation.de>
+
+	* templates/resmgr.conf.template.in: kolab/issue973 (Rewritten
+	from shown inconveniently in kontact)
+
+2009-11-23  Gunnar Wrobel <wrobel@pardus.de>
+
+	* templates/php.ini.template.in (magic_quotes_gpc):
+
+	kolab/issue919 (kolab server has problems with some characters in
+	passwords)
+
+	kolab/issue1880 (Poor handling of apostrophes in ldap and admin
+	webpages)
+
+	kolab/issue3654 (Special character issue in Kolab web
+	interface (e.g. vacation message))
+
+	kolab/issue3499 (creating/modifying users with special characters
+	in name confuses web admin)
+
 2009-05-14  Thomas Arendsen Hein  <thomas@intevation.de>
 
 	* templates/main.cf.template.in, templates/master.cf.template.in:
@@ -11,6 +44,14 @@
 	* templates/clamd.conf.template.in:
 	Updated templates for clamav-0.95.1-20090409 for
 	kolab/issue3513 (Clamav - new upstream version 0.95.1)
+
+2009-04-23  Gunnar Wrobel  <p@rdus.de>
+
+	* templates/freebusy.conf.template.in: Configuration support for
+	LDAP attribute mapping.
+
+	* templates/resmgr.conf.template.in: Configuration support for
+	LDAP attribute mapping.
 
 2009-04-20  Thomas Arendsen Hein  <thomas@intevation.de>
 

@@ -29,7 +29,7 @@ KOLAB_META_END
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- *  $Revision: 1.21 $
+ *  $Revision: 1.21.2.1 $
  *
  *  ABOUT
  *  -----
@@ -57,6 +57,24 @@ $conf['kolab']['ldap']['server'] = '@@@ldap_uri@@@';
 $conf['kolab']['ldap']['basedn'] = '@@@base_dn@@@';
 $conf['kolab']['ldap']['phpdn']  = '@@@php_dn@@@';
 $conf['kolab']['ldap']['phppw']  = '@@@php_pw@@@';
+
+/**
+ * If you use customized LDAP attributes on your LDAP server the
+ * following configuration setting allows you to map the standard
+ * Kolab attribute names to your customizations.
+ *
+ * Specify the mapping line by line:
+ *
+ * $conf['kolab']['ldap']['map']['uid'] = 'uid2';
+ * $conf['kolab']['ldap']['map']['mobile'] = 'handy';
+ *
+ * or use a hash structure:
+ *
+ * $conf['kolab']['ldap']['map'] = array('uid' => 'uid2',
+ *                                       'mobile' => 'handy');
+ *
+ */
+//$conf['kolab']['ldap']['map']['uid'] = 'uid2';
 
 /* Horde::Kolab::IMAP configuration */
 $conf['kolab']['imap']['server']   = '@@@fqdnhostname@@@';

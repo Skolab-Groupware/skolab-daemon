@@ -29,7 +29,7 @@ KOLAB_META_END
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- *  $Revision: 1.34 $
+ *  $Revision: 1.34.2.4 $
  *
  *  ABOUT
  *  -----
@@ -115,9 +115,14 @@ $conf['kolab']['filter']['reject_forged_from_header'] = ('@@@kolabfilter-reject-
 $conf['kolab']['filter']['reject_forged_from_header'] = false;
 @@@endif@@@
 
-/* Text to be inserted in From: when rewriting untrusted mails */
-// $conf['kolab']['filter']['untrusted_subject_insert'] = "(UNTRUSTED, sender is <%s>)";
-// $conf['kolab']['filter']['unauthenticated_subject_insert'] = "(UNTRUSTED, sender <%s> is not authenticated)";
+/* Text to be inserted in From: when rewriting untrusted mails
+ * The following format specifiers can be used: 
+ * -  %1$s denotes the envelope sender
+ * -  %2$s denotes the address in the original from header
+ * -  %3$s denotes the name part in the original from header if any
+ */
+// $conf['kolab']['filter']['untrusted_subject_insert'] = '(UNTRUSTED, sender is <%1$s>)';
+// $conf['kolab']['filter']['unauthenticated_subject_insert'] = '(UNTRUSTED, sender <%1$s> is not authenticated)';
 
 /* Should we allow forwarded ical messages from Outlook
  * by encapsulating them in a MIME multipart
@@ -138,6 +143,24 @@ $conf['kolab']['ldap']['phpdn'] = '@@@php_dn@@@';
 /* What password should we use with the above DN when binding? */
 $conf['kolab']['ldap']['phppw'] = '@@@php_pw@@@';
 
+/**
+ * If you use customized LDAP attributes on your LDAP server the
+ * following configuration setting allows you to map the standard
+ * Kolab attribute names to your customizations.
+ *
+ * Specify the mapping line by line:
+ *
+ * $conf['kolab']['ldap']['map']['uid'] = 'uid2';
+ * $conf['kolab']['ldap']['map']['mobile'] = 'handy';
+ *
+ * or use a hash structure:
+ *
+ * $conf['kolab']['ldap']['map'] = array('uid' => 'uid2',
+ *                                       'mobile' => 'handy');
+ *
+ */
+//$conf['kolab']['ldap']['map']['uid'] = 'uid2';
+
 /* What account should we use to read/write calendar data? This
  * account should have access to the calendar mailbox of all
  * resource/group mailboxes.
@@ -156,6 +179,10 @@ $conf['kolab']['freebusy']['server']  = 'https://@@@fqdnhostname@@@/freebusy';
 
 /* Temporary data storage for the scripts */
 $conf['kolab']['filter']['tempdir'] = '@resmgr_tmpdir@';
+
+/* Uncomment if the resource manager should generate translated messages. */
+//$conf['kolab']['filter']['locale_path'] = '@resmgr_localedir@';
+//$conf['kolab']['filter']['locale'] = 'de_DE';
 
 /* PHP error logging */
 $conf['kolab']['filter']['error_log'] = '@resmgr_logdir@/fatal.log';

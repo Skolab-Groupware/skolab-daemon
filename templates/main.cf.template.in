@@ -180,4 +180,8 @@ broken_sasl_auth_clients = yes
 # useful for checking authentication status esp. when using dynamic IPs for the sending client and doing authorization
 smtpd_sasl_authenticated_header = yes
 
+# Verbatim NUL bytes violate RfC 2822 and later and dont work with IMAP.
+# So we reject messages containing them (see kolab/issue3594).
+message_reject_characters = \0
+
 content_filter = kolabfilter
