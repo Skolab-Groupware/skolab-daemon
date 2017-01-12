@@ -1,0 +1,10 @@
+KOLAB_META_START
+TARGET=/kolab/etc/example.conf
+PERMISSIONS=0640
+OWNERSHIP=kolab:kolab-n
+RUNONCHANGE=echo example >> /tmp/example
+KOLAB_META_END
+example
+foo=bar
+zip=zap
+

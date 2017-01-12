@@ -1,0 +1,252 @@
+#--------------------------------------------------------------------
+# dist_conf file that comes with the clarkconnect
+# distribtion (http://www.clarkconnect.com).  Clarkconnect is build
+# upon Centos, which is basically Red-Hat, and that is basically Fedora.
+# License: GPL
+# Copyright: Point Clark Networks
+#
+# 20 Oct 2006
+# Keep in mind, *many* features (e.g. freebusy) have not yet been 
+# integrated into ClarkConnect, so parts of the dist_conf file are not 
+# really applicable... yet.  I would be interested in hearing from folks 
+# working on Kolab + CentOS.  We have all the RPMs and source RPMs 
+# available @ http://download.clarkconnect.com/community/.  These RPMS 
+# would have to be tweaked a bit to work on CentOS.  If someone is willing 
+# to do the testing and sanity checking on CentOS, we would be happy to 
+# handle the RPM spec files and package building.
+# 
+# If I knew there was some interest, it would also give me incentive to 
+# update my incomplete Kolab + CentOS documentation @ 
+# http://www.clarkconnect.com/wiki/index.php?title=Kolab
+#--------------------------------------------------------------------
+kolab_usr=kolab-n
+kolab_grp=kolab-n
+kolab_musr=kolab
+kolab_mgrp=kolab
+kolab_uid=414
+kolab_gid=414
+kolab_rusr=kolab-r
+kolab_rgrp=kolab-r
+kolab_susr=root
+
+BASHELL=/bin/bash
+KOLABRC=${sbindir}/kolabsrv
+PERL=${bindir}/perl
+# TODO: ${bindir}/php for CentOS/RHEL
+PHP=${bindir}/engine
+RPM=/bin/rpm
+
+# Define the deamons that are launched from /etc/init.d
+LDAPD=ldap
+
+kolab_rcdir=${sysconfdir}/rc.d/init.d
+pkgdocdir=${datadir}/doc/kolab-2.1
+kolabconf_script=${sbindir}/kolabconf
+
+sysrundir=${localstatedir}/run
+
+#--------------------------------------------------------------------
+# Amavis
+#--------------------------------------------------------------------
+# - Amavis is not included in standard CentOS/RHEL.
+
+amavisd_conffile=${sysconfdir}/amavisd.conf
+amavisd_templatedir=${sysconfdir}/amavisd/templates
+amavisd_logfile=${localstatedir}/log/maillog
+amavisd_home=${localstatedir}/lib/amavis
+amavisd_rusr=amavis
+amavisd_usr=root
+amavisd_grp=amavis
+amavisd_pkg=amavisd-new
+
+# TODO: what is this? 
+fsl_logfile=/var/log/fsl/fsl.log
+
+#--------------------------------------------------------------------
+# ClamAV
+#--------------------------------------------------------------------
+# - ClamAV is not included in standard CentOS/RHEL.
+
+clamav_confdir=${sysconfdir}
+clamav_socket=${localstatedir}/run/clamav/clamd.sock
+clamav_logfile=${localstatedir}/log/maillog
+clamav_pidfile=${sysrundir}/clamd.pid
+clamav_datadir=${localstatedir}/lib/clamav
+freshclam_logfile=${localstatedir}/log/maillog
+freshclam_pidfile=${sysrundir}/freshclam.pid
+clamav_rusr=clamav
+clamav_usr=root
+clamav_grp=clamav
+
+# TODO: are these unused?
+emailscan_usr=root
+emailscan_grp=root
+
+#--------------------------------------------------------------------
+# Postfix
+#--------------------------------------------------------------------
+# CentOS/RHEL: ClarkConnect uses custom mail filters (kolabfilter and 
+# kolabmailboxfilter) with the "filter" user.  Adjustments may be 
+# required for the following:
+#
+# - emailserver_master_usr=kolab-n
+
+emailserver_confdir=${sysconfdir}/postfix
+emailserver_socket=${localstatedir}/lib/imap/socket/lmtp
+emailserver_localstatedir=${localstatedir}/spool/postfix
+emailserver_logfile=${localstatedir}/log/maillog
+emailserver_usr=root
+emailserver_grp=root
+emailserver_mail_owner=postfix
+emailserver_setgid_grp=postdrop
+emailserver_default_privs=nobody
+emailserver_master_usr=kolab-n
+emailserver_pkg=postfix
+
+# TODO: is this still used?
+emailserver_musr=is_this_still_used
+
+#--------------------------------------------------------------------
+# Cyrus IMAP
+#--------------------------------------------------------------------
+# TODO: is imap_lmtp still used?
+
+imap_confdir=${sysconfdir}
+imap_confperm=0640
+imap_usr=cyrus
+imap_grp=mail
+imap_masterlogfile=${localstatedir}/log/maillog
+imap_misclogfile=${localstatedir}/log/maillog
+imap_statedir=${localstatedir}/lib/imap
+imap_spool=${localstatedir}/spool/imap
+imap_sievedir=${localstatedir}/lib/imap/sieve
+imap_lmtp=${imap_statedir}/socket/lmtp
+imap_pkg=cyrus-imapd
+
+#--------------------------------------------------------------------
+# Kolab
+#--------------------------------------------------------------------
+# CentOS/RHEL: ClarkConnect uses custom mail filters (kolabfilter and 
+# kolabmailboxfilter) with the "filter" user.  Adjustments may be 
+# required for the following:
+#
+# - kolab_smtpdpolicy_conffile_usr=kolab
+# - kolab_smtpdpolicy_conffile_grp=filter
+
+syslog_facility=user
+kolab_statedir=${localstatedir}/lib/kolab
+kolab_logdir=${localstatedir}/log/kolab
+kolab_pidfile=${sysrundir}/kolab.pid
+kolab_mailboxuiddb=${kolab_statedir}/mailbox-uidcache.db
+kolab_pkg=kolabd
+kolab_webadmin_pkg=kolab-webadmin
+perl_kolab_pkg=perl-kolab
+kolab_smtpdpolicy_conffile_usr=kolab
+kolab_smtpdpolicy_conffile_grp=filter
+kolab_scriptsdir=${datadir}/kolab/scripts
+#kolab_php_module_prefix=kolab/
+kolab_php_module_prefix=
+kolab_php_smarty_prefix=Smarty
+smarty_compiledir=${phplibdir2}/${kolab_php_module_prefix}admin/templates_c
+
+# Kolab web user interface
+kolab_wui=/kolab/admin
+
+#--------------------------------------------------------------------
+# OpenLDAP
+#--------------------------------------------------------------------
+directory_mode=slurpd
+ldapserver_statedir=${localstatedir}/lib/ldap
+ldapserver_dir=${localstatedir}/lib/ldap
+ldapserver_replogfile=${localstatedir}/lib/ldap/replog
+ldapserver_argsfile=${localstatedir}/run/slapd.args
+ldapserver_logfile=${localstatedir}/log/messages
+ldapserver_pidfile=${sysrundir}/slapd.pid
+ldapserverslurpd_pidfile=${sysrundir}/slurpd.pid
+ldapserver_schemadir=${sysconfdir}/openldap/schema
+ldapserver_confdir=${sysconfdir}/openldap
+ldapserver_usr=root
+ldapserver_grp=ldap
+ldapserver_rgrp=ldap
+ldapserver_rusr=ldap
+
+#--------------------------------------------------------------------
+# Apache Web Server
+#--------------------------------------------------------------------
+# CentOS/RHEL: ClarkConnect does not use the Kolab web interface.
+# Adjustments will be required in this section.
+
+webserver_document_root=${localstatedir}/webconfig/htdocs
+webserver_cgidir=${webserver_document_root}/cgi-bin
+webserver_sessions=${localstatedir}/webconfig/tmp
+webserver_logdir=${localstatedir}/log
+webserver_acceptlock=not_used
+# TODO: add to httpd.conf
+webserver_runtime_status=/var/run/webconfig.scoreboard
+webserver_errorlogfile=${webserver_logdir}/error_log
+webserver_accesslogfile=${webserver_logdir}/access.log
+webserver_pidfile=/var/run/webconfig.pid
+webserver_web_prefix=/kolab
+webserver_musr=kolab
+webserver_usr=root
+webserver_grp=root
+webserver_pkg=httpd
+webserver_confdir=/usr/webconfig/etc
+webserver_sslmutex=${webserver_logdir}/ssl_mutex
+webserver_sslscache=/var/cache/mod_ssl/scache
+
+#webclient
+horde_cookie_path=/client
+horde_confdir=${webserver_document_root}/client/config
+kronolith_confdir=${webserver_document_root}/client/kronolith/config
+
+phplibdir=/usr/webconfig/include
+phplibdir2=/usr/webconfig/include
+phppeardir=/usr/webconfig/pear
+
+# is /var/run/httpd.scoreboard required?
+# revisit webserver_musr
+
+#--------------------------------------------------------------------
+# Saslauth
+#--------------------------------------------------------------------
+
+sasl_smtpconffile=${libdir}/sasl2/smtpd.conf
+sasl_authdconffile=${sysconfdir}/saslauthd.conf
+sasl_logfile=${localstatedir}/log/messages
+
+#--------------------------------------------------------------------
+# Resource manager
+#--------------------------------------------------------------------
+# - log file was changed to syslog (to keep it consistent with RHEL) 
+# 
+# CentOS/RHEL: watch out for resmgr_conffile_usr
+
+#*************************************** HERE ************************************************************
+resmgr_logdir=${localstatedir}/log
+resmgr_confdir=${sysconfdir}/resmgr
+resmgr_conffile_usr=filter
+resmgr_conffile_grp=root
+resmgr_filterdir=${localstatedir}/spool/resmgr
+resmgr_usr=root
+resmgr_grp=root
+resmgr_scriptsdir=/usr/sbin
+resmgr_log_type=file
+resmgr_log_name=${resmgr_logdir}/filter.log
+
+fbview_logfile=/var/lib/resmgr/fbview.log
+freebusy_logdir=/var/log/resmgr
+freebusy_confdir=${webserver_document_root}/kolab/freebusy
+freebusy_cachedir=${webserver_document_root}/kolab/freebusy/cache
+freebusy_log_type=file
+freebusy_log_name=${freebusy_logdir}/freebusy.log
+
+# Total guess
+freebusy_usr=root
+freebusy_grp=webconfig
+
+
+graveyard_uidcache=${kolab_statedir}/graveyard-uidcache.db
+graveyard_tscache=${kolab_statedir}/graveyard-tscache.db
+
+backupdir=/usr/share/kolab/backup

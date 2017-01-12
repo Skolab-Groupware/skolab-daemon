@@ -1,0 +1,55 @@
+#
+# =============================================================================
+# This is a template for non-spam (VIRUS,...) ADMINISTRATOR NOTIFICATIONS.
+# For syntax and customization instructions see README.customize.
+# Note that only valid header fields are allowed; non-standard header
+# field heads must begin with "X-" .
+#
+Date: %d
+From: %f
+Subject: [? %#V |[? %#F |[? %#X ||UNZULAESSIGER HEADER]|GEBANNT (%F)]|VIRUS (%V)]#
+ VON [?%l||LOKAL ][?%a||\[%a\] ][?%o|(?)|<%o>]
+To: [? %#T |undisclosed-recipients: ;|[<%T>|, ]]
+[? %#C |#|Cc: [<%C>|, ]]
+Message-ID: <VA%n@%h>
+
+[? %#V |Keine Viren gefunden.
+|Ein Virus wurde gefunden: %V
+|Zwei Viren wurden gefunden:\n  %V
+|%#V Viren wurden gefunden:\n  %V
+]
+[? %#F |#\
+|Ein gebannter Name wurde gefunden:\n  %F
+|Zwei gebannte Namen wurden gefunden:\n  %F
+|%#F gebannte Namen wurden gefunden:\n  %F
+]
+[? %#X |#\
+|Ein schlechter Header wurde gefunden:[\n  %X]
+]
+[? %#W |#\
+|Scanner hat einen Virus gefunden: %W
+|Scanner haben einen Virus gefunden: %W
+]
+Die Nachricht kam von: <%o>
+[? %a |#|IP-Adresse des ersten Upstream-SMTP-Klienten: \[%a\] %g
+]
+[? %t |#|Nach der 'Received:'-Spur kam die Nachricht von:
+  \[%e\]
+  %t
+]
+[? %#S |Es wird keine Benachrichtigung an den Absender geschickt.
+
+]#
+[? %#D |#|Die Nachricht wird ausgeliefert an:[\n%D]
+]
+[? %#N |#|Die Nachricht wurde NICHT ausgeliefert an:[\n%N]
+]
+[? %#V |#|[? %#v |#|Ausgabe des Virus-Scanners:[\n  %v]
+]]
+[? %q  |Nicht in Quarantäne.|Die Nachricht wurde unter Quarantäne gestellt als:\n  %q
+]
+------------------------- BEGIN HEADERS -----------------------------
+Return-Path: %s
+[%H
+]\
+-------------------------- END HEADERS ------------------------------
