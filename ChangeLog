@@ -1,3 +1,26 @@
+2010-05-04  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* templates/imapd.annotation_definitions.template.in:
+	Added annotation for activesync configuration (z-push).
+
+2010-04-22  Thomas Arendsen Hein  <thomas@intevation.de>
+
+	* templates/local.cf.template.in: Disable further DNS blacklists.
+
+2010-04-21  Gunnar Wrobel <wrobel@pardus.de>
+
+	* kolabd.spec.in: Require the json module in php and apache-php.
+
+2010-02-27  Gunnar Wrobel <wrobel@pardus.de>
+
+	* kolabd.spec: Fix typo (kolab/issue4176 (Adding RSS feed to Horde
+	breaks portal screen))
+
+2010-01-04  Sascha Wilde  <wilde@intevation.de>
+
+	* templates/local.cf.template.in: Disable FH_DATE_PAST_20XX, which
+	is broken for 2010 and later...
+
 2009-11-27  Sascha Wilde  <wilde@intevation.de>
 
 	* templates/slapd.conf.template.in: loglevel none, see

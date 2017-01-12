@@ -33,8 +33,8 @@ Packager:     Klaraelvdalens Datakonsult AB
 Distribution: OpenPKG
 Group:        Mail
 License:      GPL
-Version:      2.2.3
-Release:      20091217
+Version:      2.2.4
+Release:      20100624
 
 #   list of sources
 Source0:      kolabd-%{version}.tar.bz2
@@ -57,8 +57,8 @@ PreReq:       Kolab_Filter
 PreReq:       Kolab_FreeBusy
 
 # what about php::with_tidy = yes (for Horde Imp)
-PreReq:       php, php::with_gettext = yes, php::with_dom = yes, php::with_mcrypt = yes, php::with_iconv = yes, php::with_mbstring = yes, php::with_mbregex = yes, php::with_gd = yes, php::with_imap = yes, php::with_ssl = yes, php::with_ctype = yes, php::with_openldap = yes, php::with_mhash = yes, php::with_zlib = yes, php::with_bdb = yes, php::with_imap_annotate = yes, php::with_imap_myrights = yes, php::with_pear = yes, php::with_xml = yes, php::with_mm = yes, php::with_sqlite = yes, php::with_spl = yes
-PreReq:       apache-php, apache-php::with_gettext = yes, apache-php::with_dom = yes, apache-php::with_mcrypt = yes, apache-php::with_iconv = yes, apache-php::with_mbstring = yes, apache-php::with_mbregex = yes, apache-php::with_gd = yes, apache-php::with_imap = yes, apache-php::with_ssl = yes, apache-php::with_ctype = yes, apache-php::with_openldap = yes, apache-php::with_mhash = yes, apache-php::with_zlib = yes, apache-php::with_bdb = yes, apache-php::with_imap_annotate = yes, apache-php::with_imap_myrights = yes, apache-php::with_pear = yes, apache-php::with_xml = yes, apache-php::with_mm = yes, apache-php::with_sqlite = yes, php::with_spl = yes
+PreReq:       php, php::with_gettext = yes, php::with_dom = yes, php::with_mcrypt = yes, php::with_iconv = yes, php::with_mbstring = yes, php::with_mbregex = yes, php::with_gd = yes, php::with_imap = yes, php::with_ssl = yes, php::with_ctype = yes, php::with_openldap = yes, php::with_mhash = yes, php::with_zlib = yes, php::with_bdb = yes, php::with_imap_annotate = yes, php::with_imap_myrights = yes, php::with_pear = yes, php::with_xml = yes, php::with_mm = yes, php::with_sqlite = yes, php::with_spl = yes, php::with_json = yes
+PreReq:       apache-php, apache-php::with_gettext = yes, apache-php::with_dom = yes, apache-php::with_mcrypt = yes, apache-php::with_iconv = yes, apache-php::with_mbstring = yes, apache-php::with_mbregex = yes, apache-php::with_gd = yes, apache-php::with_imap = yes, apache-php::with_ssl = yes, apache-php::with_ctype = yes, apache-php::with_openldap = yes, apache-php::with_mhash = yes, apache-php::with_zlib = yes, apache-php::with_bdb = yes, apache-php::with_imap_annotate = yes, apache-php::with_imap_myrights = yes, apache-php::with_pear = yes, apache-php::with_xml = yes, apache-php::with_mm = yes, apache-php::with_sqlite = yes, apache-php::with_spl = yes, apache-php::with_json = yes
 
 PreReq:       imapd, imapd::with_group = yes, imapd::with_group_igncase = yes, imapd::with_ldap = yes, imapd::with_annotate = yes, imapd::with_atvdom = yes, imapd::with_morelogging = yes, imapd::with_kolab = yes
 PreReq:       perl-ssl
