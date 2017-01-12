@@ -1,0 +1,36 @@
+#
+# =============================================================================
+# This is a template for VIRUS/BANNED/BAD-HEADER RECIPIENTS NOTIFICATIONS.
+# For syntax and customization instructions see README.customize.
+# Note that only valid header fields are allowed; non-standard header
+# field heads must begin with "X-" .
+#
+Date: %d
+From: %f
+Subject: [? %#V |[? %#F |[? %#X ||INVALID HEADER]|BANNED]|VIRUS (%V)]#
+ IN MAIL TO YOU (from [?%o|(?)|<%o>])
+To: [? %#T |undisclosed-recipients: ;|[<%T>|, ]]
+[? %#C |#|Cc: [<%C>|, ]]
+Message-ID: <VR%n@%h>
+
+[? %#V |[? %#F ||BANNED CONTENTS ALERT]|VIRUS ALERT]
+
+Our content checker found
+[? %#V |#|    [? %#V |viruses|virus|viruses]: %V]
+[? %#F |#|    banned [? %#F |names|name|names]: %F]
+[? %#X |#|\n[%X\n]]
+in an email to you [? %S |from unknown sender:|from:]
+
+  %o
+
+[? %a |#|First upstream SMTP client IP address: \[%a\] %g
+]
+[? %t |#|According to the 'Received:' trace, the message originated at:
+  \[%e\]
+  %t
+]
+Our internal reference code for this message is %n.
+[? %q |Not quarantined.|The message has been quarantined as:
+  %q]
+
+Please contact your system administrator for details.
