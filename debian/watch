@@ -1,7 +1,3 @@
 version=3
-# original URL for stable releases:
-http://files.kolab.org/server/release/kolab-server-([\d.]+)/sources/kolabd-([\d\w.-]+).src.rpm debian debian/uupdate-wrapper
-# URL for development releases:
-#http://files.kolab.org/server/development-2.2/current/sources/kolabd-([\d\w.-]+).src.rpm  debian  debian/uupdate-wrapper
-# URL for beta releases:
-#http://files.kolab.org/server/beta/kolab-server-([\d\w.-]*)/sources/kolabd-([\d\w.-]*).src.rpm  debian  debian/uupdate-wrapper
+opts=filenamemangle=s/.*\/([\d\.-]+)\.tar\.gz/skolab-daemon-$1.tar.gz/
+https://github.com/Skolab-Groupware/skolab-daemon/tags .*/archive/([\d\.]+).tar.gz

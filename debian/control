@@ -1,35 +1,51 @@
-Source: kolabd
+Source: skolab-daemon
 Section: mail
-Priority: extra
-Maintainer: Debian Kolab Maintainers <pkg-kolab-devel@lists.alioth.debian.org>
-Uploaders: Noèl Köthe <noel@debian.org>, Steffen Joeris <white@debian.org>, Mathieu Parent <sathieu@debian.org>
-Build-Depends: debhelper (>= 7)
-Standards-Version: 3.9.1
-Homepage: http://www.kolab.org/
-Vcs-Browser: http://svn.debian.org/wsvn/pkg-kolab/kolabd/trunk/
-Vcs-Svn: svn://svn.debian.org/pkg-kolab/kolabd/trunk/
+Priority: optional
+Maintainer: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
+Build-Depends: cdbs, debhelper (>= 9)
+Standards-Version: 4.1.3
+Homepage: https://github.com/Skolab-Groupware/skolab-daemon
+Vcs-Browser: https://github.com/Skolab-Groupware/skolab-daemon
+Vcs-Git: https://github.com/Skolab-Groupware/skolab-daemon
 
-Package: kolabd
+Package: skolab-daemon
 Architecture: all
-Depends: ${misc:Depends}, ${perl:Depends}, libnet-netmask-perl, libmail-box-perl, libterm-readkey-perl, libterm-readline-gnu-perl,
- postfix (>= 2.4), postfix-ldap (>= 2.4),
- sasl2-bin, libsasl2-modules,
- libkolab-perl (>= 1:2.2.1-20081212-1),
- kolab-cyrus-admin, kolab-cyrus-clients, kolab-cyrus-imapd, kolab-cyrus-pop3d,
- php-kolab-filter, php-kolab-freebusy,
- adduser, lsb-base (>= 3.0-3)
-Recommends: slapd, ldap-utils
-Suggests: openssl, db4.2-util, kolab-webadmin, amavisd-new, clamav, clamav-daemon, spamassassin
-Replaces: kolab-freebusy (<<2.2.1), kolab-resource-handlers (<<2.2.1)
-Breaks: kolab-freebusy (<<2.2.1), kolab-resource-handlers (<<2.2.1)
-Description: groupware server
- Kolab is a secure, scalable, and reliable groupware server.  It consists
- of a number of well-known and proven components for the standard tasks
- such as e-mail, directory service, and web service.  Kolab adds
- intelligent interaction between the components, a web administration
- interface, management of free/busy lists, etc.  Various clients can
- access Kolab, among them Kontact (KDE), Outlook (Windows), and Horde
- (web).
+Depends: adduser,
+         kolab-cyrus-admin,
+         kolab-cyrus-clients,
+         kolab-cyrus-imapd,
+         kolab-cyrus-pop3d,
+         libskolab-perl (>= 1:2.2.1-20081212-1),
+         libmail-box-perl,
+         libnet-netmask-perl,
+         libsasl2-modules,
+         libterm-readkey-perl,
+         libterm-readline-gnu-perl,
+         lsb-base (>= 3.0-3),
+         php-skolab-filter,
+         php-skolab-freebusy,
+         postfix (>= 2.4),
+         postfix-ldap (>= 2.4),
+         sasl2-bin,
+         ${misc:Depends},
+         ${perl:Depends}
+Recommends: ldap-utils,
+            slapd,
+Suggests: amavisd-new,
+          clamav,
+          clamav-daemon,
+          db4.2-util,
+          kolab-webadmin,
+          openssl,
+          spamassassin
+Description: Skolab Groupware server daemon
+ Skolab is the continuation of the Kolab 2 groupware. It is a secure,
+ scalable, and reliable groupware server. It consists of a number of
+ well-known and proven components for the standard tasks such as e-mail,
+ directory service, and web service. Skolab adds intelligent interaction
+ between the components, a web administration interface, management of
+ free/busy lists, etc. Various clients can access Skolab, among them
+ Kontact (KDE), Thunderbird (Mozilla) and Horde (web).
  .
  This package contains the groupware server program, the LDAP gateway
  daemon, as well as the dependencies and documentation to run Kolab.

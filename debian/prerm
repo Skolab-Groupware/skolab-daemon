@@ -3,9 +3,9 @@
 set -e
 
 if command -v a2dissite >/dev/null 2>&1; then
-  a2dissite kolab >/dev/null
+	a2dissite skolab >/dev/null
 else
-  rm -f /etc/apache2/sites-enabled/kolab
+	rm -f /etc/apache2/sites-enabled/skolab.conf
 fi
 
 #DEBHELPER#

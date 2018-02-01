@@ -1,73 +1,82 @@
 #!/usr/bin/make -f
 
-config.status: configure
-	dh_testdir
-	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib --with-dist=debian --without-openpkg
+NULL=
 
-build: build-stamp
-build-stamp:  config.status
-	dh_testdir
-	$(MAKE)
-	touch build-stamp
+include /usr/share/cdbs/1/class/autotools.mk
+include /usr/share/cdbs/1/rules/autoreconf.mk
+include /usr/share/cdbs/1/rules/debhelper.mk
 
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp
-	[ ! -f Makefile ] || $(MAKE) distclean
-	rm -f kolabcheckperm
-	dh_clean 
+DEB_CONFIGURE_EXTRA_FLAGS := --with-dist=debian \
+                             $(NULL)
 
-install: build
-	dh_testdir
-	dh_testroot
-	dh_prep 
-	dh_installdirs
+#config.status: configure
+#	dh_testdir
+#	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib --with-dist=debian --without-openpkg
 
-	# scripts for /usr/bin and /usr/sbin
-	install -D -m 755 kolab_sslcert.sh debian/kolabd/usr/sbin/kolab_sslcert 
-	install -D -m 755 kolab_ca.sh debian/kolabd/usr/sbin/kolab_ca.sh
+#build: build-stamp
+#build-stamp:  config.status
+#	dh_testdir
+#	$(MAKE)
+#	touch build-stamp
 
-	# Files for /etc/kolab
-	install -D -m 644 kolab.globals debian/kolabd/etc/kolab/kolab.globals
-	# This file is obsolete we use kolabconf for it
-#	install -D -m 755 kolab debian/kolabd/etc/kolab/kolab
-	# unneeded simple script
-#	install -D -m 755 workaround.sh debian/kolabd/etc/kolab/workaround.sh
-	install -D -m 644 rootDSE.ldif debian/kolabd/etc/kolab/rootDSE.ldif
+#clean:
+#	dh_testdir
+#	dh_testroot
+#	rm -f build-stamp
+#	[ ! -f Makefile ] || $(MAKE) distclean
+#	rm -f kolabcheckperm
+#	dh_clean 
 
-	# Kolab bootstrapping templates
-	for i in templates/*.template ; do install -D -m 644 $$i debian/kolabd/etc/kolab/$$i ; done
-	rm $(addprefix debian/kolabd/etc/kolab/templates/,clamd.* freshclam.* httpd.* session_vars.* local.cf.template)
+#install: build
+#	dh_testdir
+#	dh_testroot
+#	dh_prep 
+#	dh_installdirs
 
-	# LDAP schemas
-	install -D -m 644 debian/rfc2739.schema debian/kolabd/etc/ldap/schema/rfc2739.schema
-	install -D -m 644 horde.schema debian/kolabd/etc/ldap/schema/horde.schema
-	install -D -m 644 kolab2.schema debian/kolabd/etc/ldap/schema/kolab2.schema
+#	# scripts for /usr/bin and /usr/sbin
+#	install -D -m 755 kolab_sslcert.sh debian/kolabd/usr/sbin/kolab_sslcert 
+#	install -D -m 755 kolab_ca.sh debian/kolabd/usr/sbin/kolab_ca.sh
 
-	#apache config
-	install -D -m 644 debian/apache.conf debian/kolabd/etc/kolab/apache.conf
+#	# Files for /etc/kolab
+#	install -D -m 644 kolab.globals debian/kolabd/etc/kolab/kolab.globals
+#	# This file is obsolete we use kolabconf for it
+##	install -D -m 755 kolab debian/kolabd/etc/kolab/kolab
+#	# unneeded simple script
+##	install -D -m 755 workaround.sh debian/kolabd/etc/kolab/workaround.sh
+#	install -D -m 644 rootDSE.ldif debian/kolabd/etc/kolab/rootDSE.ldif
+
+#	# Kolab bootstrapping templates
+#	for i in templates/*.template ; do install -D -m 644 $$i debian/kolabd/etc/kolab/$$i ; done
+#	rm $(addprefix debian/kolabd/etc/kolab/templates/,clamd.* freshclam.* httpd.* session_vars.*)
+
+#	# LDAP schemas
+#	install -D -m 644 debian/rfc2739.schema debian/kolabd/etc/ldap/schema/rfc2739.schema
+#	install -D -m 644 horde.schema debian/kolabd/etc/ldap/schema/horde.schema
+#	install -D -m 644 kolab2.schema debian/kolabd/etc/ldap/schema/kolab2.schema
+
+#	#apache config
+#	install -D -m 644 debian/apache.conf debian/kolabd/etc/kolab/apache.conf
 
 #	# Commented out because of copyright issues, needs further investigation
 #	install -D -m 644 rfc2739.schema debian/kolabd/usr/share/kolabd/schema/rfc2739.schema
 
-binary-indep: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs -i ChangeLog
-	dh_installdocs -i
-	dh_installexamples -i
-	dh_installinit -i --update-rcd-params='start 30 2 3 4 5 . stop 30 0 1 6 .'
-	dh_installman -i
-	dh_link -i
-	dh_compress -i
-	dh_fixperms -i -X /etc/
-	dh_perl -i
-	dh_installdeb -i
-	dh_gencontrol -i
-	dh_md5sums -i
-	dh_builddeb -i
+#binary-indep: build install
+#	dh_testdir
+#	dh_testroot
+#	dh_installchangelogs -i ChangeLog
+#	dh_installdocs -i
+#	dh_installexamples -i
+#	dh_installinit -i --update-rcd-params='start 30 2 3 4 5 . stop 30 0 1 6 .'
+#	dh_installman -i
+#	dh_link -i
+#	dh_compress -i
+#	dh_fixperms -i -X /etc/
+#	dh_perl -i
+#	dh_installdeb -i
+#	dh_gencontrol -i
+#	dh_md5sums -i
+#	dh_builddeb -i
 
-binary: binary-indep binary-arch
-
-.PHONY: build clean binary-indep binary-arch binary install
+#binary: binary-indep binary-arch
+#
+#.PHONY: build clean binary-indep binary-arch binary install

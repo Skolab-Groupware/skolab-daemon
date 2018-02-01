@@ -1,0 +1,57 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          skolab-daemon
+# Required-Start:    $local_fs $remote_fs $network $syslog postfix apache2 saslauthd skolab-cyrus-common
+# Required-Stop:     $local_fs $remote_fs $network $syslog postfix apache2 saslauthd skolab-cyrus-common
+# Should-Start:      slapd
+# Should-Stop:       slapd
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start Skolab Groupware Server
+### END INIT INFO
+
+if [ ! -x /usr/sbin/skolabd ]; then
+	exit 5
+fi
+
+DAEMON=/usr/sbin/skolab-daemon
+PIDFILE=/var/run/skolab.pid
+
+. /lib/lsb/init-functions
+
+case $1 in
+	start)
+		log_daemon_msg "Starting Skolab Groupware Server" "skolab-daemon"
+		start-stop-daemon --start --quiet --oknodo --pidfile $PIDFILE --background --startas $DAEMON
+		log_end_msg $?
+		;;
+	stop)
+		log_daemon_msg "Stopping Skolab Groupware Server" "skolab-daemon"
+		start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE
+		rm -f $PIDFILE
+		log_end_msg $?
+		;;
+	reload|force-reload)
+		log_daemon_msg "Reloading Skolab Groupware Server" "skolab-daemon"
+		start-stop-daemon --stop --quiet --signal HUP --pidfile $PIDFILE
+		log_end_msg $?
+		;;
+	restart)
+		$0 stop && sleep 1 && $0 start
+		;;
+	status)
+		pidofproc -p $PIDFILE $DAEMON >/dev/null
+		status=$?
+		if [ $status -eq 0 ]; then
+			log_success_msg "Skolab Groupware Server is running."
+		else
+			log_failure_msg "Skolab Groupware Server is not running."
+		fi
+		exit $status
+		;;
+	*)
+		echo "Usage: $0 {start|stop|reload|force-reload|restart|status}"
+		exit 2
+		;;
+esac

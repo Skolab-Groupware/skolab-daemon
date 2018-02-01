@@ -2,10 +2,10 @@
 
 set -e
 
-add_kolab_system_users() {
-	if ! getent passwd kolab >/dev/null; then
-		adduser --group --system --no-create-home --gecos "Kolab user" \
-			--home /var/lib/kolab kolab
+add_skolab_system_users() {
+	if ! getent passwd skolab >/dev/null; then
+		adduser --group --system --no-create-home --gecos "Skolab Groupware system account" \
+			--home /var/lib/skolab skolab
 	fi
 }
 
@@ -14,18 +14,18 @@ adduser_postfix_in_sasl() {
         adduser postfix sasl || true
 }
 
-adduser_cyrus_in_kolab() {
-	# Add user cyrus to group kolab, if such group exists
+adduser_cyrus_in_skolab() {
+	# Add user cyrus to group skolab, if such group exists
 	# This is needed for PKI
-        adduser cyrus kolab || true
+        adduser cyrus skolab || true
 }
 
 fixperms() {
-	chown kolab:kolab /var/lib/kolab
-	chmod 2775 /var/lib/kolab
+	chown skolab:skolab /var/lib/skolab
+	chmod 2775 /var/lib/skolab
 	
-	chmod 750 /var/lib/kolab/freebusy-cache/
-	chown www-data:root /var/lib/kolab/freebusy-cache/
+	chmod 750 /var/lib/skolab/freebusy-cache/
+	chown www-data:root /var/lib/skolab/freebusy-cache/
 }
 
 configure_apache() {
@@ -35,11 +35,11 @@ configure_apache() {
 			a2enmod $mod >/dev/null
 		done
 
-		if [ -e /etc/apache2/mods-available/php5.load ]; then
-			a2enmod php5 >/dev/null
+		if [ -e /etc/apache2/mods-available/php7.load ]; then
+			a2enmod php7 >/dev/null
 		fi
 
-		a2ensite kolab >/dev/null
+		a2ensite skolab >/dev/null
 	fi
 
 	if command -v invoke-rc.d >/dev/null 2>&1; then
@@ -50,9 +50,9 @@ configure_apache() {
 }
 
 if [ "$1" = configure ]; then
-	add_kolab_system_users
+	add_skolab_system_users
 	adduser_postfix_in_sasl
-	adduser_cyrus_in_kolab
+	adduser_cyrus_in_skolab
 	fixperms
 	configure_apache
 fi
