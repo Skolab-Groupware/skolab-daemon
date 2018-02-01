@@ -10,10 +10,6 @@ kolabconfdir = $(sysconfdir)/kolab
 
 kolabdir = $(kolab_scriptsdir)
 
-if OPENPKG
-  KOLAB_SCRIPTS_FILES = kolab
-endif
-
 kolab_SCRIPTS = $(KOLAB_SCRIPTS_FILES) \
 	kolab_sslcert.sh \
 	kolab_ca.sh
@@ -120,9 +116,7 @@ kolabdoc_GENERATED = doc/README.amavisd \
 kolabdocdir = $(pkgdocdir)/@PACKAGE@
 kolabdoc_DATA = $(kolabdoc_FILES) $(kolabdoc_GENERATED)
 
-if ! OPENPKG
 kolabsbin_FILES = dist_conf/kolabsrv
-endif	
 
 kolabsbindir = $(sbindir)/
 kolabsbin_DATA = $(kolabsbin_FILES)
@@ -130,17 +124,7 @@ kolabsbin_DATA = $(kolabsbin_FILES)
 
 kolabbindir = $(bindir)
 
-if OPENPKG
-  KOLABBIN_FILES = namespace/kolab
-endif
-
 kolabbin_DATA = $(KOLABBIN_FILES)
-
-
-if OPENPKG
-  kolabrcdir = $(kolab_rcdir)
-  kolabrc_DATA = rc.kolabd
-endif
 
 generated_files = $(kolabspecial_DATA) \
 	$(kolabtemplate_DATA) \
@@ -195,10 +179,4 @@ install-data-hook:
 	chmod 644 $(DESTDIR)$(kolabconfdir)/kolab.globals
 	chmod 775 $(DESTDIR)$(kolabdir)$(kolab_FILES)
 	chmod 755 $(DESTDIR)$(kolabnamespacedir)/*
-if ! OPENPKG
 	chmod 755 $(DESTDIR)$(sbindir)/kolabsrv
-endif
-if OPENPKG
-	chmod 755 $(DESTDIR)$(kolabrcdir)/$(kolabrc_DATA)
-	chmod 744 $(DESTDIR)$(bindir)/kolab
-endif

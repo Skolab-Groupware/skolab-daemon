@@ -1,5 +1,4 @@
 10-dist_conf.diff
-55-no-distconf_kolabsrv.diff
 70-kolab2.schema-removal.of.rfc2739.diff
 90-slapd-template.diff
 91-postfix-template.diff

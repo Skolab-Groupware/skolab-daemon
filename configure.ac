@@ -20,23 +20,6 @@ AS_IF([test -f $distribution],,
 )
 AC_SUBST_FILE(distribution)
 
-AC_ARG_WITH([openpkg],
-  [AC_HELP_STRING([--with-openpkg],
-    [Special Files for the openpkg platform])],
-  [case "${withval}" in
-    yes) openpkg=true ;;
-	 no)  openpkg=false ;;
-	 *)   AC_MSG_ERROR(bad value ${withval} for --with-openpkg) ;;
-  esac],[openpkg=true])
-AM_CONDITIONAL(OPENPKG, test x$openpkg = xtrue)
-
-if test "x$openpkg" = "xtrue"; then
-  WITHOPENPKG=yes
-else
-  WITHOPENPKG=no
-fi
-AC_SUBST(WITHOPENPKG)
-
 # Checks for libraries.
 
 # Checks for header files.
