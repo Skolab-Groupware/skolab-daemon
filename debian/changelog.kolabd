@@ -1,0 +1,373 @@
+kolabd (2.2.4-20100624-4) unstable; urgency=low
+
+  * 94-cyrus-template.diff: use absolute path to ensure that the binaries
+    are found (Closes: #597822: Some cyrus commands are not found by cyrus
+    master)
+  * updated Standards-Version to 3.9.1: no changes
+
+ -- Mathieu Parent <sathieu@debian.org>  Thu, 23 Sep 2010 15:41:25 +0200
+
+kolabd (2.2.4-20100624-3) unstable; urgency=low
+
+  * Revert "disabling slapd runtime configuration"
+
+ -- Mathieu Parent <sathieu@debian.org>  Mon, 13 Sep 2010 18:18:40 +0200
+
+kolabd (2.2.4-20100624-2) unstable; urgency=low
+
+  * Fix "kolab_bootstrap no longer works with slapd (version 2.4.23)"
+    by disabling slapd runtime configuration (Closes: #595539)
+
+ -- Mathieu Parent <sathieu@debian.org>  Fri, 10 Sep 2010 00:02:49 +0200
+
+kolabd (2.2.4-20100624-1) unstable; urgency=low
+
+  * New upstream release (2.2.4-20100624)
+  * Change cyrus user and group in templates. Fix "Permissions on
+    /etc/imapd.group are wrong" (Closes: #581757) and chmod as upstream
+    does (640) instead of 644
+  * Switch to dpkg-source 3.0 (quilt) format and move templates to patches
+    (amavisd.conf.template.in and templates/imapd.conf.template.in)
+  * Fix "I can't enable/disable pop3/s and imap/s" by providing a brand new
+    cyrus.conf.template. Thanks to Matthias Geerdsen's initial patch
+    (Closes: #579933 and issue4374)
+  * Updated Standards-Version to 3.9.0: use Breaks instead of Conflicts
+    with kolab-resource-handlers and kolab-freebusy as suggested by lintian
+
+ -- Mathieu Parent <sathieu@debian.org>  Mon, 05 Jul 2010 23:18:15 +0200
+
+kolabd (2.2.3-20091217-2) unstable; urgency=medium
+
+  * Urgency set to medium as it fixes a serious bug
+  * Add ${misc:Depends} to debian/control
+  * Updated Standards-Version to 3.8.4: no changes
+  * kolabd.init: Move slapd from Required-{Start,Stop} to Should-{Start,Stop}
+    as it is only a recommend. Fix "fails to install due to incorrect
+    dependencies in init.d LSB header" (Closes: #571946)
+  * (NB: previous upload was not a snapshot)
+
+ -- Mathieu Parent <sathieu@debian.org>  Wed, 10 Mar 2010 09:40:18 +0100
+
+kolabd (2.2.3-20091217-1) unstable; urgency=low
+
+  * Package snapshot
+  * New upstream release (2.2.3-20091217)
+  * Updated patches 
+
+ -- Mathieu Parent <sathieu@debian.org>  Mon, 04 Jan 2010 22:52:25 +0100
+
+kolabd (2.2.2-20090514-2) unstable; urgency=low
+
+  * Correct Vcs-{Browser,Svn} to point to trunk
+  * Updated Standards-Version to 3.8.3: no changes
+  * Merge README.Debian with the version on wiki.kolab.org:
+    "Debian - Administrators - Kolab Installation"
+  * Add README.source as required by policy 4.14
+  * Change my email address, as I am now Debian developer
+  * apache.conf: freebusy is now in /usr/share/php/htdocs
+
+ -- Mathieu Parent <sathieu@debian.org>  Sat, 17 Oct 2009 19:45:34 +0200
+
+kolabd (2.2.2-20090514-1) unstable; urgency=low
+
+  * New upstream release 2.2.2 (2.2.2-20090514)
+
+ -- Mathieu Parent <math.parent@gmail.com>  Sun, 17 May 2009 19:09:12 +0200
+
+kolabd (2.2.1-20090407-1) unstable; urgency=low
+
+  * Upload to unstable
+  * New upstream release (2.2.1-20090407)
+    - 10-dist_conf.diff: partially integrated 
+  * debian/watch:
+    - Use main download server files.kolab.org
+    - No more mangle
+  * debian/uupdate-wrapper: Updated
+  * debian/preinst:
+    - really remove unused conffile fbview.conf.template 
+    - also remove proftpd.conf.template
+
+ -- Mathieu Parent <math.parent@gmail.com>  Mon, 11 May 2009 19:09:12 +0200
+
+kolabd (2.2.1-20090304-1) experimental; urgency=low
+
+  * New beta release 2.2.1-beta-1 (20081212)
+    + Integrated patches (wow!):
+      - 10-dist_conf
+      - 50-postfix-hashes
+      - 60-kolabdcachetool-cachefiles
+      - 80-kolab_globals
+      - 85-slapd-2.4-compat
+      - 86-slapd-syncrepl-24
+    + Moved patch: 30-bootstrap to libkolab-perl 
+    + Moved patch: 40-disable-amavis to libkolab-perl 
+    + Updated patch: 55-no-distconf_kolabsrv
+      - depends on 2.2.1 version of libkolab-perl as binaries are now there
+    + several perl script are now in libkolab-perl
+    + kolabconf has been integrated in libkolab-perl, remove dependency 
+    + kolab.conf removed (kolab/issue2994)
+    + debian/kolabd.lintian-overrides: removed, as kolab.conf is removed
+    + replaces kolab-{freebusy,filter} by php-kolab-{freebusy,filter} in
+      depends
+  * New rc release 2.2.1-rc-1 (2.2.1-20090304)
+    + part of 10-dist_conf.diff integrated
+      - for graveyard path
+      - backups are now in /var/lib/kolab/backups instead of 
+        /var/lib/backups/kolab (Closes: #510210)
+      - kolabfilter is now in /usr/bin/
+    + 92-resmgr-template.diff integrated
+    + 93-freebusy-template.diff integrated
+    + 98-freebusy-ldap.diff integrated: freebusy.conf.template: ldap server can
+      be on another machine
+  * 10-dist_conf.diff is back (again):
+    - corrected shell syntax error in dist_conf/debian
+    - corrected sed regexp to allow comma in dist_conf/common
+    - added resmgr_locksdir and resmgr_localedir
+  * 90-slapd.template.diff updated:
+    - load module syncprov
+    - don't install horde schema anymore as horde now use flat files for
+      preferences
+  * 95-resmgr-issue1383-issue2499.diff from TRUNK: Prepare kolabd for
+    kolab/issue1382 (resmgr accepts concurrent overlapping invitations) and
+    kolab/issue2499 (Notification messages by the resource manager sould be
+    localized)
+  * debian/rules
+    - don't create manpage for undocumented (s)bin
+  * debian/control:
+    - suggests clamav, clamav-daemon, spamassassin 
+  * taken from kolab-freebusy:
+    - apache.conf (referenced path changed)
+    - prerm and postinst scripts
+    - freebusy cache directory
+    - conflicts/replaces kolab-freebusy and kolab-resource-handlers 
+  * debian/copyright: refers to versionned license version
+  * debian/uupdate-wrapper: corrected tarball name 
+  * debian/uupdate-wrapper: updated to keep upsteam version
+  * updated Standards-Version to 3.8.1: no changes
+  * debian/compat: switching to compatibility-version 7:
+    - build-depends on debhelper 7
+    - replace 'dh_clean -k' by 'dh_prep'
+
+ -- Mathieu Parent <math.parent@gmail.com>  Fri, 27 Mar 2009 20:11:02 +0100
+
+kolabd (2.2.0-20080709.dfsg-2) unstable; urgency=low
+
+  * amavis-new (Closes: #499094):
+    - amavisd.conf.template to redirect scanned messages to the postfix port
+      10026. Default port make messages bounce when amavis is enabled.
+    - debian/rules to keep this template
+    - added /etc/amavis/conf.d directory as template target
+  * refreshed patches, use quilt headers
+  * debian/rules, debian/patches/90-slapd-template.diff, debian/dirs:
+    move LDAP schemas to /etc/ldap/schema 
+  * debian/patches/30-bootstrap.diff, debian/dirs: Create /var/backups/kolab
+    on package installation. Reduce the bootstrap patch
+  * 30-bootstrap.diff: moved sasl configuration from master-only to master and
+    slave part 
+  * debian/patches/30-bootstrap.diff: run newaliases on main part (not slave
+    only) 
+
+ -- Mathieu Parent <math.parent@gmail.com>  Fri, 12 Dec 2008 20:48:03 +0100
+
+kolabd (2.2.0-20080709.dfsg-1) unstable; urgency=low
+
+  * New upstream version: 2.2.0
+    - removed 80-kolab-syslog-facility.dpatch: partially applied upstream
+  * README.Debian: 
+    - Mention which daemons to stop/start,
+    - Remove unneeded creation of cyrus mailboxes
+  * switch from dpatch to quilt
+  * debian/control
+    - updated versioned dependency on libkolab-perl (Closes: #498202)
+    - added versioned dependency on kolabconf
+  * debian/rules
+    - add user postfix to group sasl during postinst, to allow authentication
+      within postfix
+    - remove /etc/kolab/templates/local.cf.template (new amavisd config)
+  * updated then removed common/dist_conf.dpatch
+    - smarty has now the good path
+    - kolab-webadmin url is now /admin
+    - added spamassassin_confdir (not used) as requested by Sascha Wilde on
+      http://kolab.org/pipermail/kolab-devel/2008-June/009079.html
+    - removed: integrated upstream
+    - back for some time
+  * updated patch 30-bootstrap
+    - run newaliases at the end of kolab_bootstrap
+    - gethostname rewriten upstream to use Net::Domain
+    - slapcat run under openldap user to prevent creation of files as root
+  * new patch 40-disable-amavis: amavis is suggested, so disabled as default
+  * new patch 50-postfix-hashes: Postfix hashes templates
+    - Added RUNONCHANGE=/usr/sbin/postmap -o @emailserver_confdir@/... so that 
+      kolabconf doesn't need to know about postfix
+  * new patch 55-no-distconf_kolabsrv: distconf/kolabsrv.in is not shipped in.
+    We don't need it anyway.
+  * new patch 80-kolab_globals.dpatch:
+    - use syncrepl LDAP backend, the only one compatible with slapd 2.4
+    - use syslog
+  * new patch 85-slapd-2.4-compat: to be compatible with slapd 2.4 (Closes: 
+    #473881)
+  * new patch 86-slapd-syncrepl-24: to enable syncrepl
+    (Closes: #463791)
+  * updated patch 90-slapd-template: enable horde.schema by default 
+  * updated patch 91-postfix-template: partially applied upstream
+  * updated patch 92-resmgr-template, path is now /etc/kolab/filter/config.php
+    and format has changed (updated debian/dirs accordingly)
+  * updated patch 93-freebusy-template, path is now
+    /etc/kolab/freebusy/config.php and format has changed (updated debian/dirs
+    accordingly)
+  * Re-add rfc2739 schema with a copyright notice: see
+    http://lists.debian.org/debian-legal/2008/04/msg00087.html
+  * debian/postinst: add user cyrus to group kolab. This is needed for PKI.
+  * Bump Standards-Version to 3.8.0 (updated Vcs-Browser and Vcs-Svn fields) 
+  * debian/preinst: remove unused_conffile
+    /etc/kolab/templates/fbview.conf.template 
+
+ -- Mathieu Parent <math.parent@gmail.com>  Thu, 30 Oct 2008 21:52:55 +0100
+
+kolabd (2.1.0-20070510.dfsg-3) unstable; urgency=low
+
+  * Internal Subversion repository reorganization to keep common patches in
+    common location, in particular patches/common/dist_conf.dpatch
+  * Updated standards version
+  * Set syslog as logging method in freebusy.conf template (closes: #455071)
+  * Changed control fields XS-Vcs-* to Vcs-*
+
+ -- Peter Eisentraut <petere@debian.org>  Fri, 22 Feb 2008 15:52:14 +0100
+
+kolabd (2.1.0-20070510.dfsg-2) unstable; urgency=low
+
+  [ Peter Eisentraut ]
+  * Aligned installation paths in templates with kolab-resource-handlers
+    package
+  * Dropped Apache templates; configuration is currently provided by
+    kolab-resource-handlers package
+  * Added Homepage control field
+
+  [ Philip Hands ]
+  * Added aliases_file definition to dist_conf/debian
+  * Added emailserver_master_usr definition to dist_conf/debian
+  * Added Suggests of amavisd-new
+  * Replaced flags=n by null_sender= in postfix master.cf template
+  * Corrected resmgr.conf permissions
+
+ -- Peter Eisentraut <petere@debian.org>  Fri, 02 Nov 2007 16:52:09 +0100
+
+kolabd (2.1.0-20070510.dfsg-1) unstable; urgency=low
+
+  * New upstream release
+    - Updated patches
+    - Obsoleted patches: 10-perl-path-fixes.dpatch,
+      40-kolabd-pid-file.dpatch,
+      50-kolabpasswd-slappasswd-path
+  * Removed obsolete horde-sarge-iCal.patch
+  * Raised Postfix dependencies to version 2.4
+  * Revived kolab_bootstrap
+  * Don't ignore errors from make distclean, as per lintian check
+  * Fixed default hostname suggested by kolab_bootstrap
+  * Removed cache initialization from postinst, because kolabdcachetool
+    was removed
+  * Updated installation instructions in README.Debian
+
+ -- Peter Eisentraut <petere@debian.org>  Tue, 31 Jul 2007 18:49:48 +0200
+
+kolabd (1.9.4-20060707.dfsg-4) unstable; urgency=low
+
+  [ Steffen Joeris ]
+  * Change maintainer address
+
+  [ Noèl Köthe ]
+  * remove $mydestination from kolab-ldapdistlist.cf; doesn't work there
+
+  [ Peter Eisentraut ]
+  * Install kolab_bootstrap under /usr/share/doc, so it doesn't look so
+    much like you can actually use it (closes: #365876)
+  * Added XS-Vcs-Browser field
+
+ -- Peter Eisentraut <petere@debian.org>  Tue, 29 May 2007 14:40:51 +0200
+
+kolabd (1.9.4-20060707.dfsg-3) unstable; urgency=medium
+
+  [ Peter Eisentraut ]
+  * Moved slapd to Recommends, and removed some other unnecessary
+    dependencies (closes: #400022)
+  * Added pointer to kolab-webadmin setup instructions (closes: #370531)
+  * Changed php path to /usr/bin/php4 to be explicit (closes: #401831)
+  * Improve explanation about apache configuration
+
+  [ Steffen Joeris ]
+  * Minor fixes to README.Debian and adding some useful information
+  * Fix README part about ldap configuration to avoid slapd
+    complaints about DB_CONFIG file and slapd.args file
+
+ -- Noèl Köthe <noel@debian.org>  Thu, 28 Dec 2006 11:56:29 +0100
+
+kolabd (1.9.4-20060707.dfsg-2) unstable; urgency=medium
+
+  * Added version number to lsb-base dependency
+  * Restricted permissions on configuration files containing passwords
+  * Enhanced init script
+  * Put Postfix LDAP configuration into separate files
+  * Added XS-X-Vcs-Svn field
+  * Fixed quotawarn.db path
+  * Ensure complete purge
+
+ -- Peter Eisentraut <petere@debian.org>  Wed,  8 Nov 2006 17:56:15 +0100
+
+kolabd (1.9.4-20060707.dfsg-1) unstable; urgency=low
+
+  * New upstream release
+
+  [ Steffen Joeris ]
+  * Include patch to allow configuration for syslog (Closes: #368977)
+    Thanks to Marc Brockschmidt
+  * Add minor remind to README.Debian
+  * Include parts of the patch for the README.Debian documentation
+    (Closes: #375431) Thanks to Shri Shrikumar
+  * Correct order of slapd.conf in README.Debian to avoid complainings
+    from slapd (Closes: #370032) Thanks to Johannes Graumann
+  * Add specific dependency against postfix to make sure null_sender
+    patch is available in postfix and update the README.Debian to make
+    sure that we use the option null_sender= (Closes: #347262)
+
+  [ Noèl Köthe ]
+  * add horde-sarge-iCal.patch to package. Only sarge
+    horde needs it so README.Debian becomes shorter.:)
+  * replace unclear command with more understandable command
+    (closes: Bug#370529)
+  * corrected svn.debian.org URL for new structure
+
+  [ Peter Eisentraut ]
+  * Improved package description
+  * Updated standards version
+  * Fixed Build-Depends vs. Build-Depends-Indep
+  * Added watch file
+  * Changed priority to extra for policy conformance
+  * Added placeholder man pages
+
+ -- Peter Eisentraut <petere@debian.org>  Fri, 15 Sep 2006 15:56:22 +0200
+
+kolabd (1.9.4dfsg-3) unstable; urgency=low
+
+  * Fixed init script messages (closes: #360936)
+  * Clean everything on purge (closes: #360932)
+  * Use /usr/share/dpatch/dpatch-run in dpatches
+  * Do not create /var/log in this package (closes: #360934)
+  * Fixed kolab2.schema patch (closes: #360949)
+
+ -- Peter Eisentraut <petere@debian.org>  Fri,  7 Apr 2006 15:08:40 +0200
+
+kolabd (1.9.4dfsg-2) unstable; urgency=low
+
+  * fix problem with removed rfc2739
+
+ -- Noèl Köthe <noel@debian.org>  Tue, 21 Mar 2006 22:51:29 +0100
+
+kolabd (1.9.4dfsg-1) experimental; urgency=low
+
+  * Initial release
+  part of the Kolab Groupware. See ITP #180634 or Kolab on alioth
+  https://alioth.debian.org/projects/pkg-kolab/
+  (closes: Bug#180634)
+
+ -- Steffen Joeris <steffen.joeris@skolelinux.de>  Sat, 04 Mar 2006 19:03:25 +0100
+
