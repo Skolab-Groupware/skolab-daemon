@@ -1,6 +1,6 @@
 AC_PREREQ(2.59)
 
-AC_INIT([kolabd], m4_esyscmd([./version.sh | tr -d '\n']),[kolab-devel@kolab.org])
+AC_INIT([skolab-daemon], m4_esyscmd([./version.sh | tr -d '\n']),[https://github.com/Skolab-Groupware/skolab-daemon/issues])
 AC_CONFIG_AUX_DIR(.)
 
 AM_INIT_AUTOMAKE([gnu] [1.7] [dist-bzip2] [no-dist-gzip])
@@ -33,4 +33,3 @@ Makefile
 ])
 
 AC_OUTPUT
-
