@@ -1,37 +1,39 @@
-Documentation to install Kolab on Debian
+# Documentation to install Skolab on Debian
 
-The Kolab groupware server system consists of several interacting
+The Skolab groupware server system consists of several interacting
 parts that need to be configured to work together.  They include the
 LDAP server, the SMTP server, the IMAP server, and the web server, as
-well as the Kolab server itself.  The Kolab configuration scripts want
+well as the Skolab server itself.  The Skolab configuration scripts want
 to reconfigure some of these services without much regard to what else
 they might be doing.  So to try this out, it is advisable to use a
 completely separate test system or a virtual machine at first.  Once
 you have developed an acceptable setup, you can transfer the
 configuration files to the production system.
 
-== Clients ==
+## Clients
 
-The Kolab packages do not come with end-user client programs.  The
-following programs are the primary available Kolab clients:
+The Skolab packages do not come with end-user client programs.  The
+following programs are the primary available Skolab clients:
 
-* KDE Client: Kontact (Debian package kontact)
-* Microsoft Outlook with proprietary connector
+  * KDE Client: Kontact (Debian package kontact)
+  * Microsoft Outlook with proprietary connector
 
 The following programs among others provide limited or experimental
-support for Kolab:
+support for Skolab:
 
-* Horde (Debian package horde3)
-* Mozilla Thunderbird a.k.a. Icedove (Debian package icedove)
+  * Horde (Debian package horde3)
+  * Mozilla Thunderbird a.k.a. Icedove (Debian package icedove)
 
 See <http://kolab.org/about-kolab-clients.html> and 
 <http://wiki.kolab.org/index.php/Clients_for_Kolab2> for more information.
 
-== Installation ==
+## Installation
 
 Install this kolabd package with all dependencies:
 
- apt-get install kolabd postfix slapd
+```
+ apt-get install skolab-daemon postfix slapd
+```
 
 (postfix conflicts with exim4, so it may be necessary to mention it
 explicitly to convince apt-get to install it.  slapd must be installed
@@ -41,72 +43,87 @@ packages.)
 
 Or you use
 
- aptitude install kolabd
+```
+ aptitude install skolab-daemon
+```
 
 which will figure all this out automatically.
 
 If you want to setup slaves, on the master, set ''SLAPD_SERVICES'' in
 ''/etc/default/slapd'' and run ''/etc/init.d/slapd restart'':
 
+```
  SLAPD_SERVICES="ldap://127.0.0.1:389/ ldaps:/// ldapi:///"
+```
 
 If you want to enable ''imaps'', uncomment the following line in
 ''/etc/cyrus.conf'' and run ''/etc/init.d/kolab-cyrus restart'':
 
+```
  imaps          cmd="imapd -s -U 30" listen="imaps" prefork=0 maxchild=100
+```
 
-== Bootstrap ==
+## Bootstrap
 
 Stop all daemons:
 
+```
  /etc/init.d/apache2 stop
- /etc/init.d/kolabd stop
+ /etc/init.d/skolab-daemon stop
  /etc/init.d/kolab-cyrus stop
  /etc/init.d/postfix stop
  /etc/init.d/saslauthd stop
  /etc/init.d/slapd stop
  /etc/init.d/amavis stop #optionally
+```
 
 Run:
 
- kolab_bootstrap -b
+```
+ skolab_bootstrap -b
+```
 
 (This will ask you a number of questions and overwrite several
-configuration files in your system based on the answers.  You can
-check in /etc/kolab/templates/ for which files might be overwritten in
-what way.)
+configuration files in your system based on the answers.  You can check
+in /etc/skolab/templates/ for which files might be overwritten in what
+way.)
 
-After kolab_bootstrap has finished, you can start all the daemons
+After skolab_bootstrap has finished, you can start all the daemons
 again:
 
+```
  /etc/init.d/amavis start #optionally
  /etc/init.d/slapd start
  /etc/init.d/saslauthd start
  /etc/init.d/postfix start
  /etc/init.d/kolab-cyrus start
- /etc/init.d/kolabd start
+ /etc/init.d/skolab-daemon start
  /etc/init.d/apache2 start
+```
 
 You can test afterwards whether authentication is working as expected
 by using the testsaslauthd command, e.g.,
 
+```
  testsaslauthd -u manager -p PASSWORD
+```
 
-(using the password that you configured in kolab_bootstrap.)
+(using the password that you configured in skolab_bootstrap.)
 
-== Web administration frontend ==
+## Web administration frontend
 
 If you want the Web Administration frontend, install the package
-kolab-webadmin and follow its README.Debian file for setup
+skolab-webadmin and follow its README.Debian file for setup
 instructions.
 
- apt-get install kolab-webadmin
+ apt-get install skolab-webadmin
 
-== Enabling TLS for IMAP ==
+## Enabling TLS for IMAP
 
 If you are planning to use the Toltec Groupware Connector, you will
 also need to enable TLS with Cyrus.
 
+```
  openssl req -new -nodes -out req.pem -keyout key.pem  
  openssl rsa -in key.pem -out new.key.pem
  openssl x509 -in req.pem -out ca-cert -req -signkey new.key.pem -days 999 
@@ -117,12 +134,15 @@ also need to enable TLS with Cyrus.
 
  chown cyrus:mail /etc/ssl/certs/cyrus.pem
  chmod 600 /etc/ssl/certs/cyrus.pem  # Your key should be protected.
+```
 
 Edit /etc/imapd.conf and change the following lines:
 
+```
  tls_ca_file: /etc/ssl/certs/cyrus.pem
  tls_cert_file: /etc/ssl/certs/cyrus.pem
  tls_key_file: /etc/ssl/certs/cyrus.pem
+```
 
 == Troubleshooting ==
 
@@ -131,5 +151,4 @@ related to some problems with the ptloader from the kolab-cyrus, it
 helps to create the directory /var/lib/cyrus/ptclient.  But this
 shouldn't be the case, and we will keep an eye on this bug.
 
--- The Debian Kolab Maintainers, 31 July 2007
-
+-- Mike Gabriel, January 2017
