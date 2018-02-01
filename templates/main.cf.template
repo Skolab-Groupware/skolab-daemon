@@ -21,16 +21,6 @@ message_size_limit = @@@postfix-message-size-limit@@@
 message_size_limit = 20971520
 @@@endif@@@
 
-#   paths
-command_directory = @@@sbindir@@@
-daemon_directory = @@@libexecdir@@@/postfix
-queue_directory = @@@emailserver_localstatedir@@@
-
-#   users
-mail_owner= @@@emailserver_mail_owner@@@
-setgid_group= @@@emailserver_setgid_grp@@@
-default_privs= @@@emailserver_default_privs@@@
-
 #   local host
 myhostname = @@@fqdnhostname@@@
 mydomain = @@@postfix-mydomain@@@
