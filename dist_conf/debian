@@ -21,8 +21,8 @@ restricted_kolab_grp=kolab
 LDAPD=slapd
 
 kolab_rcdir=${sysconfdir}/init.d
-pkgdocdir=${datadir}/doc/kolab
-kolabconf_script=${sbindir}/kolabconf
+pkgdocdir=${datadir}/doc/skolab-daemon
+kolabconf_script=${sbindir}/skolabconf
 
 # perl -V:vendorlib | sed "s/.*'\(.*\)'\;/\1/"
 
@@ -79,17 +79,17 @@ imap_lmtp=${localstatedir}/run/cyrus/socket/lmtp
 imap_notify_socket=${localstatedir}/run/cyrus/socket/notify
 
 syslog_facility=local5
-kolab_statedir=${localstatedir}/lib/kolab
-kolab_logdir=${localstatedir}/log/kolab
+kolab_statedir=${localstatedir}/lib/skolab
+kolab_logdir=${localstatedir}/log/skolab
 kolab_hooksdir=${kolab_statedir}/hooks
-kolab_pidfile=${sysrundir}/kolab.pid
+kolab_pidfile=${sysrundir}/skolab.pid
 kolab_mailboxuiddb=${kolab_statedir}/mailbox-uidcache.db
 kolab_smtpdpolicy_conffile_usr=${kolab_musr}
 kolab_smtpdpolicy_conffile_grp=${kolab_grp}
 #kolab_php_module_prefix=
 kolab_scriptsdir=${sbindir}
 kolab_php_smarty_prefix=smarty/libs
-smarty_compiledir=/var/cache/kolab-webadmin/templates
+smarty_compiledir=/var/cache/skolab-webadmin/templates
 
 # Kolab web user interface
 kolab_wui=/admin
@@ -110,10 +110,10 @@ ldapserver_rgrp=openldap
 ldapserver_rusr=openldap
 ldapserver_modulepath=/usr/lib/ldap
 
-webserver_document_root=/usr/share/kolab
+webserver_document_root=/usr/share/skolab
 #webserver_tmpdir=
 webserver_cgidir=${webserver_document_root}/cgi-bin
-webserver_sessions=${localstatedir}/cache/kolab/httpd_sessions
+webserver_sessions=${localstatedir}/cache/skolab/httpd_sessions
 webserver_logdir=${localstatedir}/log/apache2
 webserver_acceptlock=${webserver_logdir}/accept.lock
 webserver_runtime_status=${webserver_logdir}/apache_runtime_status
@@ -130,18 +130,18 @@ webserver_grp=www-data
 
 #webclient
 horde_cookie_path=/horde3
-horde_confdir=${sysconfdir}/kolab-webclient/horde3
-dimp_confdir=${sysconfdir}/kolab-webclient/dimp1
-imp_confdir=${sysconfdir}/kolab-webclient/imp4
-ingo_confdir=${sysconfdir}/kolab-webclient/ingo1
-kronolith_confdir=${sysconfdir}/kolab-webclient/kronolith2
-mimp_confdir=${sysconfdir}/kolab-webclient/mimp1
-mnemo_confdir=${sysconfdir}/kolab-webclient/mnemo2
-nag_confdir=${sysconfdir}/kolab-webclient/nag2
-passwd_confdir=${sysconfdir}/kolab-webclient/passwd3
-turba_confdir=${sysconfdir}/kolab-webclient/turba2
+horde_confdir=${sysconfdir}/skolab-webclient/horde3
+dimp_confdir=${sysconfdir}/skolab-webclient/dimp1
+imp_confdir=${sysconfdir}/skolab-webclient/imp4
+ingo_confdir=${sysconfdir}/skolab-webclient/ingo1
+kronolith_confdir=${sysconfdir}/skolab-webclient/kronolith2
+mimp_confdir=${sysconfdir}/skolab-webclient/mimp1
+mnemo_confdir=${sysconfdir}/skolab-webclient/mnemo2
+nag_confdir=${sysconfdir}/skolab-webclient/nag2
+passwd_confdir=${sysconfdir}/skolab-webclient/passwd3
+turba_confdir=${sysconfdir}/skolab-webclient/turba2
 
-phpini_dir=${sysconfdir}/kolab
+phpini_dir=${sysconfdir}/skolab
 phplibdir=${datadir}/php
 phplibdir2=${datadir}/php
 phppeardir=${phplibdir}/PEAR
@@ -153,7 +153,7 @@ sasl_logfile=${localstatedir}/log/saslauthd.log
 sysrundir=${localstatedir}/run
 
 resmgr_logdir=${localstatedir}/log
-resmgr_confdir=${sysconfdir}/kolab/filter
+resmgr_confdir=${sysconfdir}/skolab/filter
 resmgr_conffile_usr=kolab
 resmgr_conffile_grp=root
 #resmgr_tmpdir=
@@ -167,7 +167,7 @@ resmgr_log_name='cons,pid'
 
 fbview_logfile=${localstatedir}/log/fbview.log
 freebusy_logdir=${localstatedir}/log
-freebusy_confdir=${sysconfdir}/kolab/freebusy
+freebusy_confdir=${sysconfdir}/skolab/freebusy
 freebusy_cachedir=${kolab_statedir}/freebusy-cache
 freebusy_usr=root
 freebusy_grp=www-data
