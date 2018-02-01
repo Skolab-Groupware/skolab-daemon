@@ -11,11 +11,11 @@
 # Short-Description: Start Skolab Groupware Server
 ### END INIT INFO
 
-if [ ! -x /usr/sbin/skolabd ]; then
+if [ ! -x /usr/sbin/kolab ]; then
 	exit 5
 fi
 
-DAEMON=/usr/sbin/skolab-daemon
+DAEMON=/usr/sbin/kolabd
 PIDFILE=/var/run/skolab.pid
 
 . /lib/lsb/init-functions
