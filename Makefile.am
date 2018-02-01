@@ -121,7 +121,7 @@ skolabdoc_GENERATED = doc/README.amavisd					\
 	doc/README.webgui						\
 	$(NULL)
 
-skolabdocdir = $(pkgdocdir)/@PACKAGE@
+skolabdocdir = $(pkgdocdir)
 skolabdoc_DATA = $(skolabdoc_FILES) $(skolabdoc_GENERATED)
 
 skolabsbin_FILES = dist_conf/kolabsrv
