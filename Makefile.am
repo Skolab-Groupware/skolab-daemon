@@ -27,7 +27,7 @@ dist_kolabconfig_DATA = $(kolabconfig_FILES)
 
 kolabfixedtemplatedir = $(kolabconfdir)/templates
 kolabfixedtemplate_FILES =						\
-	templates/amavis\:\:amavisd.conf.template			\
+	templates/amavis\:\:40-skolab.template				\
 	templates/apache\:\:httpd.conf.template				\
 	templates/apache\:\:httpd.local.template			\
 	templates/apache\:\:php.ini.template				\
