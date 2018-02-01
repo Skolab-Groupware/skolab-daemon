@@ -1,7 +1,7 @@
-etc/amavis/conf.d
-etc/skolab/filter
-etc/skolab/freebusy
-etc/ldap/schema
-var/lib/skolab
-var/lib/skolab/backups
-var/lib/skolab/freebusy-cache
+etc/amavis/conf.d/
+etc/skolab/filter/
+etc/skolab/freebusy/
+etc/ldap/schema/
+var/lib/skolab/
+var/lib/skolab/backups/
+var/lib/skolab/freebusy-cache/
