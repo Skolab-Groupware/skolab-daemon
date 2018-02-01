@@ -1,6 +1,6 @@
 AC_PREREQ(2.59)
 
-AC_INIT([skolab-daemon], m4_esyscmd([./version.sh | tr -d '\n']),[https://github.com/Skolab-Groupware/skolab-daemon/issues])
+AC_INIT([skolab-daemon], m4_esyscmd([cat VERSION | tr -d '\n']),[https://github.com/Skolab-Groupware/skolab-daemon/issues])
 AC_CONFIG_AUX_DIR(.)
 
 AM_INIT_AUTOMAKE([gnu] [1.7] [dist-bzip2] [no-dist-gzip])
