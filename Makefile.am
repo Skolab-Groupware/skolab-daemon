@@ -113,8 +113,6 @@ dist_amavisdde_DATA = $(amavisdde_FILES)
 skolabdoc_FILES = doc/README.ldapdelete					\
 	doc/README.outlook						\
 	doc/README.sieve						\
-	ChangeLog							\
-	COPYING								\
 	NEWS								\
 	AUTHORS								\
 	$(NULL)
