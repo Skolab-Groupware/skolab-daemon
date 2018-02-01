@@ -3,3 +3,4 @@ doc/README.ldapdelete
 doc/README.outlook
 doc/README.sieve
 doc/README.webgui
+debian/changelog.kolabd
