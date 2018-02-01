@@ -8,25 +8,25 @@ distclean-local:
 	rm -rf $(srcdir)/autom4te*.cache
 
 # is sometimes used in this file
-kolabconfdir = $(sysconfdir)/kolab
+skolabconfdir = $(sysconfdir)/skolab
 
-kolabdir = $(kolab_scriptsdir)
+skolabdir = $(skolab_scriptsdir)
 
-kolab_SCRIPTS = $(KOLAB_SCRIPTS_FILES)					\
-	kolab_sslcert.sh						\
-	kolab_ca.sh							\
+skolab_SCRIPTS = $(KOLAB_SCRIPTS_FILES)					\
+	skolab_sslcert.sh						\
+	skolab_ca.sh							\
 	$(NULL)
 
-kolabspecialdir = $(kolabconfdir)
-kolabspecial_DATA = kolab.globals
+skolabspecialdir = $(skolabconfdir)
+skolabspecial_DATA = kolab.globals
 
-kolabconfig_FILES = rootDSE.ldif
+skolabconfig_FILES = rootDSE.ldif
 
-kolabconfigdir = $(kolabconfdir)
-dist_kolabconfig_DATA = $(kolabconfig_FILES)
+skolabconfigdir = $(skolabconfdir)
+dist_skolabconfig_DATA = $(skolabconfig_FILES)
 
-kolabfixedtemplatedir = $(kolabconfdir)/templates
-kolabfixedtemplate_FILES =						\
+skolabfixedtemplatedir = $(skolabconfdir)/templates
+skolabfixedtemplate_FILES =						\
 	templates/amavis\:\:40-skolab.template				\
 	templates/apache\:\:httpd.conf.template				\
 	templates/apache\:\:httpd.local.template			\
@@ -61,9 +61,9 @@ kolabfixedtemplate_FILES =						\
 	templates/spamassassin\:\:local.cf.template			\
 	$(NULL)
 
-dist_kolabfixedtemplate_DATA = $(kolabfixedtemplate_FILES)
+dist_skolabfixedtemplate_DATA = $(skolabfixedtemplate_FILES)
 
-kolabnamespace_FILES = namespace/libexec/newconfig			\
+skolabnamespace_FILES = namespace/libexec/newconfig			\
 	namespace/libexec/adduser					\
 	namespace/libexec/deluser					\
 	namespace/libexec/listusers					\
@@ -74,8 +74,8 @@ kolabnamespace_FILES = namespace/libexec/newconfig			\
 	namespace/libexec/stop						\
 	$(NULL)
 
-kolabnamespacedir = $(libexecdir)/kolab
-kolabnamespace_DATA = $(kolabnamespace_FILES)
+skolabnamespacedir = $(libexecdir)/skolab
+skolabnamespace_DATA = $(skolabnamespace_FILES)
 
 
 ldapschema_FILES =  kolab2.schema
@@ -110,7 +110,7 @@ amavisddedir = $(amavisd_templatedir)/de
 dist_amavisdde_DATA = $(amavisdde_FILES)
 
 
-kolabdoc_FILES = doc/README.ldapdelete					\
+skolabdoc_FILES = doc/README.ldapdelete					\
 	doc/README.outlook						\
 	doc/README.sieve						\
 	ChangeLog							\
@@ -119,41 +119,41 @@ kolabdoc_FILES = doc/README.ldapdelete					\
 	AUTHORS								\
 	$(NULL)
 
-kolabdoc_GENERATED = doc/README.amavisd					\
+skolabdoc_GENERATED = doc/README.amavisd					\
 	doc/README.webgui						\
 	$(NULL)
 
-kolabdocdir = $(pkgdocdir)/@PACKAGE@
-kolabdoc_DATA = $(kolabdoc_FILES) $(kolabdoc_GENERATED)
+skolabdocdir = $(pkgdocdir)/@PACKAGE@
+skolabdoc_DATA = $(skolabdoc_FILES) $(skolabdoc_GENERATED)
 
-kolabsbin_FILES = dist_conf/kolabsrv
+skolabsbin_FILES = dist_conf/kolabsrv
 
-kolabsbindir = $(sbindir)/
-kolabsbin_DATA = $(kolabsbin_FILES)
+skolabsbindir = $(sbindir)/
+skolabsbin_DATA = $(skolabsbin_FILES)
 
 
-kolabbindir = $(bindir)
+skolabbindir = $(bindir)
 
-kolabbin_DATA = $(KOLABBIN_FILES)
+skolabbin_DATA = $(KOLABBIN_FILES)
 
-generated_files = $(kolabspecial_DATA)					\
-	$(kolabtemplate_DATA)						\
-	$(kolabdoc_GENERATED)						\
+generated_files = $(skolabspecial_DATA)					\
+	$(skolabtemplate_DATA)						\
+	$(skolabdoc_GENERATED)						\
 	dist_conf/kolabsrv						\
 	$(NULL)
 
-generated_executables = $(kolabsbin_DATA)				\
-	$(kolab_SCRIPTS)						\
-	$(kolabbin_DATA)						\
-	$(kolabrc_DATA)							\
-	$(kolabnamespace_DATA)						\
+generated_executables = $(skolabsbin_DATA)				\
+	$(skolab_SCRIPTS)						\
+	$(skolabbin_DATA)						\
+	$(skolabrc_DATA)							\
+	$(skolabnamespace_DATA)						\
 	$(NULL)
 
 EXTRA_DIST = 
 CLEANFILES =
 
 EXTRA_DIST += $(patsubst %,%.in,$(generated_executables) $(generated_files))
-EXTRA_DIST += $(kolabdoc_FILES)
+EXTRA_DIST += $(skolabdoc_FILES)
 
 CLEANFILES += $(generated_files) $(generated_executables)
 
@@ -168,7 +168,7 @@ $(generated_executables): %: %.in
 	chmod a+x $@
 
 
-# Please update the perl-kolab, kolab-webadmin and kolab-resource-handlers
+# Please update the perl-skolab, skolab-webadmin and skolab-resource-handlers
 # Makefile.ams too when the underneath EXTRA_DIST assignment is altered
 EXTRA_DIST += dist_conf/common						\
 	dist_conf/debian						\
@@ -189,7 +189,7 @@ install-data-hook:
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_sessions)
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(kolab_statedir)
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/locks
-	chmod 644 $(DESTDIR)$(kolabconfdir)/kolab.globals
-	chmod 775 $(DESTDIR)$(kolabdir)$(kolab_FILES)
-	chmod 755 $(DESTDIR)$(kolabnamespacedir)/*
+	chmod 644 $(DESTDIR)$(skolabconfdir)/kolab.globals
+	chmod 775 $(DESTDIR)$(skolabdir)$(skolab_FILES)
+	chmod 755 $(DESTDIR)$(skolabnamespacedir)/*
 	chmod 755 $(DESTDIR)$(sbindir)/kolabsrv

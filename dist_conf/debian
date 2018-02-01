@@ -81,6 +81,7 @@ imap_notify_socket=${localstatedir}/run/cyrus/socket/notify
 syslog_facility=local5
 kolab_statedir=${localstatedir}/lib/kolab
 kolab_logdir=${localstatedir}/log/kolab
+kolab_hooksdir=${kolab_statedir}/hooks
 kolab_pidfile=${sysrundir}/kolab.pid
 kolab_mailboxuiddb=${kolab_statedir}/mailbox-uidcache.db
 kolab_smtpdpolicy_conffile_usr=${kolab_musr}
