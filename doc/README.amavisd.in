@@ -14,7 +14,7 @@ Goal
 ----
 
 To have a virus-filter that, if a virus is found, notifies the sender
-of the virus if and only if the sender is a local user. 
+of the virus if and only if the sender is a local user.
 
 To prevent "backscatter" the Skolab server should never send such
 notifications to non-local users. If a virus is blocked by the filter
