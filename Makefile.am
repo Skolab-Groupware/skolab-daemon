@@ -51,7 +51,7 @@ skolabfixedtemplate_FILES =						\
 	templates/postfix\:\:virtual.template				\
 	templates/postix\:\:access.template				\
 	templates/saslauthd\:\:saslauthd.conf.template			\
-	templates/skolab\:\:kolab.conf.template				\
+	templates/skolab\:\:skolab.conf.template			\
 	templates/skolab\:\:rc.conf.template				\
 	templates/slapd\:\:DB_CONFIG.template				\
 	templates/slapd\:\:ldap.conf.template				\
