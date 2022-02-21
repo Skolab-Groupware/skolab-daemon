@@ -49,7 +49,7 @@ skolabfixedtemplate_FILES =						\
 	templates/postfix\:\:smtpd.conf.template			\
 	templates/postfix\:\:transport.template				\
 	templates/postfix\:\:virtual.template				\
-	templates/postix\:\:access.template				\
+	templates/postfix\:\:access.template				\
 	templates/saslauthd\:\:saslauthd.conf.template			\
 	templates/skolab\:\:skolab.conf.template			\
 	templates/skolab\:\:rc.conf.template				\
