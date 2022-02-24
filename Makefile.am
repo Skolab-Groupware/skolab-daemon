@@ -170,10 +170,7 @@ $(generated_executables): %: %.in
 # Makefile.ams too when the underneath EXTRA_DIST assignment is altered
 EXTRA_DIST += dist_conf/common						\
 	dist_conf/debian						\
-	dist_conf/kolab							\
 	dist_conf/skolabsrv						\
-	dist_conf/mandriva						\
-	dist_conf/suse							\
 	$(NULL)
 
 install-data-hook:
