@@ -22,7 +22,7 @@ The following programs among others provide limited or experimental
 support for Skolab:
 
   * Horde (Debian package horde3)
-  * Mozilla Thunderbird a.k.a. Icedove (Debian package icedove)
+  * Mozilla Thunderbird (Debian package thunderbird)
 
 [//]: # (FIXME: links are dead, replaced with Web Archive content for now, but should
 be properly updated and provided as the new upstream.)
