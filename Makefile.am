@@ -124,7 +124,7 @@ skolabdoc_GENERATED = doc/README.amavisd					\
 skolabdocdir = $(pkgdocdir)
 skolabdoc_DATA = $(skolabdoc_FILES) $(skolabdoc_GENERATED)
 
-skolabsbin_FILES = dist_conf/kolabsrv
+skolabsbin_FILES = dist_conf/skolabsrv
 
 skolabsbindir = $(sbindir)/
 skolabsbin_DATA = $(skolabsbin_FILES)
@@ -132,12 +132,12 @@ skolabsbin_DATA = $(skolabsbin_FILES)
 
 skolabbindir = $(bindir)
 
-skolabbin_DATA = $(KOLABBIN_FILES)
+skolabbin_DATA = $(SKOLABBIN_FILES)
 
 generated_files = $(skolabspecial_DATA)					\
 	$(skolabtemplate_DATA)						\
 	$(skolabdoc_GENERATED)						\
-	dist_conf/kolabsrv						\
+	dist_conf/skolabsrv						\
 	$(NULL)
 
 generated_executables = $(skolabsbin_DATA)				\
@@ -171,7 +171,7 @@ $(generated_executables): %: %.in
 EXTRA_DIST += dist_conf/common						\
 	dist_conf/debian						\
 	dist_conf/kolab							\
-	dist_conf/kolabsrv						\
+	dist_conf/skolabsrv						\
 	dist_conf/mandriva						\
 	dist_conf/suse							\
 	$(NULL)
@@ -190,4 +190,4 @@ install-data-hook:
 	chmod 644 $(DESTDIR)$(skolabconfdir)/skolab.globals
 	chmod 775 $(DESTDIR)$(skolabdir)$(skolab_FILES)
 	chmod 755 $(DESTDIR)$(skolabnamespacedir)/*
-	chmod 755 $(DESTDIR)$(sbindir)/kolabsrv
+	chmod 755 $(DESTDIR)$(sbindir)/skolabsrv

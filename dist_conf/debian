@@ -1,7 +1,7 @@
 BASHELL=/bin/bash
 PERL=${bindir}/perl
 PHP=${bindir}/php
-KOLABRC=${sbindir}/kolabsrv
+KOLABRC=${sbindir}/skolabsrv
 #RPM=${bindir}/rpm
 TAR=/bin/tar
 
