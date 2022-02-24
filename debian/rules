@@ -29,12 +29,12 @@ DEB_CONFIGURE_EXTRA_FLAGS := --with-dist=debian \
 #	rm -f build-stamp
 #	[ ! -f Makefile ] || $(MAKE) distclean
 #	rm -f skolabcheckperm
-#	dh_clean 
+#	dh_clean
 
 #install: build
 #	dh_testdir
 #	dh_testroot
-#	dh_prep 
+#	dh_prep
 #	dh_installdirs
 
 #	# scripts for /usr/bin and /usr/sbin
