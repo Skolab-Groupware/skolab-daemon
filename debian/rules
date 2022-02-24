@@ -38,7 +38,7 @@ DEB_CONFIGURE_EXTRA_FLAGS := --with-dist=debian \
 #	dh_installdirs
 
 #	# scripts for /usr/bin and /usr/sbin
-#	install -D -m 755 kolab_sslcert.sh debian/kolabd/usr/sbin/kolab_sslcert 
+#	install -D -m 755 skolab_sslcert.sh debian/skolab-daemon/usr/sbin/skolab_sslcert
 #	install -D -m 755 kolab_ca.sh debian/kolabd/usr/sbin/kolab_ca.sh
 
 #	# Files for /etc/kolab
