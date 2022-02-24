@@ -42,7 +42,7 @@ DEB_CONFIGURE_EXTRA_FLAGS := --with-dist=debian \
 #	install -D -m 755 kolab_ca.sh debian/kolabd/usr/sbin/kolab_ca.sh
 
 #	# Files for /etc/kolab
-#	install -D -m 644 kolab.globals debian/kolabd/etc/kolab/kolab.globals
+#	install -D -m 644 skolab.globals debian/kolabd/etc/skolab/skolab.globals
 #	# This file is obsolete we use kolabconf for it
 ##	install -D -m 755 kolab debian/kolabd/etc/kolab/kolab
 #	# unneeded simple script

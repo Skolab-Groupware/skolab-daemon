@@ -18,7 +18,7 @@ skolab_SCRIPTS = $(KOLAB_SCRIPTS_FILES)					\
 	$(NULL)
 
 skolabspecialdir = $(skolabconfdir)
-skolabspecial_DATA = kolab.globals
+skolabspecial_DATA = skolab.globals
 
 skolabconfig_FILES = rootDSE.ldif
 
@@ -187,7 +187,7 @@ install-data-hook:
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_sessions)
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(kolab_statedir)
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/locks
-	chmod 644 $(DESTDIR)$(skolabconfdir)/kolab.globals
+	chmod 644 $(DESTDIR)$(skolabconfdir)/skolab.globals
 	chmod 775 $(DESTDIR)$(skolabdir)$(skolab_FILES)
 	chmod 755 $(DESTDIR)$(skolabnamespacedir)/*
 	chmod 755 $(DESTDIR)$(sbindir)/kolabsrv
