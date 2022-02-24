@@ -39,7 +39,7 @@ skolabfixedtemplate_FILES =						\
 	templates/cyrus-imap\:\:imapd.group.template			\
 	templates/postfix\:\:canonical.template				\
 	templates/postfix\:\:header_checks.template			\
-	templates/postfix\:\:kolab_smtpdpolicy.conf.template		\
+	templates/postfix\:\:skolab_smtpdpolicy.conf.template		\
 	templates/postfix\:\:ldapdistlist.cf.template			\
 	templates/postfix\:\:ldaptransport.cf.template			\
 	templates/postfix\:\:ldapvirtual.cf.template			\
