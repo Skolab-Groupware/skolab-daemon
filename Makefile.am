@@ -78,7 +78,7 @@ skolabnamespacedir = $(libexecdir)/skolab
 skolabnamespace_DATA = $(skolabnamespace_FILES)
 
 
-ldapschema_FILES =  kolab2.schema
+ldapschema_FILES = skolab2.schema
 
 ldapschemadir = $(ldapserver_schemadir)
 dist_ldapschema_DATA = $(ldapschema_FILES)

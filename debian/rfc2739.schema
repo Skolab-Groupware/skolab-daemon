@@ -47,7 +47,7 @@
 #  include /kolab/etc/openldap/schema/cosine.schema
 #  include /kolab/local/etc/openldap/schema/inetorgperson.schema
 #  include /kolab/local/etc/openldap/schema/rfc2739.schema
-#  include /kolab/local/etc/openldap/schema/kolab2.schema
+#  include /kolab/local/etc/openldap/schema/skolab2.schema
 
 #
 ################################

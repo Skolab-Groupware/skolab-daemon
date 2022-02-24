@@ -26,7 +26,7 @@ moduleload     unique
 include @@@ldapserver_schemadir@@@/core.schema
 include @@@ldapserver_schemadir@@@/cosine.schema
 include @@@ldapserver_schemadir@@@/inetorgperson.schema
-include @@@ldapserver_schemadir@@@/kolab2.schema
+include @@@ldapserver_schemadir@@@/skolab2.schema
 
 # Only include this in case you need the calFBURL attribute in
 # kolabInetOrgPerson objects.

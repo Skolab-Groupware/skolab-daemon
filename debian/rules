@@ -56,7 +56,7 @@ DEB_CONFIGURE_EXTRA_FLAGS := --with-dist=debian \
 #	# LDAP schemas
 #	install -D -m 644 debian/rfc2739.schema debian/kolabd/etc/ldap/schema/rfc2739.schema
 #	install -D -m 644 horde.schema debian/kolabd/etc/ldap/schema/horde.schema
-#	install -D -m 644 kolab2.schema debian/kolabd/etc/ldap/schema/kolab2.schema
+#	install -D -m 644 skolab2.schema debian/kolabd/etc/ldap/schema/skolab2.schema
 
 #	#apache config
 #	install -D -m 644 debian/apache.conf debian/kolabd/etc/kolab/apache.conf
