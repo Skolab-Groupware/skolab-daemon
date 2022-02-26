@@ -1,9 +1,9 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@webserver_confdir@@@/apache.conf
 PERMISSIONS=0640
 OWNERSHIP=@@@webserver_musr@@@:@@@webserver_grp@@@
 RUNONCHANGE=@@@SKOLABRC@@@ rc apache reload
-KOLAB_META_END
+SKOLAB_META_END
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003 Martin Konold <martin.konold@erfrakon.de>
 # (c) 2003 Achim Frank <achim.frank@erfrakon.de>
@@ -17,7 +17,7 @@ ServerRoot "@@@prefix@@@"
 
 # do not require SSL as default for now
 SSLVerifyClient         none
-#SSLCACertificateFile    @@@sysconfdir@@@/kolab/server.pem
+#SSLCACertificateFile    @@@sysconfdir@@@/skolab/server.pem
 SSLSessionCache         dbm:@@@webserver_sslscache@@@
 SSLSessionCacheTimeout  300
 SSLMutex                file:@@@webserver_sslmutex@@@
@@ -41,8 +41,8 @@ RewriteRule ^/freebusy/(.+)\.pxfb %{DOCUMENT_ROOT}/freebusy/pfb.php?folder=$1&ca
 <VirtualHost _default_:443>
 SSLEngine               on
 SSLCipherSuite          ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
-SSLCertificateFile      @@@sysconfdir@@@/kolab/cert.pem
-SSLCertificateKeyFile   @@@sysconfdir@@@/kolab/key.pem
+SSLCertificateFile      @@@sysconfdir@@@/skolab/cert.pem
+SSLCertificateKeyFile   @@@sysconfdir@@@/skolab/key.pem
 
 RewriteEngine On
 RewriteOptions inherit
@@ -141,9 +141,9 @@ DocumentRoot "@@@webserver_document_root@@@"
 AccessFileName .htaccess
 
 <Location "@@@webserver_web_prefix@@@/">
-    ErrorDocument 403 https://@@@fqdnhostname@@@@@@kolab_wui@@@/
+    ErrorDocument 403 https://@@@fqdnhostname@@@@@@skolab_wui@@@/
 </Location>
-<Location "@@@kolab_wui@@@">
+<Location "@@@skolab_wui@@@">
     SSLRequireSSL
 </Location>
 <Location "@@@webserver_web_prefix@@@/client">
@@ -161,8 +161,8 @@ AccessFileName .htaccess
 </Location>
 @@@endif@@@
 
-# Redirect from the old Kolab web client location (Kolab-Server-2.2.0)
-# to the new one (Kolab-Server >= 2.2.1)
+# Redirect from the old Skolab web client location (Skolab-Server-2.2.0)
+# to the new one (Skolab-Server >= 2.2.1)
 Redirect /horde https://@@@fqdnhostname@@@/client
 
 <Files ~ "^\.ht">
@@ -189,7 +189,7 @@ CustomLog @@@webserver_accesslogfile@@@ common
 ServerTokens Full
 ServerSignature On
 
-Alias /public-cal/ics "@@@webserver_document_root@@@/client/kronolith/ics_kolab.php"
+Alias /public-cal/ics "@@@webserver_document_root@@@/client/kronolith/ics_skolab.php"
 
 <Directory "@@@webserver_document_root@@@/icons">
     Options Indexes MultiViews
@@ -230,7 +230,7 @@ ScriptAlias /cgi-bin/ "@@@webserver_document_root@@@/cgi-bin/"
 @@@else@@@
    Require valid-user
    AuthType Basic
-   AuthName "Kolab Freebusy"
+   AuthName "Skolab Freebusy"
 
    AuthBasicAuthoritative off
    AuthUserFile /dev/null
@@ -249,7 +249,7 @@ ScriptAlias /cgi-bin/ "@@@webserver_document_root@@@/cgi-bin/"
     Allow from all
 </Directory>
 
-<Directory "@@@webserver_document_root@@@@@@kolab_wui@@@">
+<Directory "@@@webserver_document_root@@@@@@skolab_wui@@@">
    AllowOverride None
    Options None
    Order allow,deny
@@ -370,6 +370,6 @@ BrowserMatch "Microsoft Data Access Internet Publishing Provider" redirect-caref
 BrowserMatch "^WebDrive" redirect-carefully
 BrowserMatch "^WebDAVFS/1.[012]" redirect-carefully
 
-# used for local non Kolab extension
+# used for local non Skolab extension
 Include @@@webserver_confdir@@@/apache.local
 Include @@@webserver_confdir@@@/apache.d/*.conf

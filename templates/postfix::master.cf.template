@@ -1,9 +1,9 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@emailserver_confdir@@@/master.cf
 PERMISSIONS=0644
 OWNERSHIP=@@@emailserver_usr@@@:@@@emailserver_grp@@@
 RUNONCHANGE=@@@SKOLABRC@@@ rc postfix reload
-KOLAB_META_END
+SKOLAB_META_END
 # (c) 2004 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003 Martin Konold <martin.konold@erfrakon.de>
@@ -58,7 +58,7 @@ smtp-amavis unix -	-	n	-	2       smtp
     -o smtp_send_xforward_command=yes
     -o disable_dns_lookups=yes
 # SMTP interface for injecting mail back into postfix
-# from kolabfilter
+# from skolabfilter
 @@@local_addr@@@:10025 inet n	-	n	-	-  smtpd
 @@@if postfix-enable-virus-scan@@@
     -o content_filter=smtp-amavis:[@@@local_addr@@@]:10024
@@ -96,26 +96,26 @@ smtp-amavis unix -	-	n	-	2       smtp
     -o smtpd_error_sleep_time=0
     -o smtpd_soft_error_limit=1001
     -o smtpd_hard_error_limit=1000
-kolabpolicy    unix  -       n       n       -       -       spawn user=@@@emailserver_master_usr@@@ argv=@@@bindir@@@/kolab_smtpdpolicy 
+skolabpolicy    unix  -       n       n       -       -       spawn user=@@@emailserver_master_usr@@@ argv=@@@bindir@@@/skolab_smtpdpolicy
 
-kolabfilter     unix  -       n       n       -       -       pipe user=@@@emailserver_master_usr@@@ null_sender= argv=@@@PHP@@@
+skolabfilter     unix  -       n       n       -       -       pipe user=@@@emailserver_master_usr@@@ null_sender= argv=@@@PHP@@@
     -c @@@phpini_dir@@@/php.ini
-    -f @@@resmgr_scriptsdir@@@/kolabfilter 
+    -f @@@resmgr_scriptsdir@@@/skolabfilter
     --
     --host=@@@fqdnhostname@@@
     --sender=${sender}
     --recipient=${recipient}
     --client=${client_address}
     --user=${sasl_username}
-    --config=@@@resmgr_confdir@@@/kolabfilter.conf
+    --config=@@@resmgr_confdir@@@/skolabfilter.conf
 
-kolabmailboxfilter     unix  -       n       n       -       -       pipe user=@@@emailserver_master_usr@@@ null_sender= argv=@@@PHP@@@
+skolabmailboxfilter     unix  -       n       n       -       -       pipe user=@@@emailserver_master_usr@@@ null_sender= argv=@@@PHP@@@
     -c @@@phpini_dir@@@/php.ini
-    -f @@@resmgr_scriptsdir@@@/kolabmailboxfilter 
+    -f @@@resmgr_scriptsdir@@@/skolabmailboxfilter
     --
     --host=@@@fqdnhostname@@@
     --sender=${sender}
     --recipient=${recipient}
     --client=${client_address}
-    --config=@@@resmgr_confdir@@@/kolabfilter.conf
+    --config=@@@resmgr_confdir@@@/skolabfilter.conf
 

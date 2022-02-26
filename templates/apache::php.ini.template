@@ -1,10 +1,10 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@phpini_dir@@@/php.ini
 PERMISSIONS=0640
 OWNERSHIP=@@@webserver_musr@@@:@@@webserver_grp@@@
 RUNONCHANGE=@@@SKOLABRC@@@ rc apache reload
 COMMENT_CHAR=;
-KOLAB_META_END
+SKOLAB_META_END
 @@@warning@@@
 
 ;;
@@ -33,7 +33,7 @@ error_log          = @@@webserver_logdir@@@/php/php-errors.log
 upload_tmp_dir     = @@@webserver_tmpdir@@@
 
 ;   Include Paths
-;include_path          = ".:/kolab/lib/php"
+;include_path          = ".:/skolab/lib/php"
 include_path          = ".:@@@phplibdir@@@"
 
 ; FIXME: Do not hardcode the timezone setting
@@ -42,7 +42,7 @@ include_path          = ".:@@@phplibdir@@@"
 ; But the parameter is required for newer PHP versions as these
 ; versions refrain from using the timezone detected via the system setting.
 ;
-; It is probably necessary to add the parameter to kolab_bootstrap but 
+; It is probably necessary to add the parameter to skolab_bootstrap but
 ; before doing that I add this temporary setting to allow Horde to run.
 date.timezone = Europe/Berlin
 

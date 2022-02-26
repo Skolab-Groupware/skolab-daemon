@@ -1,8 +1,8 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@ldapserver_confdir@@@/ldap.conf
 PERMISSIONS=0644
 OWNERSHIP=@@@ldapserver_usr@@@:@@@ldapserver_grp@@@
-KOLAB_META_END
+SKOLAB_META_END
 # (c) 2004 Klaraelvdalens Datakonsult AB
 # This program is Free Software under the GNU General Public License (>=v2).
 # Read the file COPYING that comes with this packages for details.
@@ -23,5 +23,5 @@ KOLAB_META_END
 #TIMELIMIT	15
 #DEREF		never
 
-# This is required for Kolab to work with self-signed certs.
+# This is required for Skolab to work with self-signed certs.
 TLS_REQCERT     allow

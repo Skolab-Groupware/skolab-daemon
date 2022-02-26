@@ -1,9 +1,9 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@imap_confdir@@@/imapd.conf
 PERMISSIONS=0640
 OWNERSHIP=@@@imap_usr@@@:@@@imap_grp@@@
 RUNONCHANGE=@@@SKOLABRC@@@ rc imapd restart
-KOLAB_META_END
+SKOLAB_META_END
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003-2006 Martin Konold <martin.konold@erfrakon.de>
 # (c) 2003 Achim Frank <achim.frank@erfrakon.de>
@@ -34,9 +34,9 @@ lmtpsocket: 		@@@emailserver_socket@@@
 
 allowapop:              no
 
-#tls_ca_file: 		@@@sysconfdir@@@/kolab/ca/cacert.pem
-tls_cert_file: 		@@@sysconfdir@@@/kolab/cert.pem
-tls_key_file: 		@@@sysconfdir@@@/kolab/key.pem
+#tls_ca_file: 		@@@sysconfdir@@@/skolab/ca/cacert.pem
+tls_cert_file: 		@@@sysconfdir@@@/skolab/cert.pem
+tls_key_file: 		@@@sysconfdir@@@/skolab/key.pem
 
 altnamespace:           0
 unixhierarchysep:       yes
@@ -67,7 +67,7 @@ virtdomains:            ldap
 #mupdate_password:       xxx
 
 # add support for posting to shared folders
-postuser: kolab
+postuser: skolab
 userprefix: user
 sharedprefix: shared
 

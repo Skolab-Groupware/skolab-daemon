@@ -1,8 +1,8 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@emailserver_confdir@@@/ldapvirtual.cf
 PERMISSIONS=0640
 OWNERSHIP=@@@emailserver_usr@@@:@@@emailserver_grp@@@
-KOLAB_META_END
+SKOLAB_META_END
 # (c) 2005 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
 #
 # This program is Free Software under the GNU General Public License (>=v2).
@@ -16,7 +16,7 @@ KOLAB_META_END
 
 server_host = @@@ldap_uri@@@
 search_base = @@@user_dn_list@@@
-query_filter = (&(!(kolabDeleteFlag=*))(|(alias=%s)(mail=%s))(!(cn:dn:=external)))
+query_filter = (&(!(skolabDeleteFlag=*))(|(alias=%s)(mail=%s))(!(cn:dn:=external)))
 result_attribute = mail
 result_filter = %s
 search_timeout = 15

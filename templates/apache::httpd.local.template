@@ -1,16 +1,16 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@webserver_confdir@@@/apache.local
 PERMISSIONS=0640
 OWNERSHIP=@@@webserver_musr@@@:@@@webserver_grp@@@
 RUNONCHANGE=@@@SKOLABRC@@@ rc apache reload
-KOLAB_META_END
+SKOLAB_META_END
 # (c) 2004 Martin Konold <martin.konold@erfrakon.de>
 # This program is Free Software under the GNU General Public License (>=v2).
 # Read the file COPYING that comes with this packages for details.
 
 @@@warning@@@
 
-# The purpose of this file is to add local non Kolab specific extensions to 
+# The purpose of this file is to add local non Skolab specific extensions to
 # the Apache installation. This file gets included at the end of the Apache
 # configuration file (apache.conf)
 

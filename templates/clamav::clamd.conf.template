@@ -1,9 +1,9 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@clamav_confdir@@@/clamd.conf
 PERMISSIONS=0640
 OWNERSHIP=@@@clamav_usr@@@:@@@clamav_grp@@@
 RUNONCHANGE=@@@SKOLABRC@@@ rc clamav restart
-KOLAB_META_END
+SKOLAB_META_END
 @@@warning@@@
 
 ##
