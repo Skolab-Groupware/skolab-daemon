@@ -91,7 +91,7 @@ do_subst = sed \
 	-e 's=[@]kolab_pkgs[@]=$(kolab_pkgs)=g' \
 	-e 's=[@]kolab_rusr[@]=$(kolab_rusr)=g' \
 	-e 's=[@]kolab_scriptsdir[@]=$(kolab_scriptsdir)=g' \
-	-e 's=[@]kolab_hooksdir[@]=$(kolab_hooksdir)=g' \
+	-e 's=[@]skolab_hooksdir[@]=$(skolab_hooksdir)=g' \
 	-e 's=[@]kolab_statedir[@]=$(kolab_statedir)=g' \
 	-e 's=[@]kolab_smtpdpolicy_conffile_grp[@]=$(kolab_smtpdpolicy_conffile_grp)=g' \
 	-e 's=[@]kolab_smtpdpolicy_conffile_usr[@]=$(kolab_smtpdpolicy_conffile_usr)=g' \

@@ -90,7 +90,7 @@ imp_confdir: @imp_confdir@
 ingo_confdir: @ingo_confdir@
 kolab_cafile: @sysconfdir@/kolab/kolabserver-ca.crt
 kolab_grp: @kolab_grp@
-kolab_hooksdir: @kolab_hooksdir@
+skolab_hooksdir: @skolab_hooksdir@
 kolab_locals: @sysconfdir@/kolab/kolab.conf
 kolab_mailboxuiddb: @kolab_mailboxuiddb@
 kolab_mgrp: @kolab_mgrp@

@@ -176,7 +176,7 @@ EXTRA_DIST += dist_conf/common						\
 install-data-hook:
 	$(mkinstalldirs) -m 755 $(DESTDIR)
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(skolab_logdir)
-	$(mkinstalldirs) -m 755 $(DESTDIR)$(kolab_hooksdir)/delete
+	$(mkinstalldirs) -m 755 $(DESTDIR)$(skolab_hooksdir)/delete
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/cgi-bin
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/icons
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/freebusy
