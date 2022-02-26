@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@emailserver_confdir@@@/master.cf
 PERMISSIONS=0644
 OWNERSHIP=@@@emailserver_usr@@@:@@@emailserver_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc postfix reload
+RUNONCHANGE=@@@SKOLABRC@@@ rc postfix reload
 KOLAB_META_END
 # (c) 2004 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>

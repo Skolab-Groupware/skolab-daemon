@@ -13,7 +13,7 @@ do_subst = sed \
 	-e 's=[@]phppeardir[@]=$(phppeardir)=g' \
 	-e 's=[@]BASH[@]=$(BASHELL)=g' \
 	-e 's=[@]CHKCONFIG[@]=$(CHKCONFIG)=g' \
-	-e 's=[@]KOLABRC[@]=$(KOLABRC)=g' \
+	-e 's=[@]SKOLABRC[@]=$(SKOLABRC)=g' \
 	-e 's=[@]LDAPD[@]=$(LDAPD)=g' \
 	-e 's=[@]PERL[@]=$(PERL)=g' \
 	-e 's=[@]PHP[@]=$(PHP)=g' \

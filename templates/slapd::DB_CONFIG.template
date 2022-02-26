@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@ldapserver_dir@@@/DB_CONFIG
 PERMISSIONS=0640
 OWNERSHIP=@@@ldapserver_usr@@@:@@@ldapserver_rgrp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc openldap restart
+RUNONCHANGE=@@@SKOLABRC@@@ rc openldap restart
 KOLAB_META_END
 # (c) 2005 Klaraelvdalens Datakonsult AB
 #     Written by Steffen Hansen <steffen@klaralvdalens-datakonsult.se>

@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@webserver_confdir@@@/apache.conf
 PERMISSIONS=0640
 OWNERSHIP=@@@webserver_musr@@@:@@@webserver_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc apache reload
+RUNONCHANGE=@@@SKOLABRC@@@ rc apache reload
 KOLAB_META_END
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003 Martin Konold <martin.konold@erfrakon.de>

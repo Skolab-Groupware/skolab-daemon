@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@phpini_dir@@@/php.ini
 PERMISSIONS=0640
 OWNERSHIP=@@@webserver_musr@@@:@@@webserver_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc apache reload
+RUNONCHANGE=@@@SKOLABRC@@@ rc apache reload
 COMMENT_CHAR=;
 KOLAB_META_END
 @@@warning@@@

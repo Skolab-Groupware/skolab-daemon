@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@imap_confdir@@@/imapd.conf
 PERMISSIONS=0640
 OWNERSHIP=@@@imap_usr@@@:@@@imap_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc imapd restart
+RUNONCHANGE=@@@SKOLABRC@@@ rc imapd restart
 KOLAB_META_END
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003-2006 Martin Konold <martin.konold@erfrakon.de>

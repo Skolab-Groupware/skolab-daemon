@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@emailserver_confdir@@@/ldaptransport.cf
 PERMISSIONS=0640
 OWNERSHIP=@@@emailserver_usr@@@:@@@emailserver_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc postfix reload
+RUNONCHANGE=@@@SKOLABRC@@@ rc postfix reload
 KOLAB_META_END
 # (c) 2005 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
 #

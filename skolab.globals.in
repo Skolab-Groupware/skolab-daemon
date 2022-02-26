@@ -5,8 +5,8 @@
 # In case you feel the need to modify any of the settings listed
 # below you can copy the setting to kolab.conf and edit it there.
 # This will override the default setting provided here.
-#=================================================================
-KOLABRC: @KOLABRC@
+#==================================================================
+SKOLABRC: @SKOLABRC@
 LDAPD : @LDAPD@
 PHP : @PHP@
 RPM : @RPM@

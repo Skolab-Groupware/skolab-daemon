@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@ldapserver_confdir@@@/slapd.conf
 PERMISSIONS=0640
 OWNERSHIP=@@@ldapserver_usr@@@:@@@ldapserver_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc openldap restart
+RUNONCHANGE=@@@SKOLABRC@@@ rc openldap restart
 KOLAB_META_END
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003-2007 Martin Konold <martin.konold@erfrakon.de>

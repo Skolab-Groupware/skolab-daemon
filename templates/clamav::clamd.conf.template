@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@clamav_confdir@@@/clamd.conf
 PERMISSIONS=0640
 OWNERSHIP=@@@clamav_usr@@@:@@@clamav_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc clamav restart
+RUNONCHANGE=@@@SKOLABRC@@@ rc clamav restart
 KOLAB_META_END
 @@@warning@@@
 

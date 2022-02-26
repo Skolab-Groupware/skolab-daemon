@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@imap_confdir@@@/cyrus.conf
 PERMISSIONS=0640
 OWNERSHIP=@@@imap_usr@@@:@@@imap_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc imapd reload
+RUNONCHANGE=@@@SKOLABRC@@@ rc imapd reload
 KOLAB_META_END
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003 Martin Konold <martin.konold@erfrakon.de>

@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@sasl_authdconffile@@@
 PERMISSIONS=0600
 OWNERSHIP=@@@kolab_musr@@@:@@@kolab_mgrp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc sasl restart
+RUNONCHANGE=@@@SKOLABRC@@@ rc sasl restart
 KOLAB_META_END
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003 Martin Konold <martin.konold@erfrakon.de>

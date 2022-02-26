@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@webserver_confdir@@@/apache.local
 PERMISSIONS=0640
 OWNERSHIP=@@@webserver_musr@@@:@@@webserver_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc apache reload
+RUNONCHANGE=@@@SKOLABRC@@@ rc apache reload
 KOLAB_META_END
 # (c) 2004 Martin Konold <martin.konold@erfrakon.de>
 # This program is Free Software under the GNU General Public License (>=v2).

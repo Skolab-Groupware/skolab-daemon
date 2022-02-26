@@ -2,7 +2,7 @@ KOLAB_META_START
 TARGET=@@@spamassassin_confdir@@@/local.cf
 PERMISSIONS=0644
 OWNERSHIP=@@@amavisd_usr@@@:@@@amavisd_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc amavisd restart
+RUNONCHANGE=@@@SKOLABRC@@@ rc amavisd restart
 KOLAB_META_END
 # (c) 2008 Intevation GmbH
 # This program is Free Software under the GNU General Public License (>=v2).
