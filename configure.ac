@@ -13,7 +13,7 @@ AC_ARG_WITH([dist],
   [AC_HELP_STRING([--with-dist=DIST],
      [distribution target (default: openpkg)])],
      [distribution=$srcdir/dist_conf/$withval],
-   [distribution=$srcdir/dist_conf/kolab])
+   [distribution=$srcdir/dist_conf/skolab])
 
 AS_IF([test -f $distribution],,
 	AC_MSG_ERROR([incorrect value for --with-dist: $withval])
