@@ -12,7 +12,7 @@ skolabconfdir = $(sysconfdir)/skolab
 
 skolabdir = $(skolab_scriptsdir)
 
-skolab_SCRIPTS = $(KOLAB_SCRIPTS_FILES)					\
+skolab_SCRIPTS = $(SKOLAB_SCRIPTS_FILES)				\
 	skolab_sslcert.sh						\
 	skolab_ca.sh							\
 	$(NULL)
