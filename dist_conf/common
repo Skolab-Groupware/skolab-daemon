@@ -78,28 +78,28 @@ do_subst = sed \
 	-e 's=[@]imap_spool[@]=$(imap_spool)=g' \
 	-e 's=[@]imap_statedir[@]=$(imap_statedir)=g' \
 	-e 's=[@]imap_usr[@]=$(imap_usr)=g' \
-	-e 's=[@]kolab_gid[@]=$(kolab_gid)=g' \
-	-e 's=[@]kolab_grp[@]=$(kolab_grp)=g' \
-	-e 's=[@]kolab_mailboxuiddb[@]=$(kolab_mailboxuiddb)=g' \
-	-e 's=[@]kolab_mgrp[@]=$(kolab_mgrp)=g' \
-	-e 's=[@]kolab_musr[@]=$(kolab_musr)=g' \
-	-e 's=[@]kolab_php_module_prefix[@]=$(kolab_php_module_prefix)=g' \
-	-e 's=[@]kolab_php_smarty_prefix[@]=$(kolab_php_smarty_prefix)=g' \
-	-e 's=[@]kolab_pidfile[@]=$(kolab_pidfile)=g' \
-	-e 's=[@]kolab_rcdir[@]=$(kolab_rcdir)=g' \
-	-e 's=[@]kolab_rgrp[@]=$(kolab_rgrp)=g' \
-	-e 's=[@]kolab_pkgs[@]=$(kolab_pkgs)=g' \
-	-e 's=[@]kolab_rusr[@]=$(kolab_rusr)=g' \
-	-e 's=[@]kolab_scriptsdir[@]=$(kolab_scriptsdir)=g' \
+	-e 's=[@]skolab_gid[@]=$(skolab_gid)=g' \
+	-e 's=[@]skolab_grp[@]=$(skolab_grp)=g' \
+	-e 's=[@]skolab_mailboxuiddb[@]=$(skolab_mailboxuiddb)=g' \
+	-e 's=[@]skolab_mgrp[@]=$(skolab_mgrp)=g' \
+	-e 's=[@]skolab_musr[@]=$(skolab_musr)=g' \
+	-e 's=[@]skolab_php_module_prefix[@]=$(skolab_php_module_prefix)=g' \
+	-e 's=[@]skolab_php_smarty_prefix[@]=$(skolab_php_smarty_prefix)=g' \
+	-e 's=[@]skolab_pidfile[@]=$(skolab_pidfile)=g' \
+	-e 's=[@]skolab_rcdir[@]=$(skolab_rcdir)=g' \
+	-e 's=[@]skolab_rgrp[@]=$(skolab_rgrp)=g' \
+	-e 's=[@]skolab_pkgs[@]=$(skolab_pkgs)=g' \
+	-e 's=[@]skolab_rusr[@]=$(skolab_rusr)=g' \
+	-e 's=[@]skolab_scriptsdir[@]=$(skolab_scriptsdir)=g' \
 	-e 's=[@]skolab_hooksdir[@]=$(skolab_hooksdir)=g' \
 	-e 's=[@]skolab_statedir[@]=$(skolab_statedir)=g' \
-	-e 's=[@]kolab_smtpdpolicy_conffile_grp[@]=$(kolab_smtpdpolicy_conffile_grp)=g' \
-	-e 's=[@]kolab_smtpdpolicy_conffile_usr[@]=$(kolab_smtpdpolicy_conffile_usr)=g' \
-	-e 's=[@]kolab_susr[@]=$(kolab_susr)=g' \
-	-e 's=[@]kolab_usr[@]=$(kolab_usr)=g' \
-	-e 's=[@]kolab_wui[@]=$(kolab_wui)=g' \
-	-e 's=[@]kolab_quotawarning[@]=$(kolab_quotawarning)=g' \
-	-e 's=[@]kolabconf_script[@]=$(kolabconf_script)=g' \
+	-e 's=[@]skolab_smtpdpolicy_conffile_grp[@]=$(skolab_smtpdpolicy_conffile_grp)=g' \
+	-e 's=[@]skolab_smtpdpolicy_conffile_usr[@]=$(skolab_smtpdpolicy_conffile_usr)=g' \
+	-e 's=[@]skolab_susr[@]=$(skolab_susr)=g' \
+	-e 's=[@]skolab_usr[@]=$(skolab_usr)=g' \
+	-e 's=[@]skolab_wui[@]=$(skolab_wui)=g' \
+	-e 's=[@]skolab_quotawarning[@]=$(skolab_quotawarning)=g' \
+	-e 's=[@]skolabconf_script[@]=$(skolabconf_script)=g' \
 	-e 's=[@]ldapserver_argsfile[@]=$(ldapserver_argsfile)=g' \
 	-e 's=[@]ldapserver_confdir[@]=$(ldapserver_confdir)=g' \
 	-e 's=[@]ldapserver_dir[@]=$(ldapserver_dir)=g' \
