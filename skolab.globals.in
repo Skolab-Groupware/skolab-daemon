@@ -105,7 +105,7 @@ kolab_rusr: @kolab_rusr@
 kolab_scriptsdir : @kolab_scriptsdir@
 kolab_smtpdpolicy_conffile_grp : @kolab_smtpdpolicy_conffile_grp@
 kolab_smtpdpolicy_conffile_usr : @kolab_smtpdpolicy_conffile_usr@
-kolab_statedir: @kolab_statedir@
+skolab_statedir: @skolab_statedir@
 kolab_susr: @kolab_susr@
 kolab_usr: @kolab_usr@
 kolab_wui : @kolab_wui@
@@ -167,7 +167,7 @@ slurpd_addr : 127.0.0.1
 slurpd_port : 9999
 smarty_compiledir : @smarty_compiledir@
 spamassassin_confdir : @spamassassin_confdir@
-syncrepl_cookie_file : @kolab_statedir@/syncrepl_cookie
+syncrepl_cookie_file : @skolab_statedir@/syncrepl_cookie
 sysconfdir : @sysconfdir@
 syslog_facility : @syslog_facility@
 templatedir: @sysconfdir@/kolab/templates

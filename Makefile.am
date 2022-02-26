@@ -182,7 +182,7 @@ install-data-hook:
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/freebusy
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_logdir)/php
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_sessions)
-	$(mkinstalldirs) -m 755 $(DESTDIR)$(kolab_statedir)
+	$(mkinstalldirs) -m 755 $(DESTDIR)$(skolab_statedir)
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/locks
 	chmod 644 $(DESTDIR)$(skolabconfdir)/skolab.globals
 	chmod 775 $(DESTDIR)$(skolabdir)$(skolab_FILES)
