@@ -1,41 +1,41 @@
-Kolab use of Sieve scripts
-==========================
+Skolab use of Sieve scripts
+===========================
 
 Last edited: $Id$
 
 Compatibility
 -------------
 
-The Kolab webgui uses up to 3 sieve scripts with specific name per user:
+The Skolab webgui uses up to 3 sieve scripts with specific name per user:
 
-kolab-deliver.siv
-kolab-forward.siv
-kolab-vacation.siv
+skolab-deliver.siv
+skolab-forward.siv
+skolab-vacation.siv
 
 Only one script can be active at the time. If the user wants to install 
-a custom sieve script, a name not conflicting with the kolab scripts 
+a custom sieve script, a name not conflicting with the skolab scripts
 must be chosen.
 
 Each of the 3 scripts must strictly follow the template wrt. linebreaks 
-etc. to be parsable by the kolab webgui and the kolab clients (kontact) 
+etc. to be parsable by the skolab webgui and the skolab clients (kontact)
 as described below:
 
-kolab-deliver.siv:
-------------------
+skolab-deliver.siv:
+-------------------
 
 This script allows the user to deliver all non-scheduling mail to a 
 folder of his choice.
 
 require "fileinto";
-if header :contains ["X-Kolab-Scheduling-Message"] ["FALSE"] {
+if header :contains ["X-Skolab-Scheduling-Message"] ["FALSE"] {
 fileinto "<FOLDERNAME>";
 }
 
 where <FOLDERNAME> is the name of the IMAP folder mail should be 
 delivered to.
 
-kolab-forward.siv
------------------
+skolab-forward.siv
+------------------
 
 This script allows the user to forward his mail to a different mailbox, 
 optionally keep a copy of each message on the server.
@@ -48,8 +48,8 @@ With "keep copy on server":
 
 redirect "steffen@klaralvdalens-datakonsult.se"; keep;
 
-kolab-vacation.siv
-------------------
+skolab-vacation.siv
+-------------------
 
 require "vacation";
 

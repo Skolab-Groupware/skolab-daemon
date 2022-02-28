@@ -17,7 +17,7 @@
 PATH=@bindir@:$PATH
 
 if [ ".$1" = ".--help" ]; then
-	echo "Display the Kolab server logs"
+	echo "Display the Skolab server logs"
 	exit 0
 	HASHELP
 fi

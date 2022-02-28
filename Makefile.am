@@ -12,13 +12,13 @@ skolabconfdir = $(sysconfdir)/skolab
 
 skolabdir = $(skolab_scriptsdir)
 
-skolab_SCRIPTS = $(KOLAB_SCRIPTS_FILES)					\
+skolab_SCRIPTS = $(SKOLAB_SCRIPTS_FILES)				\
 	skolab_sslcert.sh						\
 	skolab_ca.sh							\
 	$(NULL)
 
 skolabspecialdir = $(skolabconfdir)
-skolabspecial_DATA = kolab.globals
+skolabspecial_DATA = skolab.globals
 
 skolabconfig_FILES = rootDSE.ldif
 
@@ -39,7 +39,7 @@ skolabfixedtemplate_FILES =						\
 	templates/cyrus-imap\:\:imapd.group.template			\
 	templates/postfix\:\:canonical.template				\
 	templates/postfix\:\:header_checks.template			\
-	templates/postfix\:\:kolab_smtpdpolicy.conf.template		\
+	templates/postfix\:\:skolab_smtpdpolicy.conf.template		\
 	templates/postfix\:\:ldapdistlist.cf.template			\
 	templates/postfix\:\:ldaptransport.cf.template			\
 	templates/postfix\:\:ldapvirtual.cf.template			\
@@ -51,7 +51,7 @@ skolabfixedtemplate_FILES =						\
 	templates/postfix\:\:virtual.template				\
 	templates/postix\:\:access.template				\
 	templates/saslauthd\:\:saslauthd.conf.template			\
-	templates/skolab\:\:kolab.conf.template				\
+	templates/skolab\:\:skolab.conf.template			\
 	templates/skolab\:\:rc.conf.template				\
 	templates/slapd\:\:DB_CONFIG.template				\
 	templates/slapd\:\:ldap.conf.template				\
@@ -78,7 +78,7 @@ skolabnamespacedir = $(libexecdir)/skolab
 skolabnamespace_DATA = $(skolabnamespace_FILES)
 
 
-ldapschema_FILES =  kolab2.schema
+ldapschema_FILES = skolab2.schema
 
 ldapschemadir = $(ldapserver_schemadir)
 dist_ldapschema_DATA = $(ldapschema_FILES)
@@ -124,7 +124,7 @@ skolabdoc_GENERATED = doc/README.amavisd					\
 skolabdocdir = $(pkgdocdir)
 skolabdoc_DATA = $(skolabdoc_FILES) $(skolabdoc_GENERATED)
 
-skolabsbin_FILES = dist_conf/kolabsrv
+skolabsbin_FILES = dist_conf/skolabsrv
 
 skolabsbindir = $(sbindir)/
 skolabsbin_DATA = $(skolabsbin_FILES)
@@ -132,12 +132,12 @@ skolabsbin_DATA = $(skolabsbin_FILES)
 
 skolabbindir = $(bindir)
 
-skolabbin_DATA = $(KOLABBIN_FILES)
+skolabbin_DATA = $(SKOLABBIN_FILES)
 
 generated_files = $(skolabspecial_DATA)					\
 	$(skolabtemplate_DATA)						\
 	$(skolabdoc_GENERATED)						\
-	dist_conf/kolabsrv						\
+	dist_conf/skolabsrv						\
 	$(NULL)
 
 generated_executables = $(skolabsbin_DATA)				\
@@ -170,24 +170,21 @@ $(generated_executables): %: %.in
 # Makefile.ams too when the underneath EXTRA_DIST assignment is altered
 EXTRA_DIST += dist_conf/common						\
 	dist_conf/debian						\
-	dist_conf/kolab							\
-	dist_conf/kolabsrv						\
-	dist_conf/mandriva						\
-	dist_conf/suse							\
+	dist_conf/skolabsrv						\
 	$(NULL)
 
 install-data-hook:
 	$(mkinstalldirs) -m 755 $(DESTDIR)
-	$(mkinstalldirs) -m 755 $(DESTDIR)$(kolab_logdir)
-	$(mkinstalldirs) -m 755 $(DESTDIR)$(kolab_hooksdir)/delete
+	$(mkinstalldirs) -m 755 $(DESTDIR)$(skolab_logdir)
+	$(mkinstalldirs) -m 755 $(DESTDIR)$(skolab_hooksdir)/delete
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/cgi-bin
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/icons
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/freebusy
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_logdir)/php
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_sessions)
-	$(mkinstalldirs) -m 755 $(DESTDIR)$(kolab_statedir)
+	$(mkinstalldirs) -m 755 $(DESTDIR)$(skolab_statedir)
 	$(mkinstalldirs) -m 755 $(DESTDIR)$(webserver_document_root)$(webserver_web_prefix)/locks
-	chmod 644 $(DESTDIR)$(skolabconfdir)/kolab.globals
+	chmod 644 $(DESTDIR)$(skolabconfdir)/skolab.globals
 	chmod 775 $(DESTDIR)$(skolabdir)$(skolab_FILES)
 	chmod 755 $(DESTDIR)$(skolabnamespacedir)/*
-	chmod 755 $(DESTDIR)$(sbindir)/kolabsrv
+	chmod 755 $(DESTDIR)$(sbindir)/skolabsrv

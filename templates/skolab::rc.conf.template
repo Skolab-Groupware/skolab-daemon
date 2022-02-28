@@ -1,8 +1,8 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@sysconfdir@@@/rc.conf
 PERMISSIONS=0644
-OWNERSHIP=@@@kolab_musr@@@:@@@kolab_mgrp@@@
-KOLAB_META_END
+OWNERSHIP=@@@skolab_musr@@@:@@@skolab_mgrp@@@
+SKOLAB_META_END
 # (c) 2004 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
 #
 # This program is Free Software under the GNU General Public License (>=v2).

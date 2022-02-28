@@ -6,7 +6,7 @@
 ##  Read the file COPYING that comes with this packages for details.
 
 
-cd @sysconfdir@/kolab
+cd @sysconfdir@/skolab
 
 if [ $1 ];then
   HN=$1
@@ -44,4 +44,4 @@ chmod 0640 cert.pem
 
 cd -
 
-echo "New certificate has been installed under @sysconfdir@/kolab/"
+echo "New certificate has been installed under @sysconfdir@/skolab/"

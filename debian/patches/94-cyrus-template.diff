@@ -7,22 +7,22 @@ Author: Mathieu Parent <math.parent@gmail.com>
 
 Upstream status: Parts can be commited
 
-Index: kolabd-2.2.4-20100624/templates/cyrus.conf.template.in
+Index: skolab-daemon-2.2.4-20100624/templates/cyrus.conf.template.in
 ===================================================================
---- kolabd-2.2.4-20100624.orig/templates/cyrus.conf.template.in	2010-09-23 12:25:28.000000000 +0200
-+++ kolabd-2.2.4-20100624/templates/cyrus.conf.template.in	2010-09-23 12:27:51.000000000 +0200
+--- skolab-daemon-2.2.4-20100624.orig/templates/cyrus.conf.template.in	2010-09-23 12:25:28.000000000 +0200
++++ skolab-daemon-2.2.4-20100624/templates/cyrus.conf.template.in	2010-09-23 12:27:51.000000000 +0200
 @@ -3,66 +3,107 @@
  PERMISSIONS=0640
  OWNERSHIP=@imap_usr@:@imap_grp@
- KOLAB_META_END
+ SKOLAB_META_END
 -# (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 -# (c) 2003 Martin Konold <martin.konold@erfrakon.de>
 -# (c) 2003 Achim Frank <achim.frank@erfrakon.de>
 -# This program is Free Software under the GNU General Public License (>=v2).
 -# Read the file COPYING that comes with this packages for details.
 -
--# this file is automatically written by the Kolab config backend
--# manual additions are lost unless made to the template in the Kolab config directory
+-# this file is automatically written by the Skolab config backend
+-# manual additions are lost unless made to the template in the Skolab config directory
 -
 +# Debian defaults for Cyrus IMAP server/cluster implementation
 +# see cyrus.conf(5) for more information

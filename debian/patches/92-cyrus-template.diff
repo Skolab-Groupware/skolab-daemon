@@ -1,22 +1,22 @@
 Description: Adjustments in cyrus templates
- Goal: Make imapd.conf template consistent with kolab-cyrus-imapd package.
+ Goal: Make imapd.conf template consistent with skolab-cyrus-imapd package.
 Author: Peter Eisentraut <petere@debian.org>
 Last-Update: <2010-06-17>
---- kolabd-2.2.3-20091217.orig/templates/imapd.conf.template.in
-+++ kolabd-2.2.3-20091217/templates/imapd.conf.template.in
+--- skolab-daemon-2.2.3-20091217.orig/templates/imapd.conf.template.in
++++ skolab-daemon-2.2.3-20091217/templates/imapd.conf.template.in
 @@ -3,88 +3,358 @@ TARGET=@imap_confdir@/imapd.conf
  PERMISSIONS=0640
  OWNERSHIP=@imap_usr@:@imap_grp@
- KOLAB_META_END
+ SKOLAB_META_END
 -# (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 -# (c) 2003-2006 Martin Konold <martin.konold@erfrakon.de>
 -# (c) 2003 Achim Frank <achim.frank@erfrakon.de>
 -# This program is Free Software under the GNU General Public License (>=v2).
 -# Read the file COPYING that comes with this packages for details.
 -
--# This file is automatically written by the Kolab config backend.
--# Manual additions are lost unless made to the template in the Kolab config directory.
--# The template is @sysconfdir@/kolab/templates/imapd.conf.template
+-# This file is automatically written by the Skolab config backend.
+-# Manual additions are lost unless made to the template in the Skolab config directory.
+-# The template is @sysconfdir@/skolab/templates/imapd.conf.template
 -
 -
 -#   Warning: Do not use a trailing slash in paths!
@@ -123,7 +123,7 @@ Last-Update: <2010-06-17>
 +allowanonymouslogin: no
 +
 +# Minimum time between POP mail fetches in minutes
-+# kolab note: this is disabled to get no errors at the client
++# skolab note: this is disabled to get no errors at the client
 +# in a groupware environment a client will connect more than
 +# once in a minute
 +#popminpoll: 1
@@ -146,9 +146,9 @@ Last-Update: <2010-06-17>
 +# directories: ~user/.sieve.
 +sieveusehomedir: false
  
--#tls_ca_file: 		@sysconfdir@/kolab/server.pem
--tls_cert_file: 		@sysconfdir@/kolab/cert.pem
--tls_key_file: 		@sysconfdir@/kolab/key.pem
+-#tls_ca_file: 		@sysconfdir@/skolab/server.pem
+-tls_cert_file: 		@sysconfdir@/skolab/cert.pem
+-tls_key_file: 		@sysconfdir@/skolab/key.pem
 +# If sieveusehomedir is false, this directory is searched for Sieve scripts.
 +sievedir: /var/spool/sieve
  
@@ -222,7 +222,7 @@ Last-Update: <2010-06-17>
 +# a reverse lookup on the IP address of the incoming network
 +# interface, otherwise the user is assumed to be in the default
 +# domain (if set).
-+# Kolab uses ldap for virtual domains
++# Skolab uses ldap for virtual domains
 +virtdomains: ldap
 +
 +# The default domain for virtual domain support
@@ -258,10 +258,10 @@ Last-Update: <2010-06-17>
 +
 +# File containing the global certificate used for ALL services (imap, pop3,
 +# lmtp, sieve)
-+tls_cert_file: @sysconfdir@/kolab/cert.pem
++tls_cert_file: @sysconfdir@/skolab/cert.pem
 +
 +# File containing the private key belonging to the global server certificate.
-+tls_key_file: @sysconfdir@/kolab/key.pem
++tls_key_file: @sysconfdir@/skolab/key.pem
 +
 +# File containing the certificate used for imap. If not specified, the global
 +# certificate is used.  A value of "disabled" will disable SSL/TLS for imap.
@@ -300,7 +300,7 @@ Last-Update: <2010-06-17>
 +#sieve_tls_key_file: /etc/ssl/private/cyrus-sieve.key
 +
 +# File containing one or more Certificate Authority (CA) certificates.
-+#tls_ca_file: @sysconfdir@/kolab/server.pem
++#tls_ca_file: @sysconfdir@/skolab/server.pem
 +
 +# Path to directory with certificates of CAs.
 +tls_ca_path: /etc/ssl/certs
@@ -371,7 +371,7 @@ Last-Update: <2010-06-17>
 +##
 +## DEBUGGING
 +##
-+# Debugging hook. See /usr/share/doc/kolab-cyrus-common/README.Debian.debug
++# Debugging hook. See /usr/share/doc/skolab-cyrus-common/README.Debian.debug
 +# Keep the hook disabled when it is not in use
 +#
 +# gdb Back-traces
@@ -384,7 +384,7 @@ Last-Update: <2010-06-17>
 +#debug_command: /usr/bin/ltrace -tt -n 2 -o /tmp/ltrace.cyrus.%s.%d -p %2$d <&- 2>&1 &
 +
 +##
-+## Kolab-specific additions
++## Skolab-specific additions
 +##
  
 -loginrealms:		@@@postfix-mydestination|join( )@@@
@@ -413,7 +413,7 @@ Last-Update: <2010-06-17>
 +ldap_time_limit:	15
  
  # add support for posting to shared folders
- postuser: kolab
+ postuser: skolab
  userprefix: user
  sharedprefix: shared
  

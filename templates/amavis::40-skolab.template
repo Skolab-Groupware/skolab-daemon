@@ -1,10 +1,10 @@
-KOLAB_META_START
-TARGET=/etc/amavis/conf.d/40-kolab
+SKOLAB_META_START
+TARGET=/etc/amavis/conf.d/40-skolab
 PERMISSIONS=0640
 OWNERSHIP=root:root
-KOLAB_META_END
-# this file is automatically written by the Kolab config backend
-# manual additions are lost unless made to the template in the Kolab config directory
+SKOLAB_META_END
+# this file is automatically written by the Skolab config backend
+# manual additions are lost unless made to the template in the Skolab config directory
 
 use strict;
 

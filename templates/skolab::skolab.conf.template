@@ -3,13 +3,13 @@
 
 fqdnhostname : @@@fqdnhostname@@@
 is_master : @@@is_master@@@
-base_dn : @@@kolab_basedn@@@
-bind_dn : cn=manager,cn=internal,@@@kolab_basedn@@@
-bind_pw : @@@kolab_passwd@@@
-bind_pw_hash : @@@kolab_passwd_hash@@@
+base_dn : @@@skolab_basedn@@@
+bind_dn : cn=manager,cn=internal,@@@skolab_basedn@@@
+bind_pw : @@@skolab_passwd@@@
+bind_pw_hash : @@@skolab_passwd_hash@@@
 ldap_uri : ldap://127.0.0.1:389
 ldap_master_uri : @@@ldap_master_uri@@@
-php_dn : cn=nobody,cn=internal,@@@kolab_basedn@@@
+php_dn : cn=nobody,cn=internal,@@@skolab_basedn@@@
 php_pw : @@@nobody_pw@@@
 calendar_id : calendar
 calendar_pw : @@@calendar_pw@@@
