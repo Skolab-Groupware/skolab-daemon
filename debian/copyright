@@ -1,150 +1,139 @@
-This package was debianized:
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: skolab-daemon
+Upstream-Contact: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
+Source: https://github.com/Skolab-Groupware/skolab-daemon
 
-    by Steffen Joeris <steffen.joeris@skolelinux.de> on Fri, 16 Dec 2005 14:32:36 +0100
+Files: *
+Copyright: 2003, Achim Frank <achim.frank@erfrakon.de>
+           2003-2004, Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
+           2003-2009, Martin Konold <martin.konold@erfrakon.de>
+License: GPL-2+
 
-It was downloaded from:
+# File removed for now, but keep as reference if/when we reinstate it.
+#Files: namespace/skolab.in
+#Copyright: 2000-2004, The OpenPKG Project <http://www.openpkg.org/>
+#           2000-2004, Ralf S. Engelschall <rse@engelschall.com>
+#           2000-2004, Cable & Wireless <http://www.cw.com/>
+#           2004-2005, Code Fusion cc. <http://www.codefusion.co.za>
+#License: MIT-0-style
 
-    <http://kolab.org/>
+Files: skolab_ca.sh.in
+       templates/postfix::ldapdistlist.cf.template
+       templates/postfix::ldaptransport.cf.template
+       templates/postfix::ldapvirtual.cf.template
+       templates/postfix::skolab_smtpdpolicy.conf.template
+       templates/skolab::rc.conf.template
+       templates/slapd::DB_CONFIG.template
+       templates/slapd::slapd.replicas.template
+Copyright: 2004-2005, Klaraelvdalens Datakonsult AB
+           2004-2005, Steffen Hansen <steffen@klaralvdalens-datakonsult.se>
+License: GPL-2+
 
-Copyright Holder(s):
-			Copyright (c) 2003,2004,2005  Code Fusion cc
-			List of files:
-kolab
-kolabconf
-kolabd
-namespace/libexec/listusers
-namespace/libexec/adduser
-namespace/libexec/deluser
-namespace/libexec/newconfig
-namespace/libexec/services
-namespace/libexec/showlog
-namespace/libexec/showuser
-namespace/libexec/start
-namespace/libexec/stop
+Files: skolab_sslcert.sh.in
+       templates/cyrus-imap::imapd.group.template
+       templates/postfix::transport.template
+       templates/postfix::virtual.template
+Copyright: 2003-2004, Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
+           2003-2009, Martin Konold <martin.konold@erfrakon.de>
+License: GPL-2+
 
-			Copyright (c) 2004,2005  Klaraelvdalens Datakonsult AB
-			List of files:
-kolab_ca.sh
-kolabconf
-kolabd
-kolab_smtpdpolicy
-templates/DB_CONFIG.slapd.template
-templates/ldap.conf.template
-templates/slapd.replicas.template
+Files: amavisd/en_US/*
+Copyright: 2000-2002, Mogens Kjaer, Carlsberg Laboratory, <mk@crc.dk>
+           2000-2002, Juergen Quade, Softing GmbH, <quade@softing.com>
+           2000-2002, Christian Bricart <shiva@aachalon.de>
+           2000-2002, Rainer Link <link@foo.fh-furtwangen.de>
+           2002-2006, Mark Martinec <Mark.Martinec@ijs.si>
+License: GPL-2+
 
-			Copyright (c) 2003,2004  Tassilo Erlewein  <tassilo.erlewein@erfrakon.de>
-			List of files:
-kolab
-kolab2.schema
-kolab_bootstrap
-kolabconf
-kolabd
-kolabpasswd
-kolab_sslcert.sh
-templates/main.cf.template
-templates/cyrus.conf.template
-templates/httpd.conf.template
-templates/imapd.conf.template
-templates/imapd.group.template
-templates/master.cf.template
-templates/php.ini.template
-templates/proftpd.conf.template
-templates/saslauthd.conf.template
-templates/session_vars.php.template
-templates/slapd.conf.template
-templates/transport.template
-templates/virtual.template
-workaround.sh
+Files: amavisd/de_DE/*
+Copyright: 200?-2012, Patrick Ben Koetter <p@sys4.de>
+License: GPL-2+
 
-			Copyright (c) 2003,2004,2005 Martin Konold <martin.konold@erfrakon.de>
-			List of files:
-kolab
-kolab2.schema
-kolab_bootstrap
-kolabconf
-kolabconf
-kolabd
-kolabd
-kolabpasswd
-kolab_sslcert.sh
-templates/main.cf.template
-templates/cyrus.conf.template
-templates/httpd.conf.template
-templates/httpd.local.template
-templates/imapd.conf.template
-templates/imapd.group.template
-templates/master.cf.template
-templates/php.ini.template;
-templates/proftpd.conf.template
-templates/saslauthd.conf.template
-templates/session_vars.php.template
-templates/slapd.conf.template
-templates/transport.template
-templates/virtual.template
-workaround.sh
+Files: namespace/libexec/adduser.in
+       namespace/libexec/deluser.in
+       namespace/libexec/listusers.in
+       namespace/libexec/newconfig.in
+       namespace/libexec/services.in
+       namespace/libexec/showlog.in
+       namespace/libexec/showuser.in
+       namespace/libexec/start.in
+       namespace/libexec/stop.in
+Copyright: 2004, Code Fusion cc. <http://www.codefusion.co.za>
+License: GPL-2+
 
-			Copyright (c) 2003 Achim Frank <achim.frank@erfrakon.de>
-			List of files:
-kolab
-kolab2.schema
-kolab_bootstrap
-kolabconf
-kolabconf
-kolabd
-kolabd
-templates/main.cf.template
-templates/cyrus.conf.template
-templates/httpd.conf.template
-templates/imapd.conf.template
-templates/master.cf.template
-templates/proftpd.conf.template
-templates/saslauthd.conf.template
-templates/slapd.conf.template
+Files: templates/apache::httpd.local.template
+Copyright: 2004, Martin Konold <martin.konold@erfrakon.de>
+License: GPL-2+
 
-			Copyright (c) 2004  Erfrakon
-			List of files:
-kolabpasswd
+Files: templates/postfix::canonical.template
+       templates/postfix::relocated.template
+       templates/postfix::access.template
+Copyright: 2008, Mathieu Parent <math.parent@gmail.com>
+License: GPL-2+
 
-License:
+Files: templates/postfix::main.cf.template
+       templates/postfix::master.cf.template
+Copyright: 2004, Steffen Hansen <steffen@klaralvdalens-datakonsult.se>
+           2003, Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
+           2003-2008, Martin Konold <martin.konold@erfrakon.de>
+           2003, Achim Frank <achim.frank@erfrakon.de>
+License: GPL-2+
 
-   This package is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+Files: templates/slapd::ldap.conf.template
+Copyright: 2004, Klaraelvdalens Datakonsult AB
+License: GPL-2+
 
-   This package is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+Files: templates/spamassassin::local.cf.template
+Copyright: 2008, Intevation GmbH
+License: GPL-2+
 
-On Debian systems, the complete text of the GNU General Public License
-version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+Files: debian/*
+Copyright: 2005-2007, Steffen Joeris <steffen.joeris@skolelinux.de>
+           2006-2007, Noèl Köthe <noel@debian.org>
+           2006-2008, Peter Eisentraut <petere@debian.org>
+           2007, Philip Hands <philh@debian.org>
+           2008-2010, Mathieu Parent <math.parent@gmail.com>
+           2017-2022, Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
+           2022, Mihai Moldovan <ionic@ionic.de>
+License: GPL-2+
 
-The following file have a special copyright notice:
+License: GPL-2+
+ This program is free software; you can redistribute it
+ and/or modify it under the terms of the GNU General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later
+ version.
+ .
+ This program is distributed in the hope that it will be
+ useful, but WITHOUT ANY WARRANTY; without even the implied
+ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE.  See the GNU General Public License for more
+ details.
+ .
+ You should have received a copy of the GNU General Public
+ License along with this package; if not, write to the Free
+ Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ Boston, MA  02110-1301 USA
+ .
+ On Debian systems, the full text of the GNU General Public
+ License version 2 can be found in the file
+ `/usr/share/common-licenses/GPL-2'.
 
-namespace/kolab
-
-##  Derived with acknowledgement from: openpkg -- OpenPKG Tool Chain
-##
-##  Copyright (c) 2004-2005 Code Fusion cc. <http://www.codefusion.co.za>
-##  Copyright (c) 2000-2004 The OpenPKG Project <http://www.openpkg.org/>
-##  Copyright (c) 2000-2004 Ralf S. Engelschall <rse@engelschall.com>
-##  Copyright (c) 2000-2004 Cable & Wireless <http://www.cw.com/>
-##
-##  Permission to use, copy, modify, and distribute this software for
-##  any purpose with or without fee is hereby granted, provided that
-##  the above copyright notice and this permission notice appear in all
-##  copies.
-##
-##  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
-##  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-##  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-##  IN NO EVENT SHALL THE AUTHORS AND COPYRIGHT HOLDERS AND THEIR
-##  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-##  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-##  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
-##  USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-##  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-##  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
-##  OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-##  SUCH DAMAGE.
+License: MIT-0-style
+ Permission to use, copy, modify, and distribute this software for
+ any purpose with or without fee is hereby granted, provided that
+ the above copyright notice and this permission notice appear in all
+ copies.
+ .
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHORS AND COPYRIGHT HOLDERS AND THEIR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.

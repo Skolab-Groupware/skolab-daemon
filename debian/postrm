@@ -3,11 +3,11 @@
 set -e
 
 if [ "$1" = purge ]; then
-	rm -f /var/lib/kolab/mailbox-quotacache.db
-	rm -f /var/lib/kolab/mailbox-uidcache.db
-	rm -f /var/lib/kolab/graveyard-uidcache.db
-	rm -f /var/lib/kolab/graveyard-tscache.db
-	rm -f /var/lib/kolab/quotawarn.db
+	rm -f /var/lib/skolab/mailbox-quotacache.db
+	rm -f /var/lib/skolab/mailbox-uidcache.db
+	rm -f /var/lib/skolab/graveyard-uidcache.db
+	rm -f /var/lib/skolab/graveyard-tscache.db
+	rm -f /var/lib/skolab/quotawarn.db
 fi
 
 #DEBHELPER#

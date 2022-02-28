@@ -25,12 +25,12 @@ fi
 #Collect some vitals
 SERVER=127.0.0.1
 
-BINDDN=`sed -n 's;bind_dn : ;;p' @sysconfdir@/kolab/kolab.conf`
-BINDPW=`sed -n 's;bind_pw : ;;p' @sysconfdir@/kolab/kolab.conf`
-BASEDN=`sed -n 's;base_dn : ;;p' @sysconfdir@/kolab/kolab.conf`
-HOMESERV=`sed -n 's;fqdnhostname : ;;p' @sysconfdir@/kolab/kolab.conf`
+BINDDN=`sed -n 's;bind_dn : ;;p' @sysconfdir@/skolab/skolab.conf`
+BINDPW=`sed -n 's;bind_pw : ;;p' @sysconfdir@/skolab/skolab.conf`
+BASEDN=`sed -n 's;base_dn : ;;p' @sysconfdir@/skolab/skolab.conf`
+HOMESERV=`sed -n 's;fqdnhostname : ;;p' @sysconfdir@/skolab/skolab.conf`
 
-DN=`kolab showuser $1 | grep dn`
+DN=`skolab showuser $1 | grep dn`
 if test "$DN" = ""; then
 echo User not found! 
 exit 255
@@ -49,8 +49,8 @@ trap "rm $LDIFFILE" 0 1 2 3 15
 
 cat <<LDIF > $LDIFFILE
 $DN
-add: kolabdeleteflag
-kolabdeleteflag: $HOMESERV
+add: skolabdeleteflag
+skolabdeleteflag: $HOMESERV
 LDIF
 
 ldapmodify -x -D "$BINDDN" -w $BINDPW -h $SERVER -f $LDIFFILE 

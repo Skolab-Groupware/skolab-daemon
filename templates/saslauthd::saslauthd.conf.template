@@ -1,9 +1,9 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@sasl_authdconffile@@@
 PERMISSIONS=0600
-OWNERSHIP=@@@kolab_musr@@@:@@@kolab_mgrp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc sasl restart
-KOLAB_META_END
+OWNERSHIP=@@@skolab_musr@@@:@@@skolab_mgrp@@@
+RUNONCHANGE=@@@SKOLABRC@@@ rc sasl restart
+SKOLAB_META_END
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003 Martin Konold <martin.konold@erfrakon.de>
 # (c) 2003 Achim Frank <achim.frank@erfrakon.de>
@@ -27,7 +27,8 @@ ldap_bind_pw: @@@user_bind_pw@@@
 
 # Avoid the "Domain/Realm not available" error message
 # Does not have the desired effect and causes
-# kolab/issue2869 (Can login to imapd with localpart of primary email address) 
+# https://issues.kolab.org/issue2869 (Can login to imapd with localpart of
+# primary email address)
 #ldap_default_realm: @@@postfix-mydomain@@@
 
 ldap_version: 3
@@ -75,7 +76,7 @@ ldap_auth_method: bind
 #        uses userPassword attribute to verify the password.  Currently, {CRYPT}
 #        hash is supported.
 
-ldap_filter: (&(|(mail=%u@%d)(mail=%u)(uid=%u@%d)(uid=%u))(!(kolabdeleteflag=*))(objectClass=kolabInetOrgPerson))
+ldap_filter: (&(|(mail=%u@%d)(mail=%u)(uid=%u@%d)(uid=%u))(!(skolabdeleteflag=*))(objectClass=skolabInetOrgPerson))
 #ldap_filter: <uid=%u>
 #        Specify a filter.  Use the %u and %r tokens for the username and realm
 #        substitution.  The %u token has to be used at minimum for the filter to

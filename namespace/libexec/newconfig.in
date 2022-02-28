@@ -17,9 +17,9 @@
 PATH=@sbindir@
 
 if [ ".$1" = ".--help" ]; then
-	echo "Propogate changes made to Kolab templates"
+	echo "Propogate changes made to Skolab templates"
 	exit 0
 	HASHELP
 fi
 
-kolabconf
+skolabconf

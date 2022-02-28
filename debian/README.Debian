@@ -22,14 +22,19 @@ The following programs among others provide limited or experimental
 support for Skolab:
 
   * Horde (Debian package horde3)
-  * Mozilla Thunderbird a.k.a. Icedove (Debian package icedove)
+  * Mozilla Thunderbird (Debian package thunderbird)
 
-See <http://kolab.org/about-kolab-clients.html> and 
-<http://wiki.kolab.org/index.php/Clients_for_Kolab2> for more information.
+[//]: # (FIXME: links are dead, replaced with Web Archive content for now, but should
+be properly updated and provided as the new upstream.)
+See
+<https://web.archive.org/web/20120208212303/https://kolab.org/about-kolab-clients.html>
+and
+https://web.archive.org/web/20150602143903/https://wiki.kolab.org/index.php/Clients_for_Kolab2
+for more information.
 
 ## Installation
 
-Install this kolabd package with all dependencies:
+Install this skolabd package with all dependencies:
 
 ```
  apt-get install skolab-daemon postfix slapd
@@ -38,7 +43,7 @@ Install this kolabd package with all dependencies:
 (postfix conflicts with exim4, so it may be necessary to mention it
 explicitly to convince apt-get to install it.  slapd must be installed
 unless you already have an LDAP server elsewhere and know how to
-access it.  The kolabd package depends on all remaining necessary
+access it.  The skolabd package depends on all remaining necessary
 packages.)
 
 Or you use
@@ -57,7 +62,7 @@ If you want to setup slaves, on the master, set ''SLAPD_SERVICES'' in
 ```
 
 If you want to enable ''imaps'', uncomment the following line in
-''/etc/cyrus.conf'' and run ''/etc/init.d/kolab-cyrus restart'':
+''/etc/cyrus.conf'' and run ''/etc/init.d/skolab-cyrus restart'':
 
 ```
  imaps          cmd="imapd -s -U 30" listen="imaps" prefork=0 maxchild=100
@@ -70,7 +75,7 @@ Stop all daemons:
 ```
  /etc/init.d/apache2 stop
  /etc/init.d/skolab-daemon stop
- /etc/init.d/kolab-cyrus stop
+ /etc/init.d/skolab-cyrus stop
  /etc/init.d/postfix stop
  /etc/init.d/saslauthd stop
  /etc/init.d/slapd stop
@@ -96,7 +101,7 @@ again:
  /etc/init.d/slapd start
  /etc/init.d/saslauthd start
  /etc/init.d/postfix start
- /etc/init.d/kolab-cyrus start
+ /etc/init.d/skolab-cyrus start
  /etc/init.d/skolab-daemon start
  /etc/init.d/apache2 start
 ```
@@ -147,7 +152,7 @@ Edit /etc/imapd.conf and change the following lines:
 == Troubleshooting ==
 
 If there are strange DB_ERROR entries in the /var/log/mail.log file
-related to some problems with the ptloader from the kolab-cyrus, it
+related to some problems with the ptloader from the skolab-cyrus, it
 helps to create the directory /var/lib/cyrus/ptclient.  But this
 shouldn't be the case, and we will keep an eye on this bug.
 

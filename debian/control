@@ -13,10 +13,10 @@ Vcs-Git: https://github.com/Skolab-Groupware/skolab-daemon
 Package: skolab-daemon
 Architecture: all
 Depends: adduser,
-         kolab-cyrus-admin,
-         kolab-cyrus-clients,
-         kolab-cyrus-imapd,
-         kolab-cyrus-pop3d,
+         skolab-cyrus-admin,
+         skolab-cyrus-clients,
+         skolab-cyrus-imapd,
+         skolab-cyrus-pop3d,
          libskolab-perl (>= 1:2.2.1-20081212-1),
          libmail-box-perl,
          libnet-netmask-perl,
@@ -37,7 +37,7 @@ Suggests: amavisd-new,
           clamav,
           clamav-daemon,
           db4.2-util,
-          kolab-webadmin,
+          skolab-webadmin,
           openssl,
           spamassassin
 Description: Skolab Groupware server daemon
@@ -50,4 +50,4 @@ Description: Skolab Groupware server daemon
  Kontact (KDE), Thunderbird (Mozilla) and Horde (web).
  .
  This package contains the groupware server program, the LDAP gateway
- daemon, as well as the dependencies and documentation to run Kolab.
+ daemon, as well as the dependencies and documentation to run Skolab.

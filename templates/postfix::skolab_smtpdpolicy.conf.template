@@ -1,8 +1,8 @@
-KOLAB_META_START
-TARGET=@@@sysconfdir@@@/kolab/kolab_smtpdpolicy.conf
+SKOLAB_META_START
+TARGET=@@@sysconfdir@@@/skolab/skolab_smtpdpolicy.conf
 PERMISSIONS=0640
-OWNERSHIP=@@@kolab_smtpdpolicy_conffile_usr@@@:@@@kolab_smtpdpolicy_conffile_grp@@@
-KOLAB_META_END
+OWNERSHIP=@@@skolab_smtpdpolicy_conffile_usr@@@:@@@skolab_smtpdpolicy_conffile_grp@@@
+SKOLAB_META_END
 # (c) 2005 Steffen Hansen <steffen@klaralvdalens-datakonsult.se> (Klaralvdalens Datakonsult AB)
 #
 # This program is Free Software under the GNU General Public License (>=v2).
@@ -20,4 +20,4 @@ allow_unauth: 1
 @@@else@@@
 allow_unauth: 0
 @@@endif@@@
-permithosts: @@@kolabhost|join(,)@@@
+permithosts: @@@skolabhost|join(,)@@@

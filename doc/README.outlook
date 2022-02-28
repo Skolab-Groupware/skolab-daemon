@@ -9,7 +9,7 @@ Invitation Forwarding
 Microsoft Outlook acts a little peculiar when forwarding iCal
 invitation messages. Such messages are just passed on to the new
 recipient without having headers modified. This causes such messages
-to be rejected by the Kolab server.
+to be rejected by the Skolab server.
 
 As a solution to this problem the mail filter on the server can
 capture such messages and embed them as an attachment to an email
@@ -28,10 +28,10 @@ common non-ascii characters to ascii (for example "o-umlaut" to "oe").
 resmgr.conf.template has an option for allowing or disallowing
 "Outlook forwarding". Set
 
-$conf['kolab']['filter']['allow_outlook_ical_forward']  = true;
+$conf['skolab']['filter']['allow_outlook_ical_forward']  = true;
 
 to enable (default) or
 
-$conf['kolab']['filter']['allow_outlook_ical_forward']  = false;
+$conf['skolab']['filter']['allow_outlook_ical_forward']  = false;
 
 to disable.

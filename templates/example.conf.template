@@ -1,9 +1,9 @@
-KOLAB_META_START
-TARGET=/kolab/etc/example.conf
+SKOLAB_META_START
+TARGET=/skolab/etc/example.conf
 PERMISSIONS=0640
-OWNERSHIP=kolab:kolab-n
+OWNERSHIP=skolab:skolab-n
 RUNONCHANGE=echo example >> /tmp/example
-KOLAB_META_END
+SKOLAB_META_END
 example
 foo=bar
 zip=zap

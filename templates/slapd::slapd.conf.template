@@ -1,9 +1,9 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@ldapserver_confdir@@@/slapd.conf
 PERMISSIONS=0640
 OWNERSHIP=@@@ldapserver_usr@@@:@@@ldapserver_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc openldap restart
-KOLAB_META_END
+RUNONCHANGE=@@@SKOLABRC@@@ rc openldap restart
+SKOLAB_META_END
 # (c) 2003 Tassilo Erlewein <tassilo.erlewein@erfrakon.de>
 # (c) 2003-2007 Martin Konold <martin.konold@erfrakon.de>
 # (c) 2003 Achim Frank <achim.frank@erfrakon.de>
@@ -20,37 +20,37 @@ moduleload     refint
 moduleload     unique
 @@@endif@@@
 
-# manual additions are lost unless made to the template in the Kolab config directory
-# the template is  @@@sysconfdir@@@/kolab/templates/slapd.conf.template
+# manual additions are lost unless made to the template in the Skolab config directory
+# the template is  @@@sysconfdir@@@/skolab/templates/slapd.conf.template
 
 include @@@ldapserver_schemadir@@@/core.schema
 include @@@ldapserver_schemadir@@@/cosine.schema
 include @@@ldapserver_schemadir@@@/inetorgperson.schema
-include @@@ldapserver_schemadir@@@/kolab2.schema
+include @@@ldapserver_schemadir@@@/skolab2.schema
 
 # Only include this in case you need the calFBURL attribute in
-# kolabInetOrgPerson objects.
-# see also kolab/issue3245 (https://issues.kolab.org/issue3245)
+# skolabInetOrgPerson objects.
+# formerly tracked at https://issues.kolab.org/issue3245
 #
 # The schema remains available at
-# /kolab/var/kolab/www/client/turba/scripts/ldap/rfc2739.schema
+# /skolab/var/skolab/www/client/turba/scripts/ldap/rfc2739.schema
 #include @@@ldapserver_schemadir@@@/rfc2739.schema
 
 # Only include this in case you want to store the preferences of the
-# kolab web client in LDAP.
-# see also kolab/issue3245 (https://issues.kolab.org/issue3245)
+# skolab web client in LDAP.
+# formerly tracked at https://issues.kolab.org/issue3245
 #
 # The schema remains available at
-# /kolab/var/kolab/www/client/scripts/ldap/horde.schema
+# /skolab/var/skolab/www/client/scripts/ldap/horde.schema
 #include @@@ldapserver_schemadir@@@/horde.schema
 
-pidfile		@@@ldapserver_pidfile@@@
-argsfile	@@@ldapserver_argsfile@@@
+pidfile         @@@ldapserver_pidfile@@@
+argsfile        @@@ldapserver_argsfile@@@
 
 @@@if directory_replication_mode_is_syncrepl@@@
 # Depending on the build options of openldap the syncprov module is statically
 # or dynamically build.  When build dynamically the module must be loaded.
-# As the slapd that comes with the openpkg version of kolab is statically
+# As the slapd that comes with the openpkg version of skolab is statically
 # build it is not necessary to load the module.
 @@@if ldapserver_modulepath@@@
 moduleload syncprov
@@ -58,35 +58,36 @@ moduleload syncprov
 # moduleload syncprov
 @@@endif@@@
 @@@else@@@
-replica-pidfile	@@@ldapserverslurpd_pidfile@@@
+replica-pidfile @@@ldapserverslurpd_pidfile@@@
 replogfile      @@@ldapserver_replogfile@@@
 replicationinterval 5
 @@@endif@@@
 
 @@@if bootstrap_config@@@
 @@@else@@@
-TLSCertificateFile     @@@sysconfdir@@@/kolab/cert.pem
-TLSCertificateKeyFile  @@@sysconfdir@@@/kolab/key.pem
+TLSCertificateFile     @@@sysconfdir@@@/skolab/cert.pem
+TLSCertificateKeyFile  @@@sysconfdir@@@/skolab/key.pem
 @@@endif@@@
 
-rootDSE                @@@sysconfdir@@@/kolab/rootDSE.ldif
+rootDSE                @@@sysconfdir@@@/skolab/rootDSE.ldif
 
 defaultsearchbase      "@@@base_dn@@@"
 
-#require 	none
-allow 		bind_v2
+#require        none
+allow           bind_v2
 
-loglevel	none
+loglevel        none
 
-database	bdb
-suffix		"@@@base_dn@@@"
+database        bdb
+suffix          "@@@base_dn@@@"
 cachesize       10000
-checkpoint 	512 5
+checkpoint      512 5
 idlcachesize    10000
 
 # The idletimeout can be increased if some clients develop problems.
-# Please report to kolab-devel@kolab.org if you encounter such a client.
-idletimeout	300
+# FIXME: address is currently invalid, should be changed to something valid.
+# Please report to skolab-devel@skolab.org if you encounter such a client.
+idletimeout     300
 
 @@@if directory_replication_mode_is_syncrepl@@@
 # Use syncprov/syncrepl method for ldap replication
@@ -100,15 +101,15 @@ index entryUUID eq
 
 dirtyread
 
-directory	@@@ldapserver_dir@@@
+directory       @@@ldapserver_dir@@@
 
 rootdn          "@@@bind_dn@@@"
 rootpw          "@@@bind_pw_hash@@@"
 
 replica uri=ldap://@@@slurpd_addr@@@:@@@slurpd_port@@@
         binddn="cn=replicator"
-        bindmethod=simple 
-	credentials=secret
+        bindmethod=simple
+        credentials=secret
 
 #### Using overlays to improve data consistency
 # Ensure that we never get dangling member attributes
@@ -120,72 +121,72 @@ refint_attributes member
 overlay unique
 unique_attributes mail uid
 
-index   objectClass     pres,eq
-index   uid             approx,sub,pres,eq
-index   mail            approx,sub,pres,eq
-index   alias           approx,sub,pres,eq
-index   cn              approx,sub,pres,eq
-index   sn              approx,sub,pres,eq
-index   givenName       approx,sub,pres,eq
-index   kolabDelegate   approx,sub,pres,eq
-index   kolabHomeServer pres,eq
-index   kolabDeleteflag pres,eq
-index   member          pres,eq
+index   objectClass      pres,eq
+index   uid              approx,sub,pres,eq
+index   mail             approx,sub,pres,eq
+index   alias            approx,sub,pres,eq
+index   cn               approx,sub,pres,eq
+index   sn               approx,sub,pres,eq
+index   givenName        approx,sub,pres,eq
+index   skolabDelegate   approx,sub,pres,eq
+index   skolabHomeServer pres,eq
+index   skolabDeleteflag pres,eq
+index   member           pres,eq
 
 include @@@ldapserver_confdir@@@/slapd.access
 
 access to dn="@@@base_dn@@@" attrs=children
-	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-	by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
-	by group/kolabGroupOfNames="cn=domain-maintainer,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=domain-maintainer,cn=internal,@@@base_dn@@@" write
 
 access to dn="cn=internal,@@@base_dn@@@" attrs=children
-	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-	by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
-	by group/kolabGroupOfNames="cn=domain-maintainer,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=domain-maintainer,cn=internal,@@@base_dn@@@" write
 
 access to attrs=userPassword
-   	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" =wx
-        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" =wx
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" =wx
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" =wx
         by self =wx
         by anonymous =x
         by * none stop
 
 access to attrs=mail
-        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
         by * read stop
 
 access to attrs=alias
-        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
         by * read stop
 
 access to attrs=uid
-        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
         by * read stop
 
 access to attrs=cyrus-userquota
-        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
-	by self read stop
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by self read stop
 
-access to attrs=kolabHomeServer
-        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+access to attrs=skolabHomeServer
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
         by * read stop
 
-access to attrs=kolabHomeMTA
-        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+access to attrs=skolabHomeMTA
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
         by * read stop
 
-access to attrs=kolabAllowSMTPRecipient
-       by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-       by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
-       by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
-       by self read stop
+access to attrs=skolabAllowSMTPRecipient
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
+        by self read stop
 
 access to dn="cn=nobody,@@@base_dn@@@"
         by anonymous auth stop
@@ -196,57 +197,57 @@ access to dn="cn=manager,cn=internal,@@@base_dn@@@"
         by anonymous auth stop
 
 access to dn="cn=admin,cn=internal,@@@base_dn@@@"
-        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
         by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
         by self write
         by anonymous auth stop
 
 access to dn="cn=maintainer,cn=internal,@@@base_dn@@@"
-        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" read
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" read
         by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
         by self write
         by anonymous auth stop
 
 access to dn.regex="(.*,)?cn=internal,@@@base_dn@@@"
- 	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
         by self write
-	by dn="cn=nobody,cn=internal,@@@base_dn@@@" read 
-	by anonymous auth stop
+        by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
+        by anonymous auth stop
 
 access to dn.regex="(.*,)?cn=external,@@@base_dn@@@"
-        by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-        by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
-	by * read stop
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by * read stop
 
 access to dn="cn=external,@@@base_dn@@@"
-	by dn="cn=nobody,cn=internal,@@@base_dn@@@" read 
-	by * search stop
-
-access to dn="cn=internal,@@@base_dn@@@"
-	by dn="cn=nobody,cn=internal,@@@base_dn@@@" read 
+        by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
         by * search stop
 
-access to dn="k=kolab,@@@base_dn@@@"
-	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-	by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" read
-	by group/kolabGroupOfNames="cn=domain-maintainer,cn=internal,@@@base_dn@@@" read
-	by dn="cn=nobody,cn=internal,@@@base_dn@@@" read 
-	by * none stop	
+access to dn="cn=internal,@@@base_dn@@@"
+        by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
+        by * search stop
 
-access to * 
+access to dn="k=skolab,@@@base_dn@@@"
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" read
+        by group/skolabGroupOfNames="cn=domain-maintainer,cn=internal,@@@base_dn@@@" read
+        by dn="cn=nobody,cn=internal,@@@base_dn@@@" read
+        by * none stop
+
+access to *
         by self write
-	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
- 	by group/kolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
-	by * read stop
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by group/skolabGroupOfNames="cn=maintainer,cn=internal,@@@base_dn@@@" write
+        by * read stop
 
 include @@@ldapserver_confdir@@@/slapd.replicas
 
 
-database	monitor
+database        monitor
 
 access to *
-	by group/kolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
-	by * none stop
+        by group/skolabGroupOfNames="cn=admin,cn=internal,@@@base_dn@@@" write
+        by * none stop
 

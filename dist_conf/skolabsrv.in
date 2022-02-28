@@ -65,7 +65,7 @@ function getServiceName() {
 			apache) SERVICE="apache2" ;;
 			openldap) SERVICE="@LDAPD@" ;;
 			sasl) SERVICE="saslauthd" ;;
-			imapd) SERVICE="kolab-cyrus" ;;
+			imapd) SERVICE="skolab-cyrus" ;;
 			amavisd) SERVICE="amavis" ;;
 			clamav) SERVICE="clamav-daemon" ;;
 			spamd) SERVICE="spamassassin" ;;
@@ -111,12 +111,12 @@ else
 fi
 
 # Some distributions run / control the services clamav and freshclam from
-# amavisd.  The services can be unset in @sysconfdir@/kolab/profile.sh,
+# amavisd.  The services can be unset in @sysconfdir@/skolab/profile.sh,
 # when unset, they are not called obviously. 
 CLAMAV=clamav
 FRESHCLAM=freshclam
 
-[[ -f /etc/kolab/profile.sh ]] && . /etc/kolab/profile.sh
+[[ -f /etc/skolab/profile.sh ]] && . /etc/skolab/profile.sh
 
 # variables
 RC=$1
@@ -124,7 +124,7 @@ SERVICE=$2
 PARAM=$3
 
 # Use the service name as defined in the openpkg environment
-# Kolab installations on native distributions, should adapt service names
+# Skolab installations on native distributions, should adapt service names
 # with the function getServiceName
 #
 # The order in which the services get started in openSUSE is as follows:
@@ -135,7 +135,7 @@ PARAM=$3
 # S10cyrus
 # S11postfix
 # S12apache2
-# S13kolabd
+# S13skolabd
 # S13freshclam
 # 
 # In earlier days, spamd was part of the services as well.  But as
@@ -143,7 +143,7 @@ PARAM=$3
 # as a seperate service.  More information about this topic can be found
 # at https://issues.kolab.org/issue3953
 SERVICES="openldap sasl $CLAMAV amavisd imapd postfix apache"
-SERVICES="$SERVICES kolabd $FRESHCLAM"
+SERVICES="$SERVICES skolabd $FRESHCLAM"
 
 case $RC in 
 rc)
@@ -204,14 +204,14 @@ status)
 	( [[ -n "$RC" ]] && echo "ERROR: $RC not supported"
 	  echo "Use: $PRGNAME rc [all|$SERVICES] [stop|start|restart|status]"
 	  echo
-	  echo "Obtain a list of all kolab related processes;"
+	  echo "Obtain a list of all skolab related processes;"
 	  echo "- in execution order:"
 	  echo "  $PRGNAME list"
 	  echo
 	  echo "- in alphabetical order:"
 	  echo "  $PRGNAME alphalist"
 	  echo
-	  echo "Display the state of the all kolab related processes:"
+	  echo "Display the state of the all skolab related processes:"
 	  echo "  $PRGNAME status"
 	) >&2
 
@@ -244,12 +244,12 @@ else
 	fi
 fi
 
-RCDIR=@kolab_rcdir@
+RCDIR=@skolab_rcdir@
 
 for SERVICE in $SERVICES; do
 	# Only start the virus scanning dependent services in case
-	# virus scannning has been enabled on the kolab web admin interface.
-	# An service is always stopped independent of the virus service	
+	# virus scanning has been enabled on the skolab web admin interface.
+	# An service is always stopped independent of the virus service
 	# scanning setting.
 	if [[ "$PARAM" == "start" ]] || [[ "$PARAM" == "restart" ]]; then
 		case $SERVICE in

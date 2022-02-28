@@ -14,7 +14,7 @@ X509="@bindir@/openssl x509"
 RSA="@bindir@/openssl rsa"
 GENRSA="@bindir@/openssl genrsa"
 
-CATOP=@sysconfdir@/kolab/ca
+CATOP=@sysconfdir@/skolab/ca
 CAKEY=cakey.pem
 CACERT=cacert.pem
 
@@ -22,16 +22,16 @@ CACERT=cacert.pem
 umask 0077
 
 OLD_DIR=$PWD
-cd @sysconfdir@/kolab
+cd @sysconfdir@/skolab
 
 # Config
 function createconf() {
 local DNAME=$1
 echo "Using dn $hostname"
-#if [ ! -d "@sysconfdir@/kolab/ca" ]; then
-#    mkdir @sysconfdir@/kolab/ca
+#if [ ! -d "@sysconfdir@/skolab/ca" ]; then
+#    mkdir @sysconfdir@/skolab/ca
 #fi
-export OPENSSL_CONF=@sysconfdir@/kolab/kolab-ssl.cnf
+export OPENSSL_CONF=@sysconfdir@/skolab/skolab-ssl.cnf
 cat > ${OPENSSL_CONF} <<EOF
 [ req ]
 distinguished_name = req_distinguished_name
@@ -58,9 +58,9 @@ $DNAME
 basicConstraints = CA:TRUE
 
 [ ca ]
-default_ca      = CA_kolab
+default_ca      = CA_skolab
 
-[ CA_kolab ]
+[ CA_skolab ]
 dir = $CATOP
 certs           = \$dir/certs            # Where the issued certs are kept
 crl_dir         = \$dir/crl              # Where the issued crl are kept
@@ -186,7 +186,7 @@ case $1 in
 	    o=$2
 	    shift
 	else
-	    readinput "Enter organization name" "Kolab"
+	    readinput "Enter organization name" "Skolab"
 	    o=$value
 	fi
 	if [ -n "$2" ]; then

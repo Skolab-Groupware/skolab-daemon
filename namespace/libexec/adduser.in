@@ -25,10 +25,10 @@ fi
 #Collect some vitals
 SERVER=127.0.0.1
 
-BINDDN=`sed -n 's;bind_dn : ;;p' @sysconfdir@/kolab/kolab.conf`
-BINDPW=`sed -n 's;bind_pw : ;;p' @sysconfdir@/kolab/kolab.conf`
-BASEDN=`sed -n 's;base_dn : ;;p' @sysconfdir@/kolab/kolab.conf`
-HOMESERV=`sed -n 's;fqdnhostname : ;;p' @sysconfdir@/kolab/kolab.conf`
+BINDDN=`sed -n 's;bind_dn : ;;p' @sysconfdir@/skolab/skolab.conf`
+BINDPW=`sed -n 's;bind_pw : ;;p' @sysconfdir@/skolab/skolab.conf`
+BASEDN=`sed -n 's;base_dn : ;;p' @sysconfdir@/skolab/skolab.conf`
+HOMESERV=`sed -n 's;fqdnhostname : ;;p' @sysconfdir@/skolab/skolab.conf`
 
 echo "Please specify the firstname:"
 read FIRSTNAME
@@ -74,7 +74,7 @@ fi
 echo "--"
 
 #Check if the user already exists
-DN=`kolab showuser $EMAIL | grep dn`
+DN=`skolab showuser $EMAIL | grep dn`
 if test "$DN" != ""; then
 echo User already found! Or other error occurred.
 exit 255
@@ -97,14 +97,14 @@ cat <<LDIF > $LDIFFILE
 dn: cn=$CN,$BASEDN
 objectClass: top
 objectClass: inetOrgPerson
-objectClass: kolabInetOrgPerson
+objectClass: skolabInetOrgPerson
 mail: $EMAIL
 uid: $EMAIL
 sn: $LASTNAME
 givenName: $FIRSTNAME
 cn: $CN
 userPassword: $PASSWORD
-kolabHomeServer: $HOMESERV
+skolabHomeServer: $HOMESERV
 LDIF
 
 if test "$QUOTA" != ""; then

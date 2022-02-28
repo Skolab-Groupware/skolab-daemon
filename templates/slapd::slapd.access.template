@@ -1,9 +1,9 @@
-KOLAB_META_START
+SKOLAB_META_START
 TARGET=@@@ldapserver_confdir@@@/slapd.access
 PERMISSIONS=0640
 OWNERSHIP=@@@ldapserver_usr@@@:@@@ldapserver_grp@@@
-RUNONCHANGE=@@@KOLABRC@@@ rc openldap restart
-KOLAB_META_END
+RUNONCHANGE=@@@SKOLABRC@@@ rc openldap restart
+SKOLAB_META_END
 ##  Copyright (c) 2005 Klaraelvdalens Datakonsult AB
 ##     Written by Steffen Hansen <steffen@klaralvdalens-datakonsult.se>
 ##

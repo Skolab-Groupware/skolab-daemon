@@ -23,7 +23,7 @@ if [ ".$1" = ".--help" ]; then
 fi
 
 
-services=`ls @kolab_rcdir@/`
+services=`ls @skolab_rcdir@/`
 echo "${services}" | sed -e 's/rc\.//'
 
 

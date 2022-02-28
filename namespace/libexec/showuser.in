@@ -23,9 +23,9 @@ if [ ".$1" = ".--help" ]; then
 fi
 
 SERVER=127.0.0.1
-BINDDN=`sed -n "s;bind_dn : ;;p" @sysconfdir@/kolab/kolab.conf`
-BINDPW=`sed -n "s;bind_pw : ;;p" @sysconfdir@/kolab/kolab.conf`
-BASEDN=`sed -n "s;base_dn : ;;p" @sysconfdir@/kolab/kolab.conf`
+BINDDN=`sed -n "s;bind_dn : ;;p" @sysconfdir@/skolab/skolab.conf`
+BINDPW=`sed -n "s;bind_pw : ;;p" @sysconfdir@/skolab/skolab.conf`
+BASEDN=`sed -n "s;base_dn : ;;p" @sysconfdir@/skolab/skolab.conf`
 
 
 if [ ".$1" = "." ]; then
@@ -33,5 +33,5 @@ if [ ".$1" = "." ]; then
 	exit 2
 fi
 
-ldapsearch -x -LLL -b "$BASEDN" -D "$BINDDN" -w $BINDPW -h $SERVER "(&(objectClass=kolabInetOrgPerson)(mail=$1))"
+ldapsearch -x -LLL -b "$BASEDN" -D "$BINDDN" -w $BINDPW -h $SERVER "(&(objectClass=skolabInetOrgPerson)(mail=$1))"
 
